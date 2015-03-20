@@ -57,6 +57,12 @@ import com.helger.xp2.model.XP2StringLiteral;
 import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
+import com.helger.xp2.model.axisstep.AbstractXP2SingleStep;
+import com.helger.xp2.model.axisstep.XP2AbbreviatedAttributeStep;
+import com.helger.xp2.model.axisstep.XP2AbbreviatedElementStep;
+import com.helger.xp2.model.axisstep.XP2AbbreviatedReverseStep;
+import com.helger.xp2.model.axisstep.XP2AxisStep;
+import com.helger.xp2.model.axisstep.XP2SingleStep;
 import com.helger.xp2.model.nodetest.AbstractXP2KindTest;
 import com.helger.xp2.model.nodetest.AbstractXP2NameTest;
 import com.helger.xp2.model.nodetest.AbstractXP2NodeTest;
@@ -502,7 +508,7 @@ public final class XP2NodeToDomainObject
   @Nonnull
   private static XP2ParenthesizedExpression _convertParenthesizedExpression (@Nonnull final XP2Node aNode)
   {
-    _expectNodeType (aNode, ParserXP2TreeConstants.JJTVARREF);
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTPARENTHESIZEDEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
     if (nChildCount > 1)
       _throwUnexpectedChildrenCount (aNode, "Expected at last 1 child!");
@@ -696,7 +702,16 @@ public final class XP2NodeToDomainObject
   }
 
   // [34] AbbrevReverseStep ::= ".."
-  // XXX
+  @Nonnull
+  private static XP2AbbreviatedReverseStep _convertAbbreviatedReverseStep (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTABBREVREVERSESTEP);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 0)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 0 children!");
+
+    return new XP2AbbreviatedReverseStep ();
+  }
 
   // [33] ReverseAxis ::= ("parent" "::") | ("ancestor" "::") |
   // ("preceding-sibling" "::") | ("preceding" "::") | ("ancestor-or-self" "::")
@@ -715,10 +730,40 @@ public final class XP2NodeToDomainObject
   }
 
   // [32] ReverseStep ::= (ReverseAxis NodeTest) | AbbrevReverseStep
-  // XXX
+  @Nonnull
+  private static AbstractXP2SingleStep _convertReverseStep (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTREVERSESTEP);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1 && nChildCount != 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected 1 or 2 children!");
+
+    if (nChildCount == 1)
+      return _convertAbbreviatedReverseStep (aNode.jjtGetChild (0));
+
+    final EXP2Axis eAxis = _convertReverseAxis (aNode.jjtGetChild (0));
+    final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
+    return new XP2SingleStep (eAxis, aNodeTest);
+  }
 
   // [31] AbbrevForwardStep ::= "@"? NodeTest
-  // XXX
+  private static AbstractXP2SingleStep _convertAbbreviatedForwardStep (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTABBREVFORWARDSTEP);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1 && nChildCount != 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected 1 or 2 children!");
+
+    if (nChildCount == 1)
+    {
+      final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (0));
+      return new XP2AbbreviatedElementStep (aNodeTest);
+    }
+
+    // child "0" is the "@" sign
+    final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
+    return new XP2AbbreviatedAttributeStep (aNodeTest);
+  }
 
   // [30] ForwardAxis ::= ("child" "::") | ("descendant" "::") | ("attribute"
   // "::") | ("self" "::") | ("descendant-or-self" "::") | ("following-sibling"
@@ -738,23 +783,40 @@ public final class XP2NodeToDomainObject
   }
 
   // [29] ForwardStep ::= (ForwardAxis NodeTest) | AbbrevForwardStep
-  // XXX
+  @Nonnull
+  private static AbstractXP2SingleStep _convertForwardStep (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTFORWARDSTEP);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1 && nChildCount != 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected 1 or 2 children!");
+
+    if (nChildCount == 1)
+      return _convertAbbreviatedForwardStep (aNode.jjtGetChild (0));
+
+    final EXP2Axis eAxis = _convertForwardAxis (aNode.jjtGetChild (0));
+    final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
+    return new XP2SingleStep (eAxis, aNodeTest);
+  }
 
   // [28] AxisStep ::= (ReverseStep | ForwardStep) PredicateList
   @Nonnull
-  private static AbstractXP2Expression _convertAxisStep (@Nonnull final XP2Node aNode)
+  private static XP2AxisStep _convertAxisStep (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTAXISSTEP);
     final int nChildCount = aNode.jjtGetNumChildren ();
     if (nChildCount != 2)
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
-    final XP2Node aStepNode = aNode.jjtGetChild (0);
+    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    AbstractXP2SingleStep aSingleStep;
+    if (aChildNode.getNodeType () == ParserXP2TreeConstants.JJTREVERSESTEP)
+      aSingleStep = _convertReverseStep (aChildNode);
+    else
+      aSingleStep = _convertForwardStep (aChildNode);
 
     final XP2PredicateList aPredicateList = _convertPredicateList (aNode.jjtGetChild (1));
-
-    // XXX
-    return null;
+    return new XP2AxisStep (aSingleStep, aPredicateList);
   }
 
   // [27] StepExpr ::= FilterExpr | AxisStep
