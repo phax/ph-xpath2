@@ -38,6 +38,7 @@ import com.helger.xp2.model.XP2;
 import com.helger.xp2.model.XP2BinaryExpression;
 import com.helger.xp2.model.XP2ContextItemExpression;
 import com.helger.xp2.model.XP2ExpressionList;
+import com.helger.xp2.model.XP2FilterExpression;
 import com.helger.xp2.model.XP2ForExpression;
 import com.helger.xp2.model.XP2FunctionCall;
 import com.helger.xp2.model.XP2IfExpression;
@@ -617,7 +618,18 @@ public final class XP2NodeToDomainObject
   }
 
   // [38] FilterExpr ::= PrimaryExpr PredicateList
-  // XXX
+  @Nonnull
+  private static XP2FilterExpression _convertFilterExpression (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTFILTEREXPR);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
+
+    final AbstractXP2PrimaryExpression aExpr = _convertPrimaryExpression (aNode.jjtGetChild (0));
+    final XP2PredicateList aPredicateList = _convertPredicateList (aNode.jjtGetChild (1));
+    return new XP2FilterExpression (aExpr, aPredicateList);
+  }
 
   // [37] Wildcard ::= "*" | (NCName ":" "*") | ("*" ":" NCName)
   @Nonnull
@@ -704,7 +716,20 @@ public final class XP2NodeToDomainObject
   // XXX
 
   // [28] AxisStep ::= (ReverseStep | ForwardStep) PredicateList
-  // XXX
+  @Nonnull
+  private static AbstractXP2Expression _convertAxisStep (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTAXISSTEP);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
+
+    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    final XP2PredicateList aPredicateList = _convertPredicateList (aNode.jjtGetChild (1));
+
+    // XXX
+    return null;
+  }
 
   // [27] StepExpr ::= FilterExpr | AxisStep
   @Nonnull
@@ -712,11 +737,14 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSTEPEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 1 child!");
 
-    aNode.dump ("");
+    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    if (aChildNode.getNodeType () == ParserXP2TreeConstants.JJTFILTEREXPR)
+      return _convertFilterExpression (aChildNode);
 
-    // XXX
-    return null;
+    return _convertAxisStep (aChildNode);
   }
 
   // [26] RelativePathExpr ::= StepExpr (("/" | "//") StepExpr)*
