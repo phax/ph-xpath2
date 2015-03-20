@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model;
+package com.helger.xp2.model.kindtest;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
-public class XP2AttributeNameOrWildcard extends AbstractXP2ValueExpression
+public class XP2AttributeNameOrWildcard
 {
   private final ParserQName m_aAttributeName;
 

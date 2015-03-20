@@ -14,18 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model;
+package com.helger.xp2.model.kindtest;
+
+import javax.annotation.Nonnull;
 
 import com.helger.commons.string.ToStringGenerator;
+import com.helger.xp2.parser.ParserQName;
 
-public class XP2CommentTest extends AbstractXP2ValueExpression
+public class XP2SchemaElementTest extends AbstractXP2KindTest
 {
-  public XP2CommentTest ()
-  {}
+  private final ParserQName m_aElementDeclaration;
+
+  public XP2SchemaElementTest (@Nonnull final ParserQName aElementDeclaration)
+  {
+    m_aElementDeclaration = aElementDeclaration;
+  }
+
+  @Nonnull
+  public ParserQName getElementDeclaration ()
+  {
+    return m_aElementDeclaration;
+  }
 
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).toString ();
+    return new ToStringGenerator (this).append ("elementDeclaration", m_aElementDeclaration).toString ();
   }
 }

@@ -33,30 +33,32 @@ import com.helger.xp2.model.EQuantifiedExpressionType;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
 import com.helger.xp2.model.XP2;
-import com.helger.xp2.model.XP2AttributeNameOrWildcard;
 import com.helger.xp2.model.XP2BinaryExpression;
-import com.helger.xp2.model.XP2CommentTest;
-import com.helger.xp2.model.XP2ElementNameOrWildcard;
 import com.helger.xp2.model.XP2ExpressionList;
 import com.helger.xp2.model.XP2ForExpression;
 import com.helger.xp2.model.XP2IfExpression;
-import com.helger.xp2.model.XP2NodeTest;
 import com.helger.xp2.model.XP2NumericLiteral;
 import com.helger.xp2.model.XP2PathExpression;
-import com.helger.xp2.model.XP2ProcessingInstructionTest;
+import com.helger.xp2.model.XP2Predicate;
+import com.helger.xp2.model.XP2PredicateList;
 import com.helger.xp2.model.XP2QuantifiedExpression;
 import com.helger.xp2.model.XP2RelativePathExpression;
-import com.helger.xp2.model.XP2SchemaAttributeTest;
-import com.helger.xp2.model.XP2SchemaElementTest;
 import com.helger.xp2.model.XP2SequenceType;
 import com.helger.xp2.model.XP2SequenceTypeExpression;
 import com.helger.xp2.model.XP2SingleType;
 import com.helger.xp2.model.XP2SingleTypeExpression;
 import com.helger.xp2.model.XP2StringLiteral;
-import com.helger.xp2.model.XP2TextTest;
 import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
+import com.helger.xp2.model.kindtest.XP2AttributeNameOrWildcard;
+import com.helger.xp2.model.kindtest.XP2CommentTest;
+import com.helger.xp2.model.kindtest.XP2ElementNameOrWildcard;
+import com.helger.xp2.model.kindtest.XP2NodeTest;
+import com.helger.xp2.model.kindtest.XP2ProcessingInstructionTest;
+import com.helger.xp2.model.kindtest.XP2SchemaAttributeTest;
+import com.helger.xp2.model.kindtest.XP2SchemaElementTest;
+import com.helger.xp2.model.kindtest.XP2TextTest;
 import com.helger.xp2.parser.ParserQName;
 import com.helger.xp2.parser.ParserXP2TreeConstants;
 import com.helger.xp2.parser.XP2Node;
@@ -373,10 +375,33 @@ public final class XP2NodeToDomainObject
   // XXX
 
   // [40] Predicate ::= "[" Expr "]"
-  // XXX
+  @Nonnull
+  private static XP2Predicate _convertPredicate (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTPREDICATE);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 1 child!");
+
+    return new XP2Predicate (_convertExpressionList (aNode.jjtGetChild (0)));
+  }
 
   // [39] PredicateList ::= Predicate*
-  // XXX
+  @Nonnull
+  private static XP2PredicateList _convertPredicateList (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTPREDICATELIST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+
+    final List <XP2Predicate> aPredicates = new ArrayList <XP2Predicate> ();
+    for (int i = 0; i < nChildCount; ++i)
+    {
+      final XP2Predicate aPredicate = _convertPredicate (aNode.jjtGetChild (i));
+      aPredicates.add (aPredicate);
+    }
+
+    return new XP2PredicateList (aPredicates);
+  }
 
   // [38] FilterExpr ::= PrimaryExpr PredicateList
   // XXX
