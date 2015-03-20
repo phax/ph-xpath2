@@ -14,13 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.sequencetype;
+package com.helger.xp2.model.nodetest;
 
+import com.helger.commons.string.ToStringGenerator;
 
-public class XP2EmptySequence extends AbstractXP2SequenceType
+public class XP2NodeTest extends AbstractXP2KindTest
 {
-  public XP2EmptySequence ()
+  public XP2NodeTest ()
+  {}
+
+  @Override
+  public String toString ()
   {
-    super (EXP2OccurrenceIndicator.DEFAULT_ONCE);
+    return new ToStringGenerator (this).toString ();
   }
 }

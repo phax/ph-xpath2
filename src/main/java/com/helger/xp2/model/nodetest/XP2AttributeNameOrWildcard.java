@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.kindtest;
+package com.helger.xp2.model.nodetest;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,41 +22,41 @@ import javax.annotation.Nullable;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
-public class XP2ElementNameOrWildcard
+public class XP2AttributeNameOrWildcard
 {
-  private final ParserQName m_aElementName;
+  private final ParserQName m_aAttributeName;
 
-  protected XP2ElementNameOrWildcard (@Nullable final ParserQName aElementName)
+  protected XP2AttributeNameOrWildcard (@Nullable final ParserQName aAttributeName)
   {
-    m_aElementName = aElementName;
+    m_aAttributeName = aAttributeName;
   }
 
   @Nullable
-  public ParserQName getElementName ()
+  public ParserQName getAttributeName ()
   {
-    return m_aElementName;
+    return m_aAttributeName;
   }
 
   public boolean isWildcard ()
   {
-    return m_aElementName != null;
+    return m_aAttributeName != null;
   }
 
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("elementName", m_aElementName).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("attributeName", m_aAttributeName).toString ();
   }
 
   @Nonnull
-  public static XP2ElementNameOrWildcard createElement (@Nonnull final ParserQName aElementName)
+  public static XP2AttributeNameOrWildcard createAttribute (@Nonnull final ParserQName aAttributeName)
   {
-    return new XP2ElementNameOrWildcard (aElementName);
+    return new XP2AttributeNameOrWildcard (aAttributeName);
   }
 
   @Nonnull
-  public static XP2ElementNameOrWildcard createWildcard ()
+  public static XP2AttributeNameOrWildcard createWildcard ()
   {
-    return new XP2ElementNameOrWildcard (null);
+    return new XP2AttributeNameOrWildcard (null);
   }
 }

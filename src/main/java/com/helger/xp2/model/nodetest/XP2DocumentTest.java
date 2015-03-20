@@ -14,18 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.kindtest;
+package com.helger.xp2.model.nodetest;
+
+import javax.annotation.Nullable;
 
 import com.helger.commons.string.ToStringGenerator;
 
-public class XP2TextTest extends AbstractXP2KindTest
+public class XP2DocumentTest extends AbstractXP2KindTest
 {
-  public XP2TextTest ()
-  {}
+  private final AbstractXP2KindTest m_aKindTest;
+
+  public XP2DocumentTest (@Nullable final AbstractXP2KindTest aKindTest)
+  {
+    m_aKindTest = aKindTest;
+  }
+
+  @Nullable
+  public AbstractXP2KindTest getKindTest ()
+  {
+    return m_aKindTest;
+  }
 
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("kindTest", m_aKindTest).toString ();
   }
 }

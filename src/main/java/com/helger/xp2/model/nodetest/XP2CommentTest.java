@@ -14,9 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.kindtest;
+package com.helger.xp2.model.nodetest;
 
-public abstract class AbstractXP2KindTest
+import com.helger.commons.string.ToStringGenerator;
+
+public class XP2CommentTest extends AbstractXP2KindTest
 {
+  public XP2CommentTest ()
+  {}
 
+  @Override
+  public String toString ()
+  {
+    return new ToStringGenerator (this).toString ();
+  }
 }

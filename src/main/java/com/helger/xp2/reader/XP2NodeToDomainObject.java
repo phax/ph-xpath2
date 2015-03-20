@@ -51,18 +51,18 @@ import com.helger.xp2.model.XP2StringLiteral;
 import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
-import com.helger.xp2.model.kindtest.AbstractXP2KindTest;
-import com.helger.xp2.model.kindtest.XP2AttributeNameOrWildcard;
-import com.helger.xp2.model.kindtest.XP2AttributeTest;
-import com.helger.xp2.model.kindtest.XP2CommentTest;
-import com.helger.xp2.model.kindtest.XP2DocumentTest;
-import com.helger.xp2.model.kindtest.XP2ElementNameOrWildcard;
-import com.helger.xp2.model.kindtest.XP2ElementTest;
-import com.helger.xp2.model.kindtest.XP2NodeTest;
-import com.helger.xp2.model.kindtest.XP2ProcessingInstructionTest;
-import com.helger.xp2.model.kindtest.XP2SchemaAttributeTest;
-import com.helger.xp2.model.kindtest.XP2SchemaElementTest;
-import com.helger.xp2.model.kindtest.XP2TextTest;
+import com.helger.xp2.model.nodetest.AbstractXP2KindTest;
+import com.helger.xp2.model.nodetest.XP2AttributeNameOrWildcard;
+import com.helger.xp2.model.nodetest.XP2AttributeTest;
+import com.helger.xp2.model.nodetest.XP2CommentTest;
+import com.helger.xp2.model.nodetest.XP2DocumentTest;
+import com.helger.xp2.model.nodetest.XP2ElementNameOrWildcard;
+import com.helger.xp2.model.nodetest.XP2ElementTest;
+import com.helger.xp2.model.nodetest.XP2NodeTest;
+import com.helger.xp2.model.nodetest.XP2ProcessingInstructionTest;
+import com.helger.xp2.model.nodetest.XP2SchemaAttributeTest;
+import com.helger.xp2.model.nodetest.XP2SchemaElementTest;
+import com.helger.xp2.model.nodetest.XP2TextTest;
 import com.helger.xp2.model.sequencetype.AbstractXP2SequenceType;
 import com.helger.xp2.model.sequencetype.EXP2OccurrenceIndicator;
 import com.helger.xp2.model.sequencetype.XP2EmptySequence;
@@ -441,6 +441,7 @@ public final class XP2NodeToDomainObject
   }
 
   // [49] SingleType ::= AtomicType "?"?
+  @Nonnull
   private static XP2SingleType _convertSingleType (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSINGLETYPE);

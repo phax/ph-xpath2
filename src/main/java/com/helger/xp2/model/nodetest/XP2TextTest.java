@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.kindtest;
+package com.helger.xp2.model.nodetest;
 
 import com.helger.commons.string.ToStringGenerator;
 
-public class XP2CommentTest extends AbstractXP2KindTest
+public class XP2TextTest extends AbstractXP2KindTest
 {
-  public XP2CommentTest ()
+  public XP2TextTest ()
   {}
 
   @Override

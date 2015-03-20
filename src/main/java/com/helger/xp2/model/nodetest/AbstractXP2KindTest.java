@@ -14,30 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.kindtest;
+package com.helger.xp2.model.nodetest;
 
-import javax.annotation.Nullable;
-
-import com.helger.commons.string.ToStringGenerator;
-
-public class XP2ProcessingInstructionTest extends AbstractXP2KindTest
+public abstract class AbstractXP2KindTest extends AbstractXP2NodeTest
 {
-  private final String m_sPITarget;
 
-  public XP2ProcessingInstructionTest (@Nullable final String sPITarget)
-  {
-    m_sPITarget = sPITarget;
-  }
-
-  @Nullable
-  public String getPITarget ()
-  {
-    return m_sPITarget;
-  }
-
-  @Override
-  public String toString ()
-  {
-    return new ToStringGenerator (this).appendIfNotNull ("PITarget", m_sPITarget).toString ();
-  }
 }
