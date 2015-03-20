@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 
 import com.helger.commons.string.ToStringGenerator;
 
-public class XP2ParenthesizedExpression extends AbstractXP2Expression
+public class XP2ParenthesizedExpression extends AbstractXP2PrimaryExpression
 {
   private final XP2ExpressionList m_aExpressionList;
 

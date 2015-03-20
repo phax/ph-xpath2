@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
-public class XP2VariableReference extends AbstractXP2ValueExpression
+public class XP2VariableReference extends AbstractXP2PrimaryExpression
 {
   private final ParserQName m_aVarName;
 

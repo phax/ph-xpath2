@@ -29,12 +29,14 @@ import org.slf4j.LoggerFactory;
 
 import com.helger.commons.annotations.Nonempty;
 import com.helger.xp2.model.AbstractXP2Expression;
-import com.helger.xp2.model.AbstractXP2ValueExpression;
+import com.helger.xp2.model.AbstractXP2LiteralExpression;
+import com.helger.xp2.model.AbstractXP2PrimaryExpression;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
 import com.helger.xp2.model.EXP2QuantifiedExpressionType;
 import com.helger.xp2.model.XP2;
 import com.helger.xp2.model.XP2BinaryExpression;
+import com.helger.xp2.model.XP2ContextItemExpression;
 import com.helger.xp2.model.XP2ExpressionList;
 import com.helger.xp2.model.XP2ForExpression;
 import com.helger.xp2.model.XP2FunctionCall;
@@ -483,7 +485,16 @@ public final class XP2NodeToDomainObject
   }
 
   // [47] ContextItemExpr ::= "."
-  // XXX
+  @Nonnull
+  private static XP2ContextItemExpression _convertContextItemExpression (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTCONTEXTITEMEXPR);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 0)
+      _throwUnexpectedChildrenCount (aNode, "Expected no 0 child!");
+
+    return new XP2ContextItemExpression ();
+  }
 
   // [46] ParenthesizedExpr ::= "(" Expr? ")"
   @Nonnull
@@ -529,7 +540,7 @@ public final class XP2NodeToDomainObject
   // [43] NumericLiteral ::= IntegerLiteral | DecimalLiteral | DoubleLiteral
   // [42] Literal ::= NumericLiteral | StringLiteral
   @Nonnull
-  private static AbstractXP2ValueExpression _convertLiteral (@Nonnull final XP2Node aNode)
+  private static AbstractXP2LiteralExpression _convertLiteral (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTLITERAL);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -549,7 +560,31 @@ public final class XP2NodeToDomainObject
 
   // [41] PrimaryExpr ::= Literal | VarRef | ParenthesizedExpr | ContextItemExpr
   // | FunctionCall
-  // XXX
+  @Nonnull
+  private static AbstractXP2PrimaryExpression _convertPrimaryExpression (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTPRIMARYEXPR);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 1 child!");
+
+    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    switch (aChildNode.getNodeType ())
+    {
+      case ParserXP2TreeConstants.JJTLITERAL:
+        return _convertLiteral (aChildNode);
+      case ParserXP2TreeConstants.JJTVARREF:
+        return _convertVarRef (aChildNode);
+      case ParserXP2TreeConstants.JJTPARENTHESIZEDEXPR:
+        return _convertParenthesizedExpression (aChildNode);
+      case ParserXP2TreeConstants.JJTCONTEXTITEMEXPR:
+        return _convertContextItemExpression (aChildNode);
+      case ParserXP2TreeConstants.JJTFUNCTIONCALL:
+        return _convertFunctionCall (aChildNode);
+      default:
+        throw new XP2HandlingException (aChildNode, "Invalid node type for primary expression!");
+    }
+  }
 
   // [40] Predicate ::= "[" Expr "]"
   @Nonnull

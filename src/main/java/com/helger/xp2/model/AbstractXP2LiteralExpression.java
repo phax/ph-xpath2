@@ -16,28 +16,7 @@
  */
 package com.helger.xp2.model;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.string.ToStringGenerator;
-
-public class XP2StringLiteral extends AbstractXP2LiteralExpression
+public abstract class AbstractXP2LiteralExpression extends AbstractXP2PrimaryExpression
 {
-  private final String m_sValue;
 
-  public XP2StringLiteral (@Nonnull final String sValue)
-  {
-    m_sValue = sValue;
-  }
-
-  @Nonnull
-  public String getValue ()
-  {
-    return m_sValue;
-  }
-
-  @Override
-  public String toString ()
-  {
-    return new ToStringGenerator (this).append ("value", m_sValue).toString ();
-  }
 }

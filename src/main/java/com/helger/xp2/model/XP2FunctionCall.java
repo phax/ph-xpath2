@@ -27,7 +27,7 @@ import com.helger.commons.collections.CollectionHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
-public class XP2FunctionCall extends AbstractXP2Expression
+public class XP2FunctionCall extends AbstractXP2PrimaryExpression
 {
   private final ParserQName m_aFunctionName;
   private final List <AbstractXP2Expression> m_aExpressions;

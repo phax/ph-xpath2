@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.string.ToStringGenerator;
 
-public class XP2NumericLiteral extends AbstractXP2ValueExpression
+public class XP2NumericLiteral extends AbstractXP2LiteralExpression
 {
   private final BigDecimal m_aValue;
 
