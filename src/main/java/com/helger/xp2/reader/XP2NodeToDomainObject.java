@@ -61,6 +61,12 @@ import com.helger.xp2.parser.ParserQName;
 import com.helger.xp2.parser.ParserXP2TreeConstants;
 import com.helger.xp2.parser.XP2Node;
 
+/**
+ * This class is responsible for converting the abstract syntax tree created by
+ * JavaCC to a domain model.
+ *
+ * @author Philip Helger
+ */
 public final class XP2NodeToDomainObject
 {
   private static final Logger s_aLogger = LoggerFactory.getLogger (XP2NodeToDomainObject.class);

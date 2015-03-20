@@ -23,19 +23,31 @@ import com.helger.commons.annotations.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
-public enum EXP2ReverseAxis implements IHasID <String>
+public enum EXP2Axis implements IHasID <String>
 {
-  PARENT ("parent"),
-  ANCESTOR ("ancestor"),
-  PRECEDING_SIBLING ("preceding-sibling"),
-  PRECEDING ("preceding"),
-  ANCESTOR_OR_SELF ("ancestor-or-self");
+  // Forward axis
+  CHILD ("child", true),
+  DESCENDANT ("descendant", true),
+  ATTRIBUTE ("attribute", true),
+  SELF ("self", true),
+  DESCENDANT_OR_SELF ("descendant-or-self", true),
+  FOLLOWING_SIBLING ("following-sibling", true),
+  FOLLOWING ("following", true),
+  NAMESPACE ("namespace", true),
+  // Reverse axis
+  PARENT ("parent", false),
+  ANCESTOR ("ancestor", false),
+  PRECEDING_SIBLING ("preceding-sibling", false),
+  PRECEDING ("preceding", false),
+  ANCESTOR_OR_SELF ("ancestor-or-self", false);
 
   private final String m_sID;
+  private final boolean m_bIsForward;
 
-  private EXP2ReverseAxis (@Nonnull @Nonempty final String sID)
+  private EXP2Axis (@Nonnull @Nonempty final String sID, final boolean bIsForward)
   {
     m_sID = sID;
+    m_bIsForward = bIsForward;
   }
 
   @Nonnull
@@ -45,9 +57,19 @@ public enum EXP2ReverseAxis implements IHasID <String>
     return m_sID;
   }
 
-  @Nonnull
-  public static EXP2ReverseAxis getFromIDOrThrow (@Nullable final String sID)
+  public boolean isForwardAxis ()
   {
-    return EnumHelper.getFromIDOrThrow (EXP2ReverseAxis.class, sID);
+    return m_bIsForward;
+  }
+
+  public boolean isReverseAxis ()
+  {
+    return !m_bIsForward;
+  }
+
+  @Nonnull
+  public static EXP2Axis getFromIDOrThrow (@Nullable final String sID)
+  {
+    return EnumHelper.getFromIDOrThrow (EXP2Axis.class, sID);
   }
 }
