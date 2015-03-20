@@ -51,9 +51,11 @@ import com.helger.xp2.model.XP2StringLiteral;
 import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
+import com.helger.xp2.model.kindtest.AbstractXP2KindTest;
 import com.helger.xp2.model.kindtest.XP2AttributeNameOrWildcard;
 import com.helger.xp2.model.kindtest.XP2AttributeTest;
 import com.helger.xp2.model.kindtest.XP2CommentTest;
+import com.helger.xp2.model.kindtest.XP2DocumentTest;
 import com.helger.xp2.model.kindtest.XP2ElementNameOrWildcard;
 import com.helger.xp2.model.kindtest.XP2ElementTest;
 import com.helger.xp2.model.kindtest.XP2NodeTest;
@@ -302,7 +304,25 @@ public final class XP2NodeToDomainObject
 
   // [56] DocumentTest ::= "document-node" "(" (ElementTest |
   // SchemaElementTest)? ")"
-  // XXX
+  private static XP2DocumentTest _convertDocumentTest (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTDOCUMENTTEST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount > 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected 0 to 1 children!");
+
+    AbstractXP2KindTest aKindTest = null;
+    if (nChildCount == 1)
+    {
+      final XP2Node aChildNode = aNode.jjtGetChild (0);
+      if (aChildNode.getNodeType () == ParserXP2TreeConstants.JJTELEMENTTEST)
+        aKindTest = _convertElementTest (aChildNode);
+      else
+        aKindTest = _convertSchemaElementTest (aChildNode);
+    }
+
+    return new XP2DocumentTest (aKindTest);
+  }
 
   // [55] AnyKindTest ::= "node" "(" ")"
   @Nonnull
@@ -319,7 +339,37 @@ public final class XP2NodeToDomainObject
   // [54] KindTest ::= DocumentTest| ElementTest| AttributeTest|
   // SchemaElementTest| SchemaAttributeTest| PITest| CommentTest| TextTest|
   // AnyKindTest
-  // XXX
+  @Nonnull
+  private static AbstractXP2KindTest _convertKindTest (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTKINDTEST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected 1 child!");
+
+    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    switch (aChildNode.getNodeType ())
+    {
+      case ParserXP2TreeConstants.JJTDOCUMENTTEST:
+        return _convertDocumentTest (aChildNode);
+      case ParserXP2TreeConstants.JJTELEMENTTEST:
+        return _convertElementTest (aChildNode);
+      case ParserXP2TreeConstants.JJTATTRIBUTETEST:
+        return _convertAttributeTest (aChildNode);
+      case ParserXP2TreeConstants.JJTSCHEMAELEMENTTEST:
+        return _convertSchemaElementTest (aChildNode);
+      case ParserXP2TreeConstants.JJTPITEST:
+        return _convertProcessingInstructionTest (aChildNode);
+      case ParserXP2TreeConstants.JJTCOMMENTTEST:
+        return _convertCommentTest (aChildNode);
+      case ParserXP2TreeConstants.JJTTEXTTEST:
+        return _convertTextTest (aChildNode);
+      case ParserXP2TreeConstants.JJTANYKINDTEST:
+        return _convertAnyKindTest (aChildNode);
+      default:
+        throw new XP2HandlingException (aNode, "Invalid node type for kind test!");
+    }
+  }
 
   // [53] AtomicType ::= QName
   @Nonnull
