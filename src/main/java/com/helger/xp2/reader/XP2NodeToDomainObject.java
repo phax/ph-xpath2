@@ -31,6 +31,7 @@ import com.helger.commons.annotations.Nonempty;
 import com.helger.xp2.model.AbstractXP2Expression;
 import com.helger.xp2.model.AbstractXP2LiteralExpression;
 import com.helger.xp2.model.AbstractXP2PrimaryExpression;
+import com.helger.xp2.model.AbstractXP2StepExpression;
 import com.helger.xp2.model.EXP2Axis;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
@@ -821,7 +822,7 @@ public final class XP2NodeToDomainObject
 
   // [27] StepExpr ::= FilterExpr | AxisStep
   @Nonnull
-  private static AbstractXP2Expression _convertStepExpression (@Nonnull final XP2Node aNode)
+  private static AbstractXP2StepExpression _convertStepExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSTEPEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();

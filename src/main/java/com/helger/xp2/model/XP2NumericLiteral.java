@@ -21,6 +21,7 @@ import java.math.BigInteger;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 
 public class XP2NumericLiteral extends AbstractXP2LiteralExpression
@@ -34,7 +35,7 @@ public class XP2NumericLiteral extends AbstractXP2LiteralExpression
 
   public XP2NumericLiteral (@Nonnull final BigDecimal aValue)
   {
-    m_aValue = aValue;
+    m_aValue = ValueEnforcer.notNull (aValue, "Value");
   }
 
   @Nonnull

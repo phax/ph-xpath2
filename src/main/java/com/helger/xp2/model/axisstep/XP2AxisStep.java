@@ -20,10 +20,10 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.AbstractXP2ValueExpression;
+import com.helger.xp2.model.AbstractXP2StepExpression;
 import com.helger.xp2.model.XP2PredicateList;
 
-public class XP2AxisStep extends AbstractXP2ValueExpression
+public class XP2AxisStep extends AbstractXP2StepExpression
 {
   private final AbstractXP2SingleStep m_aSingleStep;
   private final XP2PredicateList m_aPredicateList;

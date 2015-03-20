@@ -18,6 +18,7 @@ package com.helger.xp2.model;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
@@ -27,7 +28,7 @@ public class XP2VariableReference extends AbstractXP2PrimaryExpression
 
   public XP2VariableReference (@Nonnull final ParserQName aVarName)
   {
-    m_aVarName = aVarName;
+    m_aVarName = ValueEnforcer.notNull (aVarName, "VarName");
   }
 
   @Nonnull

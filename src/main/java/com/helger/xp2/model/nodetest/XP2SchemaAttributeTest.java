@@ -18,6 +18,7 @@ package com.helger.xp2.model.nodetest;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
@@ -27,7 +28,7 @@ public class XP2SchemaAttributeTest extends AbstractXP2KindTest
 
   public XP2SchemaAttributeTest (@Nonnull final ParserQName aAttributeDeclaration)
   {
-    m_aAttributeDeclaration = aAttributeDeclaration;
+    m_aAttributeDeclaration = ValueEnforcer.notNull (aAttributeDeclaration, "AttributeDeclaration");
   }
 
   @Nonnull

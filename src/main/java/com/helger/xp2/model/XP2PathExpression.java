@@ -19,6 +19,7 @@ package com.helger.xp2.model;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 
 public class XP2PathExpression extends AbstractXP2ValueExpression
@@ -28,7 +29,7 @@ public class XP2PathExpression extends AbstractXP2ValueExpression
 
   public XP2PathExpression (@Nonnull final EXP2PathOperator eOperator, @Nullable final AbstractXP2Expression aExpr)
   {
-    m_eOperator = eOperator;
+    m_eOperator = ValueEnforcer.notNull (eOperator, "Operator");
     m_aExpr = aExpr;
   }
 

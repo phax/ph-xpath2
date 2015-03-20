@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotations.ReturnsMutableCopy;
 import com.helger.commons.collections.CollectionHelper;
 import com.helger.commons.string.ToStringGenerator;
@@ -27,7 +28,7 @@ import com.helger.commons.string.ToStringGenerator;
 /**
  * Quantified expression.<br>
  * <code>("some" | "every") "$" VarName "in" ExprSingle ("," "$" VarName "in" ExprSingle)* "satisfies" ExprSingle</code>
- * 
+ *
  * @author Philip Helger
  */
 public class XP2QuantifiedExpression extends AbstractXP2Expression
@@ -40,9 +41,10 @@ public class XP2QuantifiedExpression extends AbstractXP2Expression
                                   @Nonnull final List <XP2VarNameAndExpression> aClauses,
                                   @Nonnull final AbstractXP2Expression aSatisfyExpression)
   {
-    m_eType = eType;
+    ValueEnforcer.notNull (aClauses, "Clauses");
+    m_eType = ValueEnforcer.notNull (eType, "Type");
     m_aClauses = CollectionHelper.newList (aClauses);
-    m_aSatisfyExpression = aSatisfyExpression;
+    m_aSatisfyExpression = ValueEnforcer.notNull (aSatisfyExpression, "SatisfyExpression");
   }
 
   @Nonnull

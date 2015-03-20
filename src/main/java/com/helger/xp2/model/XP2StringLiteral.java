@@ -18,6 +18,7 @@ package com.helger.xp2.model;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 
 public class XP2StringLiteral extends AbstractXP2LiteralExpression
@@ -26,7 +27,7 @@ public class XP2StringLiteral extends AbstractXP2LiteralExpression
 
   public XP2StringLiteral (@Nonnull final String sValue)
   {
-    m_sValue = sValue;
+    m_sValue = ValueEnforcer.notNull (sValue, "Value");
   }
 
   @Nonnull

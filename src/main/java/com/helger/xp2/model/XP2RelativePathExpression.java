@@ -23,6 +23,7 @@ import javax.annotation.Nonnull;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotations.ReturnsMutableCopy;
 import com.helger.commons.collections.CollectionHelper;
+import com.helger.commons.string.ToStringGenerator;
 
 public class XP2RelativePathExpression extends AbstractXP2ValueExpression
 {
@@ -30,8 +31,9 @@ public class XP2RelativePathExpression extends AbstractXP2ValueExpression
 
   public XP2RelativePathExpression (@Nonnull final List <?> aElements)
   {
+    ValueEnforcer.notNull (aElements, "Elements");
     for (final Object o : aElements)
-      ValueEnforcer.isTrue (o instanceof EXP2PathOperator || o instanceof AbstractXP2Expression,
+      ValueEnforcer.isTrue (o instanceof EXP2PathOperator || o instanceof AbstractXP2StepExpression,
                             "Only operators or expressions may be contained. This is a " + o.getClass ().getName ());
     m_aElements = CollectionHelper.newList (aElements);
   }
@@ -41,5 +43,12 @@ public class XP2RelativePathExpression extends AbstractXP2ValueExpression
   public List <Object> getAllElements ()
   {
     return CollectionHelper.newList (m_aElements);
+  }
+
+  @Override
+  @Nonnull
+  public String toString ()
+  {
+    return new ToStringGenerator (this).append ("elements", m_aElements).toString ();
   }
 }

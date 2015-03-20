@@ -14,15 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.nodetest;
+package com.helger.xp2.model;
 
-/**
- * Wildcard test where namespace URL and local name can be anything.
- * 
- * @author Philip Helger
- */
-public class XP2WildcardTest extends AbstractXP2NameTest
+public abstract class AbstractXP2StepExpression extends AbstractXP2Expression
 {
-  public XP2WildcardTest ()
-  {}
+
 }

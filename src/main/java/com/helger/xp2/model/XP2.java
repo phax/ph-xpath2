@@ -23,7 +23,7 @@ import com.helger.commons.string.ToStringGenerator;
 
 /**
  * The entry class for the XPath2 expression domain model.
- * 
+ *
  * @author Philip Helger
  */
 public class XP2
@@ -32,8 +32,7 @@ public class XP2
 
   public XP2 (@Nonnull final XP2ExpressionList aExpressionList)
   {
-    ValueEnforcer.notNull (aExpressionList, "ExpressionList");
-    m_aExpressionList = aExpressionList;
+    m_aExpressionList = ValueEnforcer.notNull (aExpressionList, "ExpressionList");
   }
 
   @Nonnull

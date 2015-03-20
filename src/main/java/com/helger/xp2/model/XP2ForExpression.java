@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotations.ReturnsMutableCopy;
 import com.helger.commons.collections.CollectionHelper;
 import com.helger.commons.string.ToStringGenerator;
@@ -38,8 +39,9 @@ public class XP2ForExpression extends AbstractXP2Expression
   public XP2ForExpression (@Nonnull final List <XP2VarNameAndExpression> aForClauses,
                            @Nonnull final AbstractXP2Expression aReturnExpression)
   {
+    ValueEnforcer.notNull (aForClauses, "ForClauses");
     m_aForClauses = CollectionHelper.newList (aForClauses);
-    m_aReturnExpression = aReturnExpression;
+    m_aReturnExpression = ValueEnforcer.notNull (aReturnExpression, "ReturnExpression");
   }
 
   @Nonnull

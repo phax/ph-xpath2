@@ -30,8 +30,7 @@ public class XP2SequenceTypeAtomicType extends AbstractXP2SequenceType
                                     @Nonnull final EXP2OccurrenceIndicator eOccurrenceIndicator)
   {
     super (eOccurrenceIndicator);
-    ValueEnforcer.notNull (aTypeName, "TypeName");
-    m_aTypeName = aTypeName;
+    m_aTypeName = ValueEnforcer.notNull (aTypeName, "TypeName");
   }
 
   @Nonnull

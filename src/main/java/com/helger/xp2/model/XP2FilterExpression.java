@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 
-public class XP2FilterExpression extends AbstractXP2ValueExpression
+public class XP2FilterExpression extends AbstractXP2StepExpression
 {
   private final AbstractXP2PrimaryExpression m_aExpr;
   private final XP2PredicateList m_aPredicateList;

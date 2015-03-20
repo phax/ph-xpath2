@@ -29,8 +29,7 @@ public class XP2SingleType
 
   public XP2SingleType (@Nonnull final ParserQName aAtomicType, final boolean bEmptySequenceAllowed)
   {
-    ValueEnforcer.notNull (aAtomicType, "AtomicType");
-    m_aAtomicType = aAtomicType;
+    m_aAtomicType = ValueEnforcer.notNull (aAtomicType, "AtomicType");
     m_bEmptySequenceAllowed = bEmptySequenceAllowed;
   }
 

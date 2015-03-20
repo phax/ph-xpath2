@@ -27,8 +27,7 @@ public class AbstractXP2SequenceType
 
   public AbstractXP2SequenceType (@Nonnull final EXP2OccurrenceIndicator eOccurrenceIndicator)
   {
-    ValueEnforcer.notNull (eOccurrenceIndicator, "OccurrenceIndicator");
-    m_eOccurrenceIndicator = eOccurrenceIndicator;
+    m_eOccurrenceIndicator = ValueEnforcer.notNull (eOccurrenceIndicator, "OccurrenceIndicator");
   }
 
   @Nonnull

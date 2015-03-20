@@ -18,6 +18,7 @@ package com.helger.xp2.model;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
@@ -36,9 +37,9 @@ public class XP2IfExpression extends AbstractXP2Expression
                           @Nonnull final AbstractXP2Expression aThenExpr,
                           @Nonnull final AbstractXP2Expression aElseExpr)
   {
-    m_aTestExprs = aTestExprs;
-    m_aThenExpr = aThenExpr;
-    m_aElseExpr = aElseExpr;
+    m_aTestExprs = ValueEnforcer.notNull (aTestExprs, "TestExprs");
+    m_aThenExpr = ValueEnforcer.notNull (aThenExpr, "ThenExpr");
+    m_aElseExpr = ValueEnforcer.notNull (aElseExpr, "ElseExpr");
   }
 
   @Nonnull

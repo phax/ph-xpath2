@@ -35,12 +35,6 @@ public class XP2ExpressionList
     m_aExpressions = CollectionHelper.newList (aExprs);
   }
 
-  public void addExpression (@Nonnull final AbstractXP2Expression aExpr)
-  {
-    ValueEnforcer.notNull (aExpr, "Expr");
-    m_aExpressions.add (aExpr);
-  }
-
   @Nonnull
   @ReturnsMutableCopy
   public List <AbstractXP2Expression> getAllExpressions ()

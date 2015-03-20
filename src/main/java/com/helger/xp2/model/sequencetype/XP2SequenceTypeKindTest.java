@@ -30,8 +30,7 @@ public class XP2SequenceTypeKindTest extends AbstractXP2SequenceType
                                   @Nonnull final EXP2OccurrenceIndicator eOccurrenceIndicator)
   {
     super (eOccurrenceIndicator);
-    ValueEnforcer.notNull (aKindTest, "KindTest");
-    m_aKindTest = aKindTest;
+    m_aKindTest = ValueEnforcer.notNull (aKindTest, "KindTest");
   }
 
   @Nonnull
