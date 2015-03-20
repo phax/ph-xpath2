@@ -827,9 +827,11 @@ void ContextItemExpr() : {}
 }
 
 // [48]    	FunctionCall 	   ::=    	QName "(" (ExprSingle ("," ExprSingle)*)? ")"
-void FunctionCall() : {}
+void FunctionCall() : {
+  ParserQName q;
+}
 {
-  QName()
+  q = QName()
   <PARANTHESIS_OPEN>
   ( ExprSingle()
     ( <COMMA> 
@@ -837,15 +839,14 @@ void FunctionCall() : {}
     )*
   )?
   <PARANTHESIS_CLOSE>
+  { jjtThis.setValue (q); } 
 }
 
 // [49]    	SingleType 	   ::=    	AtomicType "?"?
 void SingleType() : {}
 {
   AtomicType()
-  ( 
-    <QUESTION_MARK> { jjtThis.setText(token.image); }
-  )?
+  ( QuestionMark() )?
 }
 
 // [50]    	SequenceType 	   ::=    	("empty-sequence" "(" ")") | (ItemType OccurrenceIndicator?)

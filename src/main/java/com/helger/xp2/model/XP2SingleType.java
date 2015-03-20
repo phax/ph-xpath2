@@ -16,7 +16,41 @@
  */
 package com.helger.xp2.model;
 
+import javax.annotation.Nonnull;
+
+import com.helger.commons.ValueEnforcer;
+import com.helger.commons.string.ToStringGenerator;
+import com.helger.xp2.parser.ParserQName;
+
 public class XP2SingleType
 {
+  private final ParserQName m_aAtomicType;
+  private final boolean m_bEmptySequenceAllowed;
 
+  public XP2SingleType (@Nonnull final ParserQName aAtomicType, final boolean bEmptySequenceAllowed)
+  {
+    ValueEnforcer.notNull (aAtomicType, "AtomicType");
+    m_aAtomicType = aAtomicType;
+    m_bEmptySequenceAllowed = bEmptySequenceAllowed;
+  }
+
+  @Nonnull
+  public ParserQName getAtomicType ()
+  {
+    return m_aAtomicType;
+  }
+
+  public boolean isEmptySequenceAllowed ()
+  {
+    return m_bEmptySequenceAllowed;
+  }
+
+  @Override
+  @Nonnull
+  public String toString ()
+  {
+    return new ToStringGenerator (this).append ("atomicType", m_aAtomicType)
+                                       .append ("emptySequenceAllowed", m_bEmptySequenceAllowed)
+                                       .toString ();
+  }
 }

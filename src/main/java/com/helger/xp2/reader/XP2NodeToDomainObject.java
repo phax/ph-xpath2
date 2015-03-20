@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.helger.commons.annotations.Nonempty;
 import com.helger.xp2.model.AbstractXP2Expression;
+import com.helger.xp2.model.AbstractXP2ValueExpression;
 import com.helger.xp2.model.EQuantifiedExpressionType;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
@@ -43,7 +44,6 @@ import com.helger.xp2.model.XP2Predicate;
 import com.helger.xp2.model.XP2PredicateList;
 import com.helger.xp2.model.XP2QuantifiedExpression;
 import com.helger.xp2.model.XP2RelativePathExpression;
-import com.helger.xp2.model.XP2SequenceType;
 import com.helger.xp2.model.XP2SequenceTypeExpression;
 import com.helger.xp2.model.XP2SingleType;
 import com.helger.xp2.model.XP2SingleTypeExpression;
@@ -63,6 +63,12 @@ import com.helger.xp2.model.kindtest.XP2ProcessingInstructionTest;
 import com.helger.xp2.model.kindtest.XP2SchemaAttributeTest;
 import com.helger.xp2.model.kindtest.XP2SchemaElementTest;
 import com.helger.xp2.model.kindtest.XP2TextTest;
+import com.helger.xp2.model.sequencetype.AbstractXP2SequenceType;
+import com.helger.xp2.model.sequencetype.EXP2OccurrenceIndicator;
+import com.helger.xp2.model.sequencetype.XP2EmptySequence;
+import com.helger.xp2.model.sequencetype.XP2SequenceTypeAtomicType;
+import com.helger.xp2.model.sequencetype.XP2SequenceTypeItem;
+import com.helger.xp2.model.sequencetype.XP2SequenceTypeKindTest;
 import com.helger.xp2.parser.ParserQName;
 import com.helger.xp2.parser.ParserXP2TreeConstants;
 import com.helger.xp2.parser.XP2Node;
@@ -384,28 +390,68 @@ public final class XP2NodeToDomainObject
   }
 
   // [52] ItemType ::= KindTest | ("item" "(" ")") | AtomicType
-  // XXX
-
   // [51] OccurrenceIndicator ::= "?" | "*" | "+"
-  // XXX
-
   // [50] SequenceType ::= ("empty-sequence" "(" ")") | (ItemType
   // OccurrenceIndicator?)
-  private static XP2SequenceType _convertSequenceType (@Nonnull final XP2Node aNode)
+  @Nonnull
+  private static AbstractXP2SequenceType _convertSequenceType (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSEQUENCETYPE);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount > 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected at last 2 children!");
 
-    // XXX
-    return new XP2SequenceType ();
+    if (nChildCount == 0)
+      return new XP2EmptySequence ();
+
+    // Find occurrence indicator (defaulting to "default once")
+    EXP2OccurrenceIndicator eOccurrenceIndicator;
+    if (nChildCount == 2)
+    {
+      final String sOccurrenceIndicator = aNode.jjtGetChild (1).getText ();
+      eOccurrenceIndicator = EXP2OccurrenceIndicator.getFromTextOrThrow (sOccurrenceIndicator);
+    }
+    else
+      eOccurrenceIndicator = EXP2OccurrenceIndicator.DEFAULT_ONCE;
+
+    // Check content of kind type
+    final XP2Node aItemTypeNode = aNode.jjtGetChild (0);
+    _expectNodeType (aItemTypeNode, ParserXP2TreeConstants.JJTITEMTYPE);
+    final int nItemTypeChildCount = aItemTypeNode.jjtGetNumChildren ();
+    if (nItemTypeChildCount > 1)
+      _throwUnexpectedChildrenCount (aItemTypeNode, "Expected at last 1 child!");
+
+    if (nItemTypeChildCount == 0)
+    {
+      // It's "item()"
+      return new XP2SequenceTypeItem (eOccurrenceIndicator);
+    }
+
+    final XP2Node aItemTypeChildNode = aItemTypeNode.jjtGetChild (0);
+    if (aItemTypeChildNode.getNodeType () == ParserXP2TreeConstants.JJTKINDTEST)
+    {
+      // any kind test
+      final AbstractXP2KindTest aKindTest = _convertKindTest (aItemTypeChildNode);
+      return new XP2SequenceTypeKindTest (aKindTest, eOccurrenceIndicator);
+    }
+
+    // Atomic type
+    final ParserQName aAtomicType = _convertAtomicType (aItemTypeChildNode);
+    return new XP2SequenceTypeAtomicType (aAtomicType, eOccurrenceIndicator);
   }
 
   // [49] SingleType ::= AtomicType "?"?
   private static XP2SingleType _convertSingleType (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSINGLETYPE);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1 && nChildCount != 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected 1 or 2 children!");
 
-    // XXX
-    return new XP2SingleType ();
+    final ParserQName aAtomicType = _convertAtomicType (aNode.jjtGetChild (0));
+    final boolean bEmptySequenceAllowed = nChildCount == 2;
+
+    return new XP2SingleType (aAtomicType, bEmptySequenceAllowed);
   }
 
   // [48] FunctionCall ::= QName "(" (ExprSingle ("," ExprSingle)*)? ")"
@@ -445,7 +491,7 @@ public final class XP2NodeToDomainObject
   // [43] NumericLiteral ::= IntegerLiteral | DecimalLiteral | DoubleLiteral
   // [42] Literal ::= NumericLiteral | StringLiteral
   @Nonnull
-  private static AbstractXP2Expression _convertLiteral (@Nonnull final XP2Node aNode)
+  private static AbstractXP2ValueExpression _convertLiteral (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTLITERAL);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -698,7 +744,7 @@ public final class XP2NodeToDomainObject
     }
 
     final AbstractXP2Expression aLeft = _convertCastableAsExpression (aNode.jjtGetChild (0));
-    final XP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
+    final AbstractXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
     final XP2SequenceTypeExpression ret = new XP2SequenceTypeExpression (aLeft, EXP2Operator.TREAT_AS, aSequenceType);
     return ret;
   }
@@ -719,7 +765,7 @@ public final class XP2NodeToDomainObject
     }
 
     final AbstractXP2Expression aExpr = _convertTreatAsExpression (aNode.jjtGetChild (0));
-    final XP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
+    final AbstractXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
     final XP2SequenceTypeExpression ret = new XP2SequenceTypeExpression (aExpr, EXP2Operator.INSTANCE_OF, aSequenceType);
     return ret;
   }
