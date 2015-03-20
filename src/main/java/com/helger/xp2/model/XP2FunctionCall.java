@@ -19,26 +19,30 @@ package com.helger.xp2.model;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotations.ReturnsMutableCopy;
 import com.helger.commons.collections.CollectionHelper;
 import com.helger.commons.string.ToStringGenerator;
+import com.helger.xp2.parser.ParserQName;
 
-public class XP2ExpressionList
+public class XP2FunctionCall extends AbstractXP2Expression
 {
+  private final ParserQName m_aFunctionName;
   private final List <AbstractXP2Expression> m_aExpressions;
 
-  public XP2ExpressionList (@Nonnull final List <AbstractXP2Expression> aExprs)
+  public XP2FunctionCall (@Nonnull final ParserQName aFunctionName,
+                          @Nullable final List <AbstractXP2Expression> aExpressionList)
   {
-    ValueEnforcer.notNull (aExprs, "Expressions");
-    m_aExpressions = CollectionHelper.newList (aExprs);
+    m_aFunctionName = ValueEnforcer.notNull (aFunctionName, "FunctionName");
+    m_aExpressions = CollectionHelper.newList (aExpressionList);
   }
 
-  public void addExpression (@Nonnull final AbstractXP2Expression aExpr)
+  @Nonnull
+  public ParserQName getFunctionName ()
   {
-    ValueEnforcer.notNull (aExpr, "Expr");
-    m_aExpressions.add (aExpr);
+    return m_aFunctionName;
   }
 
   @Nonnull
@@ -49,8 +53,11 @@ public class XP2ExpressionList
   }
 
   @Override
+  @Nonnull
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("expressions", m_aExpressions).toString ();
+    return new ToStringGenerator (this).append ("functionName", m_aFunctionName)
+                                       .append ("expressions", m_aExpressions)
+                                       .toString ();
   }
 }

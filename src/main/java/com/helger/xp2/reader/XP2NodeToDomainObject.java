@@ -37,8 +37,10 @@ import com.helger.xp2.model.XP2;
 import com.helger.xp2.model.XP2BinaryExpression;
 import com.helger.xp2.model.XP2ExpressionList;
 import com.helger.xp2.model.XP2ForExpression;
+import com.helger.xp2.model.XP2FunctionCall;
 import com.helger.xp2.model.XP2IfExpression;
 import com.helger.xp2.model.XP2NumericLiteral;
+import com.helger.xp2.model.XP2ParenthesizedExpression;
 import com.helger.xp2.model.XP2PathExpression;
 import com.helger.xp2.model.XP2Predicate;
 import com.helger.xp2.model.XP2PredicateList;
@@ -462,13 +464,42 @@ public final class XP2NodeToDomainObject
   }
 
   // [48] FunctionCall ::= QName "(" (ExprSingle ("," ExprSingle)*)? ")"
-  // XXX
+  @Nonnull
+  private static XP2FunctionCall _convertFunctionCall (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTFUNCTIONCALL);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+
+    final ParserQName aFunctionName = (ParserQName) aNode.getValue ();
+
+    final List <AbstractXP2Expression> aExpressions = new ArrayList <AbstractXP2Expression> ();
+    for (int i = 0; i < nChildCount; ++i)
+    {
+      final XP2Node aChildNode = aNode.jjtGetChild (i);
+      aExpressions.add (_convertExpressionSingle (aChildNode));
+    }
+
+    return new XP2FunctionCall (aFunctionName, aExpressions);
+  }
 
   // [47] ContextItemExpr ::= "."
   // XXX
 
   // [46] ParenthesizedExpr ::= "(" Expr? ")"
-  // XXX
+  @Nonnull
+  private static XP2ParenthesizedExpression _convertParenthesizedExpression (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTVARREF);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount > 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected at last 1 child!");
+
+    XP2ExpressionList aExprList = null;
+    if (nChildCount == 1)
+      aExprList = _convertExpressionList (aNode.jjtGetChild (0));
+
+    return new XP2ParenthesizedExpression (aExprList);
+  }
 
   // [45] VarName ::= QName
   @Nonnull
@@ -1074,8 +1105,8 @@ public final class XP2NodeToDomainObject
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 3 children!");
 
     final XP2ExpressionList aTestExprs = _convertExpressionList (aNode.jjtGetChild (0));
-    final AbstractXP2Expression aThenExpr = _convertExpression (aNode.jjtGetChild (1));
-    final AbstractXP2Expression aElseExpr = _convertExpression (aNode.jjtGetChild (2));
+    final AbstractXP2Expression aThenExpr = _convertExpressionSingle (aNode.jjtGetChild (1));
+    final AbstractXP2Expression aElseExpr = _convertExpressionSingle (aNode.jjtGetChild (2));
 
     final XP2IfExpression ret = new XP2IfExpression (aTestExprs, aThenExpr, aElseExpr);
     return ret;
@@ -1100,11 +1131,11 @@ public final class XP2NodeToDomainObject
     for (int i = 0; i < nPairs; ++i)
     {
       final ParserQName aVarName = _convertVarName (aNode.jjtGetChild (1 + i * 2));
-      final AbstractXP2Expression aExpression = _convertExpression (aNode.jjtGetChild (2 + i * 2));
+      final AbstractXP2Expression aExpression = _convertExpressionSingle (aNode.jjtGetChild (2 + i * 2));
       aClauses.add (new XP2VarNameAndExpression (aVarName, aExpression));
     }
 
-    final AbstractXP2Expression aSatisfyExpr = _convertExpression (aNode.jjtGetChild (nChildCount - 1));
+    final AbstractXP2Expression aSatisfyExpr = _convertExpressionSingle (aNode.jjtGetChild (nChildCount - 1));
 
     final XP2QuantifiedExpression ret = new XP2QuantifiedExpression (eType, aClauses, aSatisfyExpr);
     return ret;
@@ -1126,7 +1157,7 @@ public final class XP2NodeToDomainObject
     for (int i = 0; i < nChildCount; i += 2)
     {
       final ParserQName aVarName = _convertVarName (aNode.jjtGetChild (i));
-      final AbstractXP2Expression aExpression = _convertExpression (aNode.jjtGetChild (i + 1));
+      final AbstractXP2Expression aExpression = _convertExpressionSingle (aNode.jjtGetChild (i + 1));
       ret.add (new XP2VarNameAndExpression (aVarName, aExpression));
     }
     return ret;
@@ -1142,7 +1173,7 @@ public final class XP2NodeToDomainObject
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
     final List <XP2VarNameAndExpression> aForClause = _convertSimpleForClause (aNode.jjtGetChild (0));
-    final AbstractXP2Expression aReturnExpression = _convertExpression (aNode.jjtGetChild (1));
+    final AbstractXP2Expression aReturnExpression = _convertExpressionSingle (aNode.jjtGetChild (1));
 
     final XP2ForExpression ret = new XP2ForExpression (aForClause, aReturnExpression);
     return ret;
@@ -1150,7 +1181,7 @@ public final class XP2NodeToDomainObject
 
   // [3] ExprSingle ::= ForExpr | QuantifiedExpr | IfExpr | OrExpr
   @Nonnull
-  private static AbstractXP2Expression _convertExpression (@Nonnull final XP2Node aNode)
+  private static AbstractXP2Expression _convertExpressionSingle (@Nonnull final XP2Node aNode)
   {
     switch (aNode.getNodeType ())
     {
@@ -1176,13 +1207,14 @@ public final class XP2NodeToDomainObject
     if (nChildCount == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected at least 1 child!");
 
-    final XP2ExpressionList ret = new XP2ExpressionList ();
+    final List <AbstractXP2Expression> aExpressions = new ArrayList <AbstractXP2Expression> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);
-      ret.addExpression (_convertExpression (aChildNode));
+      aExpressions.add (_convertExpressionSingle (aChildNode));
     }
 
+    final XP2ExpressionList ret = new XP2ExpressionList (aExpressions);
     return ret;
   }
 

@@ -32,7 +32,7 @@ public class XP2RelativePathExpression extends AbstractXP2ValueExpression
   {
     for (final Object o : aElements)
       ValueEnforcer.isTrue (o instanceof EXP2PathOperator || o instanceof AbstractXP2Expression,
-                            "Only operators or expressions may be contained");
+                            "Only operators or expressions may be contained. This is a " + o.getClass ().getName ());
     m_aElements = CollectionHelper.newList (aElements);
   }
 
