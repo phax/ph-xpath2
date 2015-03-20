@@ -16,16 +16,9 @@
  */
 package com.helger.xp2.model.nodetest;
 
-import com.helger.commons.string.ToStringGenerator;
 
 public class XP2TextTest extends AbstractXP2KindTest
 {
   public XP2TextTest ()
   {}
-
-  @Override
-  public String toString ()
-  {
-    return new ToStringGenerator (this).toString ();
-  }
 }

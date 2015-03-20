@@ -30,9 +30,9 @@ import org.slf4j.LoggerFactory;
 import com.helger.commons.annotations.Nonempty;
 import com.helger.xp2.model.AbstractXP2Expression;
 import com.helger.xp2.model.AbstractXP2ValueExpression;
-import com.helger.xp2.model.EQuantifiedExpressionType;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
+import com.helger.xp2.model.EXP2QuantifiedExpressionType;
 import com.helger.xp2.model.XP2;
 import com.helger.xp2.model.XP2BinaryExpression;
 import com.helger.xp2.model.XP2ExpressionList;
@@ -52,17 +52,23 @@ import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
 import com.helger.xp2.model.nodetest.AbstractXP2KindTest;
+import com.helger.xp2.model.nodetest.AbstractXP2NameTest;
+import com.helger.xp2.model.nodetest.AbstractXP2NodeTest;
 import com.helger.xp2.model.nodetest.XP2AttributeNameOrWildcard;
 import com.helger.xp2.model.nodetest.XP2AttributeTest;
 import com.helger.xp2.model.nodetest.XP2CommentTest;
 import com.helger.xp2.model.nodetest.XP2DocumentTest;
 import com.helger.xp2.model.nodetest.XP2ElementNameOrWildcard;
 import com.helger.xp2.model.nodetest.XP2ElementTest;
+import com.helger.xp2.model.nodetest.XP2LocalNameIsWildcardTest;
+import com.helger.xp2.model.nodetest.XP2NamespaceIsWildcardTest;
 import com.helger.xp2.model.nodetest.XP2NodeTest;
 import com.helger.xp2.model.nodetest.XP2ProcessingInstructionTest;
+import com.helger.xp2.model.nodetest.XP2QNameTest;
 import com.helger.xp2.model.nodetest.XP2SchemaAttributeTest;
 import com.helger.xp2.model.nodetest.XP2SchemaElementTest;
 import com.helger.xp2.model.nodetest.XP2TextTest;
+import com.helger.xp2.model.nodetest.XP2WildcardTest;
 import com.helger.xp2.model.sequencetype.AbstractXP2SequenceType;
 import com.helger.xp2.model.sequencetype.EXP2OccurrenceIndicator;
 import com.helger.xp2.model.sequencetype.XP2EmptySequence;
@@ -373,7 +379,7 @@ public final class XP2NodeToDomainObject
       case ParserXP2TreeConstants.JJTANYKINDTEST:
         return _convertAnyKindTest (aChildNode);
       default:
-        throw new XP2HandlingException (aNode, "Invalid node type for kind test!");
+        throw new XP2HandlingException (aChildNode, "Invalid node type for kind test!");
     }
   }
 
@@ -523,7 +529,8 @@ public final class XP2NodeToDomainObject
     if (nChildCount != 1)
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 1 child!");
 
-    return new XP2Predicate (_convertExpressionList (aNode.jjtGetChild (0)));
+    final XP2ExpressionList aExpressionList = _convertExpressionList (aNode.jjtGetChild (0));
+    return new XP2Predicate (aExpressionList);
   }
 
   // [39] PredicateList ::= Predicate*
@@ -547,13 +554,67 @@ public final class XP2NodeToDomainObject
   // XXX
 
   // [37] Wildcard ::= "*" | (NCName ":" "*") | ("*" ":" NCName)
-  // XXX
+  @Nonnull
+  private static AbstractXP2NameTest _convertWildcard (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTWILDCARD);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 0)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 0 children!");
+
+    if (aNode.getValue () == null)
+    {
+      // Only "*"
+      return new XP2WildcardTest ();
+    }
+
+    final boolean bNamespaceIsWildcard = ((Boolean) aNode.getValue ()).booleanValue ();
+    if (bNamespaceIsWildcard)
+      return new XP2NamespaceIsWildcardTest (aNode.getText ());
+
+    // else local name is wildcard
+    return new XP2LocalNameIsWildcardTest (aNode.getText ());
+  }
 
   // [36] NameTest ::= QName | Wildcard
-  // XXX
+  @Nonnull
+  private static AbstractXP2NameTest _convertNameTest (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTNAMETEST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount > 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected at last 1 child!");
+
+    if (nChildCount == 0)
+    {
+      final ParserQName aQName = (ParserQName) aNode.getValue ();
+      return new XP2QNameTest (aQName);
+    }
+
+    // Must be a wildcard
+    return _convertWildcard (aNode.jjtGetChild (0));
+  }
 
   // [35] NodeTest ::= KindTest | NameTest
-  // XXX
+  @Nonnull
+  private static AbstractXP2NodeTest _convertNodeTest (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTNODETEST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected exactly 1 child!");
+
+    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    switch (aChildNode.getNodeType ())
+    {
+      case ParserXP2TreeConstants.JJTKINDTEST:
+        return _convertKindTest (aChildNode);
+      case ParserXP2TreeConstants.JJTNAMETEST:
+        return _convertNameTest (aChildNode);
+      default:
+        throw new XP2HandlingException (aChildNode, "Invalid node type for node test!");
+    }
+  }
 
   // [34] AbbrevReverseStep ::= ".."
   // XXX
@@ -1032,8 +1093,8 @@ public final class XP2NodeToDomainObject
     if ((nChildCount % 2) != 0)
       _throwUnexpectedChildrenCount (aNode, "Expected an even number of children!");
 
-    final EQuantifiedExpressionType eType = EQuantifiedExpressionType.getFromIDOrThrow (aNode.jjtGetChild (0)
-                                                                                             .getText ());
+    final EXP2QuantifiedExpressionType eType = EXP2QuantifiedExpressionType.getFromIDOrThrow (aNode.jjtGetChild (0)
+                                                                                                   .getText ());
     final int nPairs = (nChildCount / 2) - 1;
     final List <XP2VarNameAndExpression> aClauses = new ArrayList <XP2VarNameAndExpression> ();
     for (int i = 0; i < nPairs; ++i)

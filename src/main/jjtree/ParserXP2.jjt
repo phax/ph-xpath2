@@ -724,24 +724,33 @@ void NodeTest() : {}
 }
 
 // [36]    	NameTest 	   ::=    	QName | Wildcard
-void NameTest() : {}
+void NameTest() : {
+  ParserQName q;
+}
 {
   LOOKAHEAD(3)
-  QName()
+  q = QName()
+  { jjtThis.setValue (q); }
 | Wildcard()
 }
 
 // [37]    	Wildcard 	   ::=    	"*" | (NCName ":" "*") | ("*" ":" NCName)
-void Wildcard() : {}
+void Wildcard() : {
+  String s;
+}
 {
   LOOKAHEAD(2)
   <ASTERISK>
-| NCName()
+| s = NCName()
+  { jjtThis.setText (s); }
   <COLON>
-  <ASTERISK>  
+  <ASTERISK>
+  { jjtThis.setValue (Boolean.FALSE); }
 | <ASTERISK>
+  { jjtThis.setValue (Boolean.TRUE); }
   <COLON>
-  NCName()
+  s = NCName()
+  { jjtThis.setText (s); }
 }
 
 // [38]    	FilterExpr 	   ::=    	PrimaryExpr PredicateList

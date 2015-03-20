@@ -23,14 +23,14 @@ import com.helger.commons.annotations.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
-public enum EQuantifiedExpressionType implements IHasID <String>
+public enum EXP2QuantifiedExpressionType implements IHasID <String>
 {
   SOME ("some"),
   EVERY ("every");
 
   private final String m_sID;
 
-  private EQuantifiedExpressionType (@Nonnull @Nonempty final String sID)
+  private EXP2QuantifiedExpressionType (@Nonnull @Nonempty final String sID)
   {
     m_sID = sID;
   }
@@ -43,14 +43,14 @@ public enum EQuantifiedExpressionType implements IHasID <String>
   }
 
   @Nullable
-  public static EQuantifiedExpressionType getFromIDOrNull (@Nullable final String sID)
+  public static EXP2QuantifiedExpressionType getFromIDOrNull (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrNull (EQuantifiedExpressionType.class, sID);
+    return EnumHelper.getFromIDOrNull (EXP2QuantifiedExpressionType.class, sID);
   }
 
   @Nonnull
-  public static EQuantifiedExpressionType getFromIDOrThrow (@Nullable final String sID)
+  public static EXP2QuantifiedExpressionType getFromIDOrThrow (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrThrow (EQuantifiedExpressionType.class, sID);
+    return EnumHelper.getFromIDOrThrow (EXP2QuantifiedExpressionType.class, sID);
   }
 }

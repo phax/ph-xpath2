@@ -16,9 +16,7 @@
  */
 package com.helger.xp2.model.nodetest;
 
-
-public class XP2NodeTest extends AbstractXP2KindTest
+public abstract class AbstractXP2NameTest extends AbstractXP2NodeTest
 {
-  public XP2NodeTest ()
-  {}
+
 }

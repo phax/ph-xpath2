@@ -32,11 +32,11 @@ import com.helger.commons.string.ToStringGenerator;
  */
 public class XP2QuantifiedExpression extends AbstractXP2Expression
 {
-  private final EQuantifiedExpressionType m_eType;
+  private final EXP2QuantifiedExpressionType m_eType;
   private final List <XP2VarNameAndExpression> m_aClauses;
   private final AbstractXP2Expression m_aSatisfyExpression;
 
-  public XP2QuantifiedExpression (@Nonnull final EQuantifiedExpressionType eType,
+  public XP2QuantifiedExpression (@Nonnull final EXP2QuantifiedExpressionType eType,
                                   @Nonnull final List <XP2VarNameAndExpression> aClauses,
                                   @Nonnull final AbstractXP2Expression aSatisfyExpression)
   {
@@ -46,7 +46,7 @@ public class XP2QuantifiedExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public EQuantifiedExpressionType getType ()
+  public EXP2QuantifiedExpressionType getType ()
   {
     return m_eType;
   }
