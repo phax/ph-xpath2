@@ -52,8 +52,10 @@ import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
 import com.helger.xp2.model.kindtest.XP2AttributeNameOrWildcard;
+import com.helger.xp2.model.kindtest.XP2AttributeTest;
 import com.helger.xp2.model.kindtest.XP2CommentTest;
 import com.helger.xp2.model.kindtest.XP2ElementNameOrWildcard;
+import com.helger.xp2.model.kindtest.XP2ElementTest;
 import com.helger.xp2.model.kindtest.XP2NodeTest;
 import com.helger.xp2.model.kindtest.XP2ProcessingInstructionTest;
 import com.helger.xp2.model.kindtest.XP2SchemaAttributeTest;
@@ -173,7 +175,28 @@ public final class XP2NodeToDomainObject
 
   // [64] ElementTest ::= "element" "(" (ElementNameOrWildcard ("," TypeName
   // "?"?)?)? ")"
-  // XXX
+  private static XP2ElementTest _convertElementTest (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTELEMENTTEST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount > 3)
+      _throwUnexpectedChildrenCount (aNode, "Expected 0 to 3 children!");
+
+    XP2ElementNameOrWildcard aElementNameOrWildCard = null;
+    ParserQName aTypeName = null;
+    final boolean bNodeMayBeNilled = nChildCount == 3;
+
+    if (nChildCount >= 1)
+    {
+      aElementNameOrWildCard = _convertElementNameOrWildcard (aNode.jjtGetChild (0));
+      if (nChildCount >= 2)
+      {
+        aTypeName = _convertTypeName (aNode.jjtGetChild (1));
+      }
+    }
+
+    return new XP2ElementTest (aElementNameOrWildCard, aTypeName, bNodeMayBeNilled);
+  }
 
   // [63] AttributeDeclaration ::= AttributeName
   @Nonnull
@@ -219,7 +242,27 @@ public final class XP2NodeToDomainObject
 
   // [60] AttributeTest ::= "attribute" "(" (AttribNameOrWildcard (","
   // TypeName)?)? ")"
-  // XXX
+  private static XP2AttributeTest _convertAttributeTest (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTATTRIBUTETEST);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount > 2)
+      _throwUnexpectedChildrenCount (aNode, "Expected 0 to 2 children!");
+
+    XP2AttributeNameOrWildcard aAttributeNameOrWildCard = null;
+    ParserQName aTypeName = null;
+
+    if (nChildCount >= 1)
+    {
+      aAttributeNameOrWildCard = _convertAttributeNameOrWildcard (aNode.jjtGetChild (0));
+      if (nChildCount >= 2)
+      {
+        aTypeName = _convertTypeName (aNode.jjtGetChild (1));
+      }
+    }
+
+    return new XP2AttributeTest (aAttributeNameOrWildCard, aTypeName);
+  }
 
   // [59] PITest ::= "processing-instruction" "(" (NCName | StringLiteral)? ")"
   @Nonnull

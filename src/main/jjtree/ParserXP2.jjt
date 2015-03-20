@@ -988,6 +988,11 @@ void AttributeDeclaration() : {}
   AttributeName()
 }
 
+void QuestionMark() : {}
+{
+  <QUESTION_MARK>
+}
+
 // [64]    	ElementTest 	   ::=    	"element" "(" (ElementNameOrWildcard ("," TypeName "?"?)?)? ")"
 void ElementTest() : {}
 {
@@ -996,7 +1001,7 @@ void ElementTest() : {}
   ( ElementNameOrWildcard()
     ( <COMMA>
       TypeName()
-      ( <QUESTION_MARK> )?
+      ( QuestionMark() )?
     )?  
   )?
   <PARANTHESIS_CLOSE>
