@@ -681,10 +681,15 @@ void ForwardAxis() : {}
   <COLON_COLON>
 }
 
+void At() : {}
+{
+  <AT>
+}
+
 // [31]    	AbbrevForwardStep 	   ::=    	"@"? NodeTest
 void AbbrevForwardStep() : {}
 {
-  ( <AT> )?
+  ( At() )?
   NodeTest()
 }
 

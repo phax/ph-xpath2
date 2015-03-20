@@ -31,6 +31,7 @@ import com.helger.commons.annotations.Nonempty;
 import com.helger.xp2.model.AbstractXP2Expression;
 import com.helger.xp2.model.AbstractXP2LiteralExpression;
 import com.helger.xp2.model.AbstractXP2PrimaryExpression;
+import com.helger.xp2.model.EXP2Axis;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
 import com.helger.xp2.model.EXP2QuantifiedExpressionType;
@@ -699,7 +700,19 @@ public final class XP2NodeToDomainObject
 
   // [33] ReverseAxis ::= ("parent" "::") | ("ancestor" "::") |
   // ("preceding-sibling" "::") | ("preceding" "::") | ("ancestor-or-self" "::")
-  // XXX
+  @Nonnull
+  private static EXP2Axis _convertReverseAxis (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTREVERSEAXIS);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 0)
+      _throwUnexpectedChildrenCount (aNode, "Expected no children!");
+
+    final EXP2Axis ret = EXP2Axis.getFromIDOrThrow (aNode.getText ());
+    if (!ret.isReverseAxis ())
+      throw new IllegalStateException ("Expected a reverse axis!");
+    return ret;
+  }
 
   // [32] ReverseStep ::= (ReverseAxis NodeTest) | AbbrevReverseStep
   // XXX
@@ -710,7 +723,19 @@ public final class XP2NodeToDomainObject
   // [30] ForwardAxis ::= ("child" "::") | ("descendant" "::") | ("attribute"
   // "::") | ("self" "::") | ("descendant-or-self" "::") | ("following-sibling"
   // "::") | ("following" "::") | ("namespace" "::")
-  // XXX
+  @Nonnull
+  private static EXP2Axis _convertForwardAxis (@Nonnull final XP2Node aNode)
+  {
+    _expectNodeType (aNode, ParserXP2TreeConstants.JJTFORWARDAXIS);
+    final int nChildCount = aNode.jjtGetNumChildren ();
+    if (nChildCount != 0)
+      _throwUnexpectedChildrenCount (aNode, "Expected no children!");
+
+    final EXP2Axis ret = EXP2Axis.getFromIDOrThrow (aNode.getText ());
+    if (!ret.isForwardAxis ())
+      throw new IllegalStateException ("Expected a forward axis!");
+    return ret;
+  }
 
   // [29] ForwardStep ::= (ForwardAxis NodeTest) | AbbrevForwardStep
   // XXX
@@ -724,7 +749,8 @@ public final class XP2NodeToDomainObject
     if (nChildCount != 2)
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
-    final XP2Node aChildNode = aNode.jjtGetChild (0);
+    final XP2Node aStepNode = aNode.jjtGetChild (0);
+
     final XP2PredicateList aPredicateList = _convertPredicateList (aNode.jjtGetChild (1));
 
     // XXX
