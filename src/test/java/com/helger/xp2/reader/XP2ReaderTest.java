@@ -23,8 +23,6 @@ import javax.annotation.Nonnull;
 
 import org.junit.Test;
 
-import com.helger.xp2.reader.XP2Reader;
-
 /**
  * Test class for class {@link XP2Reader}.
  *
@@ -40,6 +38,12 @@ public final class XP2ReaderTest
   private void _testNotOK (@Nonnull final String sData)
   {
     assertNull (sData, XP2Reader.readFromString (sData));
+  }
+
+  @Test
+  public void testSpecial ()
+  {
+    _testOK ("element(person, surgeon?)");
   }
 
   @Test
@@ -154,6 +158,47 @@ public final class XP2ReaderTest
     _testOK ("some $x in $expr1, $y in $expr2 satisfies $x = $y");
     _testOK ("for $x in $expr1 return $x + 1");
     _testOK ("for $x in $expr1, $y in $expr2 return $x + 1");
+
+    // From the specs
+    // 2.5.4.1
+    _testOK ("empty-sequence()");
+    // 2.5.4.2
+    _testOK ("item()");
+    _testOK ("node()");
+    _testOK ("text()");
+    _testOK ("processing-instruction()");
+    _testOK ("processing-instruction(foo)");
+    _testOK ("comment()");
+    _testOK ("document-node()");
+    _testOK ("document-node(element(book))");
+    // 2.5.4.3
+    _testOK ("element()");
+    _testOK ("element(*)");
+    _testOK ("element(person)");
+    _testOK ("element(ns:person)");
+    _testOK ("element(person, surgeon)");
+    _testOK ("element(ns:person, surgeon)");
+    _testOK ("element(person, ns:surgeon)");
+    _testOK ("element(ns:person, ns:surgeon)");
+    _testOK ("element(person, surgeon?)");
+    _testOK ("element(ns:person, surgeon?)");
+    _testOK ("element(person, ns:surgeon?)");
+    _testOK ("element(ns:person, ns:surgeon?)");
+    _testOK ("element(*, surgeon)");
+    _testOK ("element(*, ns:surgeon)");
+    _testOK ("element(*, surgeon?)");
+    _testOK ("element(*, ns:surgeon?)");
+    // 2.5.4.4
+    _testOK ("schema-element(foo)");
+    // 2.5.4.5
+    _testOK ("attribute()");
+    _testOK ("attribute(*)");
+    _testOK ("attribute(price)");
+    _testOK ("attribute(price, currency)");
+    _testOK ("attribute(*, currency)");
+    // 2.5.4.6
+    _testOK ("schema-attribute(foo)");
+
     _testOK ("/");
     _testOK ("/*");
     _testOK ("/ *");
