@@ -31,10 +31,10 @@ import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
- * Defines the source location of an object when reading CSS from a stream. It
+ * Defines the source location of an object when reading XPath from a stream. It
  * consists of the position of the start token and the position of the end
  * token.
- * 
+ *
  * @author Philip Helger
  */
 @Immutable
@@ -45,7 +45,7 @@ public class XP2SourceLocation implements Serializable
 
   /**
    * Constructor.
-   * 
+   *
    * @param aFirstTokenArea
    *        Area of the first token. May be <code>null</code> if the last token
    *        area is not <code>null</code>.

@@ -16,7 +16,7 @@
  */
 package com.helger.xp2.model;
 
-public abstract class AbstractXP2Expression
+public abstract class AbstractXP2Expression implements IXP2Expression
 {
 
 }

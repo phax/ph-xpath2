@@ -21,42 +21,21 @@ import javax.annotation.concurrent.Immutable;
 import com.helger.commons.annotations.PresentForCodeCoverage;
 
 /**
- * Contains CSS style constants and utility stuff. Only constants that are part
- * of the CSS specification are contained in this class.<br>
- * Units of measurement are based on:
- * http://de.selfhtml.org/css/formate/wertzuweisung.htm<br>
- * 
+ * Specific XPath constants. Based on:
+ * <ul>
+ * <li>http://www.w3.org/TR/xpath20/</li>
+ * </ul>
+ *
  * @author Philip Helger
  */
 @Immutable
 public final class CXP2
 {
-  /** The separator between a property and a value. (e.g. display:none) */
-  public static final char SEPARATOR_PROPERTY_VALUE = ':';
-  /** The separator between a property and a value. (e.g. display:none) */
-  public static final String SEPARATOR_PROPERTY_VALUE_STR = Character.toString (SEPARATOR_PROPERTY_VALUE);
+  public static final String XML_NS_XS = "http://www.w3.org/2001/XMLSchema";
 
-  /** The character to end a definition. (e.g. display:none;) */
-  public static final char DEFINITION_END = ';';
-  /** The character to end a definition. (e.g. display:none;) */
-  public static final String DEFINITION_END_STR = Character.toString (DEFINITION_END);
+  public static final String XML_NS_FN = "http://www.w3.org/2005/xpath-functions";
 
-  /** Regular CSS file extension */
-  public static final String FILE_EXTENSION_CSS = ".css";
-
-  /** Minified CSS file extension */
-  public static final String FILE_EXTENSION_MIN_CSS = ".min.css";
-
-  /** The "!important" suffix for property values */
-  public static final String IMPORTANT_SUFFIX = " !important";
-
-  /**
-   * The maximum fraction digits to be considered when printing CSS decimal
-   * values.
-   * 
-   * @since 3.7.3
-   */
-  public static final int CSS_MAXIMUM_FRACTION_DIGITS = 16;
+  public static final String XML_NS_ERR = "http://www.w3.org/2005/xqt-errors";
 
   @PresentForCodeCoverage
   @SuppressWarnings ("unused")

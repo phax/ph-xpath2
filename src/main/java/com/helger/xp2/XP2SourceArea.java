@@ -27,10 +27,10 @@ import com.helger.commons.hash.HashCodeGenerator;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
- * Defines the source location of a single token when reading CSS from a stream.
- * It consists of the start position (getTokenBegin*) and the end position
- * (getTokenEnd*).
- * 
+ * Defines the source location of a single token when reading XPath from a
+ * stream. It consists of the start position (getTokenBegin*) and the end
+ * position (getTokenEnd*).
+ *
  * @author Philip Helger
  */
 @Immutable
@@ -43,7 +43,7 @@ public class XP2SourceArea implements Serializable
 
   /**
    * Constructor
-   * 
+   *
    * @param nBeginLineNumber
    *        Line number of the beginning. May be -1 if not such token is
    *        available.

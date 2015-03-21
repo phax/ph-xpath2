@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.EXP2Axis;
 import com.helger.xp2.model.nodetest.AbstractXP2NodeTest;
 
 public class XP2SingleStep extends AbstractXP2SingleStep
