@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.axisstep;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -44,6 +47,12 @@ public class XP2AxisStep extends AbstractXP2StepExpression
   public XP2PredicateList getPredicateList ()
   {
     return m_aPredicateList;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    m_aSingleStep.writeTo (aWriter);
+    m_aPredicateList.writeTo (aWriter);
   }
 
   @Override

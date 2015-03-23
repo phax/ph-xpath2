@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -51,6 +53,12 @@ public class XP2PredicateList implements IXP2Object
   public List <XP2Predicate> getAllPredicates ()
   {
     return CollectionHelper.newList (m_aPredicates);
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    for (final XP2Predicate aPredicate : m_aPredicates)
+      aPredicate.writeTo (aWriter);
   }
 
   @Override

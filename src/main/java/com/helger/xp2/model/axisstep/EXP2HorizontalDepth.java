@@ -14,22 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.sequencetype;
+package com.helger.xp2.model.axisstep;
 
-import java.io.IOException;
-import java.io.Writer;
-
-import javax.annotation.Nonnull;
-
-public class XP2EmptySequence extends AbstractXP2SequenceType
+/**
+ * Defines the horizontal depth of a single axis (parent and children).
+ *
+ * @author Philip Helger
+ */
+public enum EXP2HorizontalDepth
 {
-  public XP2EmptySequence ()
-  {
-    super (EXP2OccurrenceIndicator.DEFAULT_ONCE);
-  }
-
-  public void writeTo (@Nonnull final Writer aWriter) throws IOException
-  {
-    aWriter.write ("empty-sequence()");
-  }
+  /** Refers to this node only */
+  SELF,
+  /** Refers exactly 1 level up or down. */
+  ONE,
+  /** Refers to 1 or more levels up or down. */
+  UNBOUNDED;
 }

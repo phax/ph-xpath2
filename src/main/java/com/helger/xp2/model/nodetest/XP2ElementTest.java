@@ -16,6 +16,10 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.string.ToStringGenerator;
@@ -51,6 +55,23 @@ public class XP2ElementTest extends AbstractXP2KindTest
   public boolean nodeMayBeNilled ()
   {
     return m_bNodeMayBeNilled;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("element(");
+    if (m_aElementNameOrWildcard != null)
+    {
+      m_aElementNameOrWildcard.writeTo (aWriter);
+      if (m_aTypeName != null)
+      {
+        aWriter.write (", ");
+        aWriter.write (m_aTypeName.getAsString ());
+        if (m_bNodeMayBeNilled)
+          aWriter.write ('?');
+      }
+    }
+    aWriter.write (')');
   }
 
   @Override

@@ -16,13 +16,23 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
+
 /**
  * Wildcard test where namespace URL and local name can be anything.
- * 
+ *
  * @author Philip Helger
  */
 public class XP2WildcardTest extends AbstractXP2NameTest
 {
   public XP2WildcardTest ()
   {}
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ('*');
+  }
 }

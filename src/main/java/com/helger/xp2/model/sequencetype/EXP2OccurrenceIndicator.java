@@ -16,15 +16,20 @@
  */
 package com.helger.xp2.model.sequencetype;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.helger.xp2.model.IXP2Object;
 
 /**
  * Occurrence indicators.
  *
  * @author Philip Helger
  */
-public enum EXP2OccurrenceIndicator
+public enum EXP2OccurrenceIndicator implements IXP2Object
 {
   /** Element must occur 1 time */
   DEFAULT_ONCE (""),
@@ -46,6 +51,11 @@ public enum EXP2OccurrenceIndicator
   public String getText ()
   {
     return m_sText;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_sText);
   }
 
   @Nonnull

@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -40,6 +43,11 @@ public class XP2QNameTest extends AbstractXP2NameTest
   public ParserQName getQName ()
   {
     return m_aQName;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_aQName.getAsString ());
   }
 
   @Override

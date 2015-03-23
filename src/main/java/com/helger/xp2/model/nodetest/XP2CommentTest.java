@@ -16,9 +16,18 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
 
 public class XP2CommentTest extends AbstractXP2KindTest
 {
   public XP2CommentTest ()
   {}
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("comment()");
+  }
 }

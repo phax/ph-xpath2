@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -64,6 +66,22 @@ public class XP2QuantifiedExpression extends AbstractXP2Expression
   public IXP2Expression getSatisfyExpression ()
   {
     return m_aSatisfyExpression;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    m_eType.writeTo (aWriter);
+    boolean bFirst = true;
+    for (final XP2VarNameAndExpression aClause : m_aClauses)
+    {
+      if (bFirst)
+        bFirst = false;
+      else
+        aWriter.write (", ");
+      aClause.writeTo (aWriter);
+    }
+    aWriter.write (" satisfies ");
+    m_aSatisfyExpression.writeTo (aWriter);
   }
 
   @Override

@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -35,6 +38,13 @@ public class XP2SchemaElementTest extends AbstractXP2KindTest
   public ParserQName getElementDeclaration ()
   {
     return m_aElementDeclaration;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("schema-element(");
+    aWriter.write (m_aElementDeclaration.getAsString ());
+    aWriter.write (')');
   }
 
   @Override

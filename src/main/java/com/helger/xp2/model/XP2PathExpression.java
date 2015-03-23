@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -43,6 +46,13 @@ public class XP2PathExpression extends AbstractXP2ValueExpression
   public IXP2Expression getExpression ()
   {
     return m_aExpression;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    m_eOperator.writeTo (aWriter);
+    if (m_aExpression != null)
+      m_aExpression.writeTo (aWriter);
   }
 
   @Override

@@ -16,6 +16,10 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.string.ToStringGenerator;
@@ -33,6 +37,14 @@ public class XP2ProcessingInstructionTest extends AbstractXP2KindTest
   public String getPITarget ()
   {
     return m_sPITarget;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("processing-instruction(");
+    if (m_sPITarget != null)
+      aWriter.write (m_sPITarget);
+    aWriter.write (')');
   }
 
   @Override

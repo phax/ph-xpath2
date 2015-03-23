@@ -16,9 +16,18 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
 
 public class XP2ContextItemExpression extends AbstractXP2PrimaryExpression
 {
   public XP2ContextItemExpression ()
   {}
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ('.');
+  }
 }

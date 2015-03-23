@@ -16,12 +16,18 @@
  */
 package com.helger.xp2.reader;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
+
+import com.helger.commons.io.streams.NonBlockingStringWriter;
+import com.helger.xp2.model.XP2;
 
 /**
  * Test class for class {@link XP2Reader}.
@@ -30,9 +36,20 @@ import org.junit.Test;
  */
 public final class XP2ReaderTest
 {
-  private void _testOK (@Nonnull final String sData)
+  private void _testOK (@Nonnull final String sData) throws IOException
   {
-    assertNotNull (sData, XP2Reader.readFromString (sData));
+    _testOK (sData, sData);
+  }
+
+  private void _testOK (@Nonnull final String sData, @Nonnull final String sRecheck) throws IOException
+  {
+    final XP2 aParsed = XP2Reader.readFromString (sData);
+    assertNotNull (sData, aParsed);
+
+    // Only if no comment is contained
+    final NonBlockingStringWriter aSW = new NonBlockingStringWriter ();
+    aParsed.writeTo (aSW);
+    assertEquals (sRecheck, aSW.getAsString ());
   }
 
   private void _testNotOK (@Nonnull final String sData)
@@ -41,19 +58,19 @@ public final class XP2ReaderTest
   }
 
   @Test
-  public void testSpecial ()
+  public void testSpecial () throws IOException
   {
     _testOK ("element(person, surgeon?)");
   }
 
   @Test
-  public void testOKArbitrary ()
+  public void testOKArbitrary () throws IOException
   {
     _testOK ("$N[@x castable as xs:date][xs:date(@x) gt xs:date(\"2000-01-01\")]");
     _testOK ("$N[if (@x castable as xs:date) then xs:date(@x) gt xs:date(\"2000-01-01\") else false()]");
     _testOK ("$book/(chapter | appendix)[fn:last()]");
     _testOK ("$emp/hiredate - $emp/birthdate");
-    _testOK ("$orders[fn:position() = (5 to 9)]");
+    _testOK ("$orders[fn:position()=(5 to 9)]");
     _testOK ("$products[price gt 100]");
     _testOK ("$unit-price - $unit-discount");
     _testOK ("(1 to 100)[. mod 5 eq 0]");
@@ -75,16 +92,16 @@ public final class XP2ReaderTest
     _testOK ("//actor[@id='3']");
     _testOK ("//actor[@id]");
     _testOK ("//actor[last()]");
-    _testOK ("//actor[position() < 3]");
-    _testOK ("//actor|//foo:singer");
+    _testOK ("//actor[position()<3]");
+    _testOK ("//actor | //foo:singer");
     _testOK ("//foo:singer");
     _testOK ("//foo:singer/@id");
     _testOK ("//list/member");
     _testOK ("//para");
-    _testOK ("//product[id = 47]");
+    _testOK ("//product[id=47]");
     _testOK ("/book/chapter[5]/section[2]");
-    _testOK ("/child::book/child::chapter[fn:position() = 5]/child::section[fn:position() = 2]");
-    _testOK ("/descendant::figure[fn:position() = 42]");
+    _testOK ("/child::book/child::chapter[fn:position()=5]/child::section[fn:position()=2]");
+    _testOK ("/descendant::figure[fn:position()=42]");
     _testOK ("/descendant::list/child::member");
     _testOK ("/descendant::para");
     _testOK ("/root");
@@ -92,43 +109,44 @@ public final class XP2ReaderTest
     _testOK ("/root/foo:singers/*");
     _testOK ("/root/user[login='user1' and name='User 1' and profile='admin' and profile='operator']");
     _testOK ("/root/user[login='user1' or name='User 1' or profile='admin' or profile='operator']");
-    _testOK ("1(: Houston, we have a problem :)");
+    _testOK ("1(: Houston, we have a problem :)", "1");
+    _testOK ("1(: Houston, we (:still:) have a problem :)", "1");
     _testOK ("@*");
     _testOK ("@name");
     _testOK ("ancestor-or-self::div");
     _testOK ("ancestor::div");
     _testOK ("attribute::*");
     _testOK ("attribute::name");
-    _testOK ("book/(chapter|appendix)/section");
+    _testOK ("book/(chapter | appendix)/section");
     _testOK ("chapter//para");
     _testOK ("chapter[title=\"Introduction\"]");
     _testOK ("chapter[title]");
     _testOK ("child::*");
     _testOK ("child::*/child::para");
     _testOK ("child::*[self::chapter or self::appendix]");
-    _testOK ("child::*[self::chapter or self::appendix][fn:position() = fn:last()]");
+    _testOK ("child::*[self::chapter or self::appendix][fn:position()=fn:last()]");
     _testOK ("child::chapter/descendant::para");
     _testOK ("child::chapter[2]");
-    _testOK ("child::chapter[child::title = 'Introduction']");
+    _testOK ("child::chapter[child::title='Introduction']");
     _testOK ("child::chapter[child::title]");
     _testOK ("child::employee[secretary][assistant]");
     _testOK ("child::node()");
     _testOK ("child::para");
-    _testOK ("child::para[attribute::type eq 'warning'][fn:position() = 5]");
+    _testOK ("child::para[attribute::type eq 'warning'][fn:position()=5]");
     _testOK ("child::para[attribute::type eq \"warning\"]");
-    _testOK ("child::para[fn:position() = 1]");
-    _testOK ("child::para[fn:position() = 5][attribute::type eq \"warning\"]");
-    _testOK ("child::para[fn:position() = fn:last()-1]");
-    _testOK ("child::para[fn:position() = fn:last()]");
-    _testOK ("child::para[fn:position() > 1]");
+    _testOK ("child::para[fn:position()=1]");
+    _testOK ("child::para[fn:position()=5][attribute::type eq \"warning\"]");
+    _testOK ("child::para[fn:position()=fn:last() - 1]");
+    _testOK ("child::para[fn:position()=fn:last()]");
+    _testOK ("child::para[fn:position()>1]");
     _testOK ("child::text()");
     _testOK ("count(//foo:singer)");
     _testOK ("descendant-or-self::para");
     _testOK ("descendant::para");
-    _testOK ("descendant::toy[attribute::color = \"red\"]");
+    _testOK ("descendant::toy[attribute::color=\"red\"]");
     _testOK ("employee[@secretary and @assistant]");
     _testOK ("fn:doc(\"zoo.xml\")/fn:id('tiger')");
-    _testOK ("following-sibling::chapter[fn:position() = 1]");
+    _testOK ("following-sibling::chapter[fn:position()=1]");
     _testOK ("if (doc-available('abc.xml')) then doc('abc.xml') else ()");
     _testOK ("local-name(//foo:singer[1])");
     _testOK ("name(//*[1])");
@@ -148,20 +166,20 @@ public final class XP2ReaderTest
     _testOK ("para[@type=\"warning\"][5]");
     _testOK ("para[fn:last()]");
     _testOK ("parent::node()");
-    _testOK ("preceding-sibling::chapter[fn:position() = 1]");
+    _testOK ("preceding-sibling::chapter[fn:position()=1]");
     _testOK ("self::para");
     _testOK ("string(//actor[1]/@id)");
     _testOK ("string-length(//actor[1]/text())");
     _testOK ("sum(//foo:singer/@id)");
     _testOK ("text()");
-    _testOK ("some $x in $expr1 satisfies $x = 47");
-    _testOK ("some $x in $expr1, $y in $expr2 satisfies $x = $y");
+    _testOK ("some $x in $expr1 satisfies $x=47");
+    _testOK ("some $x in $expr1, $y in $expr2 satisfies $x=$y");
     _testOK ("for $x in $expr1 return $x + 1");
     _testOK ("for $x in $expr1, $y in $expr2 return $x + 1");
   }
 
   @Test
-  public void testOKFromSpecs ()
+  public void testOKFromSpecs () throws IOException
   {
     // From the specs
     // 2.5.4.1
@@ -203,14 +221,15 @@ public final class XP2ReaderTest
     // 2.5.4.6
     _testOK ("schema-attribute(foo)");
     // 2.6
-    _testOK ("schema-attribute(foo) (: Houston, we have a problem :)");
-    _testOK ("(: Houston, we have a problem :) schema-attribute(foo)");
-    _testOK ("(: Houston, we have a problem :) schema-attribute(foo) (: Houston, we have a problem :)");
+    _testOK ("schema-attribute(foo) (: Houston, we have a problem :)", "schema-attribute(foo)");
+    _testOK ("(: Houston, we have a problem :) schema-attribute(foo)", "schema-attribute(foo)");
+    _testOK ("(: Houston, we have a problem :) schema-attribute(foo) (: Houston, we have a problem :)",
+             "schema-attribute(foo)");
     // 3.1
     _testOK ("\"12.5\"");
     _testOK ("12");
     _testOK ("12.5");
-    _testOK ("125E2");
+    _testOK ("125E2", "1.25E+4");
     _testOK ("\"He said, \"\"I don't like it.\"\"\"");
     _testOK ("fn:true()");
     _testOK ("xs:integer(\"12\")");
@@ -229,8 +248,8 @@ public final class XP2ReaderTest
     _testOK ("my:two-argument-function((1, 2), 3)");
     _testOK ("my:two-argument-function(1, ())");
     _testOK ("my:one-argument-function((1, 2, 3))");
-    _testOK ("my:one-argument-function(( ))");
-    _testOK ("my:zero-argument-function( )");
+    _testOK ("my:one-argument-function(())");
+    _testOK ("my:zero-argument-function()");
     // 3.2
     _testOK ("/");
     _testOK ("(fn:root(self::node()) treat as document-node())/foo");
@@ -239,7 +258,7 @@ public final class XP2ReaderTest
     _testOK ("child::div1/child::para");
     _testOK ("/");
     _testOK ("/*");
-    _testOK ("/ *");
+    _testOK ("/ *", "/*");
     _testOK ("(/) * 5");
     _testOK ("4 + (/) * 5");
     _testOK ("4 + /");
@@ -259,7 +278,7 @@ public final class XP2ReaderTest
     _testOK ("document-node(element(book))");
     // 3.2.2
     _testOK ("child::chapter[2]");
-    _testOK ("descendant::toy[attribute::color = \"red\"]");
+    _testOK ("descendant::toy[attribute::color=\"red\"]");
     _testOK ("child::employee[secretary][assistant]");
     _testOK ("preceding::foo[1]");
     _testOK ("(preceding::foo)[1]");
@@ -282,22 +301,22 @@ public final class XP2ReaderTest
     _testOK ("child::*/child::para");
     _testOK ("/");
     _testOK ("/descendant::para");
-    _testOK ("/descendant::list/child::member ");
-    _testOK ("child::para[fn:position() = 1]");
-    _testOK ("child::para[fn:position() = fn:last()]");
-    _testOK ("child::para[fn:position() = fn:last()-1]");
-    _testOK ("child::para[fn:position() > 1]");
-    _testOK ("following-sibling::chapter[fn:position() = 1]");
-    _testOK ("preceding-sibling::chapter[fn:position() = 1]");
-    _testOK ("/descendant::figure[fn:position() = 42]");
-    _testOK ("/child::book/child::chapter[fn:position() = 5]/child::section[fn:position() = 2]");
+    _testOK ("/descendant::list/child::member");
+    _testOK ("child::para[fn:position()=1]");
+    _testOK ("child::para[fn:position()=fn:last()]");
+    _testOK ("child::para[fn:position()=fn:last() - 1]");
+    _testOK ("child::para[fn:position()>1]");
+    _testOK ("following-sibling::chapter[fn:position()=1]");
+    _testOK ("preceding-sibling::chapter[fn:position()=1]");
+    _testOK ("/descendant::figure[fn:position()=42]");
+    _testOK ("/child::book/child::chapter[fn:position()=5]/child::section[fn:position()=2]");
     _testOK ("child::para[attribute::type eq \"warning\"]");
-    _testOK ("child::para[attribute::type eq 'warning'][fn:position() = 5]");
-    _testOK ("child::para[fn:position() = 5][attribute::type eq \"warning\"]");
-    _testOK ("child::chapter[child::title = 'Introduction']");
+    _testOK ("child::para[attribute::type eq 'warning'][fn:position()=5]");
+    _testOK ("child::para[fn:position()=5][attribute::type eq \"warning\"]");
+    _testOK ("child::chapter[child::title='Introduction']");
     _testOK ("child::chapter[child::title]");
     _testOK ("child::*[self::chapter or self::appendix]");
-    _testOK ("child::*[self::chapter or self::appendix][fn:position() = fn:last()]");
+    _testOK ("child::*[self::chapter or self::appendix][fn:position()=fn:last()]");
     // 3.2.4
     _testOK ("para");
     _testOK ("*");
@@ -321,7 +340,7 @@ public final class XP2ReaderTest
     _testOK ("chapter[title=\"Introduction\"]");
     _testOK ("chapter[title]");
     _testOK ("employee[@secretary and @assistant]");
-    _testOK ("book/(chapter|appendix)/section");
+    _testOK ("book/(chapter | appendix)/section");
     // 3.3.1
     _testOK ("(10, 1, 2, 3, 4)");
     _testOK ("(10, (1, 2), (), (3, 4))");
@@ -335,7 +354,7 @@ public final class XP2ReaderTest
     _testOK ("$products[price gt 100]");
     _testOK ("(1 to 100)[. mod 5 eq 0]");
     _testOK ("(21 to 29)[5]");
-    _testOK ("$orders[fn:position() = (5 to 9)]");
+    _testOK ("$orders[fn:position()=(5 to 9)]");
     _testOK ("$book/(chapter | appendix)[fn:last()]");
     _testOK ("fn:doc(\"zoo.xml\")/fn:id('tiger')");
     // 3.3.3

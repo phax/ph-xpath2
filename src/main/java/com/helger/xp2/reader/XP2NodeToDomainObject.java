@@ -33,6 +33,7 @@ import com.helger.xp2.model.EXP2PathOperator;
 import com.helger.xp2.model.EXP2QuantifiedExpressionType;
 import com.helger.xp2.model.IXP2Expression;
 import com.helger.xp2.model.IXP2LiteralExpression;
+import com.helger.xp2.model.IXP2Object;
 import com.helger.xp2.model.IXP2PrimaryExpression;
 import com.helger.xp2.model.IXP2StepExpression;
 import com.helger.xp2.model.XP2;
@@ -300,6 +301,7 @@ public final class XP2NodeToDomainObject
     if (nChildCount != 0)
       _throwUnexpectedChildrenCount (aNode, "Expected no child!");
 
+    // The text is content :)
     return new XP2ProcessingInstructionTest (aNode.getText ());
   }
 
@@ -852,7 +854,7 @@ public final class XP2NodeToDomainObject
     }
 
     // Maintain the order and make no prefix/postfix differentiation
-    final List <Object> aElements = new ArrayList <Object> ();
+    final List <IXP2Object> aElements = new ArrayList <IXP2Object> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);
@@ -1031,17 +1033,16 @@ public final class XP2NodeToDomainObject
       return _convertInstanceofExpression (aNode.jjtGetChild (0));
     }
 
-    int nCurIndex = nChildCount - 2;
+    int nCurIndex = nChildCount - 1;
     IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
-      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final IXP2Expression aExpr = _convertInstanceofExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
-        aTemp = aExpr;
-      else
-        aTemp = new XP2BinaryExpression (aExpr, eOperator, aTemp);
-      nCurIndex -= 2;
+        aTemp = _convertInstanceofExpression (aNode.jjtGetChild (nCurIndex--));
+
+      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex--).getText ());
+      final IXP2Expression aLeft = _convertInstanceofExpression (aNode.jjtGetChild (nCurIndex--));
+      aTemp = new XP2BinaryExpression (aLeft, eOperator, aTemp);
     }
     return aTemp;
   }
@@ -1063,17 +1064,16 @@ public final class XP2NodeToDomainObject
       return _convertIntersectExpression (aNode.jjtGetChild (0));
     }
 
-    int nCurIndex = nChildCount - 2;
+    int nCurIndex = nChildCount - 1;
     IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
-      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final IXP2Expression aExpr = _convertIntersectExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
-        aTemp = aExpr;
-      else
-        aTemp = new XP2BinaryExpression (aExpr, eOperator, aTemp);
-      nCurIndex -= 2;
+        aTemp = _convertIntersectExpression (aNode.jjtGetChild (nCurIndex--));
+
+      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex--).getText ());
+      final IXP2Expression aLeft = _convertIntersectExpression (aNode.jjtGetChild (nCurIndex--));
+      aTemp = new XP2BinaryExpression (aLeft, eOperator, aTemp);
     }
     return aTemp;
   }
@@ -1094,17 +1094,16 @@ public final class XP2NodeToDomainObject
       return _convertUnionExpression (aNode.jjtGetChild (0));
     }
 
-    int nCurIndex = nChildCount - 2;
+    int nCurIndex = nChildCount - 1;
     IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
-      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final IXP2Expression aExpr = _convertUnionExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
-        aTemp = aExpr;
-      else
-        aTemp = new XP2BinaryExpression (aExpr, eOperator, aTemp);
-      nCurIndex -= 2;
+        aTemp = _convertUnionExpression (aNode.jjtGetChild (nCurIndex--));
+
+      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex--).getText ());
+      final IXP2Expression aLeft = _convertUnionExpression (aNode.jjtGetChild (nCurIndex--));
+      aTemp = new XP2BinaryExpression (aLeft, eOperator, aTemp);
     }
     return aTemp;
   }
@@ -1126,17 +1125,16 @@ public final class XP2NodeToDomainObject
       return _convertMultiplicativeExpression (aNode.jjtGetChild (0));
     }
 
-    int nCurIndex = nChildCount - 2;
+    int nCurIndex = nChildCount - 1;
     IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
-      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final IXP2Expression aExpr = _convertMultiplicativeExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
-        aTemp = aExpr;
-      else
-        aTemp = new XP2BinaryExpression (aExpr, eOperator, aTemp);
-      nCurIndex -= 2;
+        aTemp = _convertMultiplicativeExpression (aNode.jjtGetChild (nCurIndex--));
+
+      final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex--).getText ());
+      final IXP2Expression aLeft = _convertMultiplicativeExpression (aNode.jjtGetChild (nCurIndex--));
+      aTemp = new XP2BinaryExpression (aLeft, eOperator, aTemp);
     }
     return aTemp;
   }

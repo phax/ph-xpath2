@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -40,6 +42,19 @@ public class XP2ExpressionList implements IXP2Object
   public List <IXP2Expression> getAllExpressions ()
   {
     return CollectionHelper.newList (m_aExpressions);
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    boolean bFirst = true;
+    for (final IXP2Expression aExpression : m_aExpressions)
+    {
+      if (bFirst)
+        bFirst = false;
+      else
+        aWriter.write (", ");
+      aExpression.writeTo (aWriter);
+    }
   }
 
   @Override

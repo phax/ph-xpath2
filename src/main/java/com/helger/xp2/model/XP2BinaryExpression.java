@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -52,6 +55,18 @@ public class XP2BinaryExpression extends AbstractXP2Expression
   public IXP2Expression getRight ()
   {
     return m_aRight;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    final boolean bNeedsBlanksAround = m_eOperator.needsBlanksAround ();
+    m_aLeft.writeTo (aWriter);
+    if (bNeedsBlanksAround)
+      aWriter.write (' ');
+    m_eOperator.writeTo (aWriter);
+    if (bNeedsBlanksAround)
+      aWriter.write (' ');
+    m_aRight.writeTo (aWriter);
   }
 
   @Override

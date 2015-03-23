@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.sequencetype;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -37,6 +40,12 @@ public class XP2SequenceTypeKindTest extends AbstractXP2SequenceType
   public IXP2KindTest getKindTest ()
   {
     return m_aKindTest;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    m_aKindTest.writeTo (aWriter);
+    m_eOccurrenceIndicator.writeTo (aWriter);
   }
 
   @Override

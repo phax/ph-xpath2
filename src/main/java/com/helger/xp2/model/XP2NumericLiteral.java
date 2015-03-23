@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -42,6 +44,11 @@ public class XP2NumericLiteral extends AbstractXP2LiteralExpression
   public BigDecimal getValue ()
   {
     return m_aValue;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_aValue.toString ());
   }
 
   @Override

@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -25,44 +28,46 @@ import com.helger.commons.lang.EnumHelper;
 
 public enum EXP2Operator implements IHasID <String>, IXP2Object
 {
-  OR ("or"),
-  AND ("and"),
-  EQ ("eq"),
-  NE ("ne"),
-  LT ("lt"),
-  LE ("le"),
-  GT ("gt"),
-  GE ("ge"),
-  EQUALS ("="),
-  NOT_EQUALS ("!="),
-  LOWER ("<"),
-  LOWER_EQUALS ("<="),
-  GREATER (">"),
-  GREATER_EQUALS (">="),
-  IS ("is"),
-  SHL ("<<"),
-  SHR (">>"),
-  TO ("to"),
-  PLUS ("+"),
-  MINUS ("-"),
-  ASTERISK ("*"),
-  DIV ("div"),
-  IDIV ("idiv"),
-  MOD ("mod"),
-  UNION ("union"),
-  PIPE ("|"),
-  INTERSECT ("intersect"),
-  EXCEPT ("except"),
-  INSTANCE_OF ("instance of"),
-  TREAT_AS ("treat as"),
-  CASTABLE_AS ("castable as"),
-  CAST_AS ("cast as");
+  OR ("or", EXP2OperatorType.OR),
+  AND ("and", EXP2OperatorType.AND),
+  EQ ("eq", EXP2OperatorType.VALUE_COMP),
+  NE ("ne", EXP2OperatorType.VALUE_COMP),
+  LT ("lt", EXP2OperatorType.VALUE_COMP),
+  LE ("le", EXP2OperatorType.VALUE_COMP),
+  GT ("gt", EXP2OperatorType.VALUE_COMP),
+  GE ("ge", EXP2OperatorType.VALUE_COMP),
+  EQUALS ("=", EXP2OperatorType.GENERAL_COMP),
+  NOT_EQUALS ("!=", EXP2OperatorType.GENERAL_COMP),
+  LOWER ("<", EXP2OperatorType.GENERAL_COMP),
+  LOWER_EQUALS ("<=", EXP2OperatorType.GENERAL_COMP),
+  GREATER (">", EXP2OperatorType.GENERAL_COMP),
+  GREATER_EQUALS (">=", EXP2OperatorType.GENERAL_COMP),
+  IS ("is", EXP2OperatorType.NODE_COMP),
+  SHL ("<<", EXP2OperatorType.NODE_COMP),
+  SHR (">>", EXP2OperatorType.NODE_COMP),
+  TO ("to", EXP2OperatorType.TO),
+  PLUS ("+", EXP2OperatorType.ADDITIVE),
+  MINUS ("-", EXP2OperatorType.ADDITIVE),
+  ASTERISK ("*", EXP2OperatorType.MULTIPLICATIVE),
+  DIV ("div", EXP2OperatorType.MULTIPLICATIVE),
+  IDIV ("idiv", EXP2OperatorType.MULTIPLICATIVE),
+  MOD ("mod", EXP2OperatorType.MULTIPLICATIVE),
+  UNION ("union", EXP2OperatorType.UNION),
+  PIPE ("|", EXP2OperatorType.UNION),
+  INTERSECT ("intersect", EXP2OperatorType.INTERSECT),
+  EXCEPT ("except", EXP2OperatorType.INTERSECT),
+  INSTANCE_OF ("instance of", EXP2OperatorType.INSTANCE_OF),
+  TREAT_AS ("treat as", EXP2OperatorType.TREAT_AS),
+  CASTABLE_AS ("castable as", EXP2OperatorType.CASTABLE_AS),
+  CAST_AS ("cast as", EXP2OperatorType.CAST_AS);
 
   private final String m_sID;
+  private final EXP2OperatorType m_eType;
 
-  private EXP2Operator (@Nonnull @Nonempty final String sID)
+  private EXP2Operator (@Nonnull @Nonempty final String sID, @Nonnull final EXP2OperatorType eType)
   {
     m_sID = sID;
+    m_eType = eType;
   }
 
   @Nonnull
@@ -70,6 +75,22 @@ public enum EXP2Operator implements IHasID <String>, IXP2Object
   public String getID ()
   {
     return m_sID;
+  }
+
+  @Nonnull
+  public EXP2OperatorType getType ()
+  {
+    return m_eType;
+  }
+
+  public boolean needsBlanksAround ()
+  {
+    return m_eType != EXP2OperatorType.GENERAL_COMP;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_sID);
   }
 
   @Nonnull

@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.axisstep;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -27,28 +30,35 @@ import com.helger.xp2.model.IXP2Object;
 public enum EXP2Axis implements IHasID <String>, IXP2Object
 {
   // Forward axis
-  CHILD ("child", true),
-  DESCENDANT ("descendant", true),
-  ATTRIBUTE ("attribute", true),
-  SELF ("self", true),
-  DESCENDANT_OR_SELF ("descendant-or-self", true),
-  FOLLOWING_SIBLING ("following-sibling", true),
-  FOLLOWING ("following", true),
-  NAMESPACE ("namespace", true),
+  CHILD ("child", true, EXP2HorizontalDepth.ONE, EXP2VerticalDepth.SELF),
+  DESCENDANT ("descendant", true, EXP2HorizontalDepth.UNBOUNDED, EXP2VerticalDepth.SELF),
+  ATTRIBUTE ("attribute", true, EXP2HorizontalDepth.SELF, EXP2VerticalDepth.SELF),
+  SELF ("self", true, EXP2HorizontalDepth.SELF, EXP2VerticalDepth.SELF),
+  DESCENDANT_OR_SELF ("descendant-or-self", true, EXP2HorizontalDepth.UNBOUNDED, EXP2VerticalDepth.SELF),
+  FOLLOWING_SIBLING ("following-sibling", true, EXP2HorizontalDepth.SELF, EXP2VerticalDepth.UNBOUNDED),
+  FOLLOWING ("following", true, EXP2HorizontalDepth.UNBOUNDED, EXP2VerticalDepth.UNBOUNDED),
+  NAMESPACE ("namespace", true, EXP2HorizontalDepth.SELF, EXP2VerticalDepth.SELF),
   // Reverse axis
-  PARENT ("parent", false),
-  ANCESTOR ("ancestor", false),
-  PRECEDING_SIBLING ("preceding-sibling", false),
-  PRECEDING ("preceding", false),
-  ANCESTOR_OR_SELF ("ancestor-or-self", false);
+  PARENT ("parent", false, EXP2HorizontalDepth.ONE, EXP2VerticalDepth.SELF),
+  ANCESTOR ("ancestor", false, EXP2HorizontalDepth.UNBOUNDED, EXP2VerticalDepth.SELF),
+  PRECEDING_SIBLING ("preceding-sibling", false, EXP2HorizontalDepth.SELF, EXP2VerticalDepth.UNBOUNDED),
+  PRECEDING ("preceding", false, EXP2HorizontalDepth.UNBOUNDED, EXP2VerticalDepth.UNBOUNDED),
+  ANCESTOR_OR_SELF ("ancestor-or-self", false, EXP2HorizontalDepth.UNBOUNDED, EXP2VerticalDepth.SELF);
 
   private final String m_sID;
   private final boolean m_bIsForward;
+  private EXP2HorizontalDepth m_eHorizontalDepth;
+  private EXP2VerticalDepth m_eVerticalDepth;
 
-  private EXP2Axis (@Nonnull @Nonempty final String sID, final boolean bIsForward)
+  private EXP2Axis (@Nonnull @Nonempty final String sID,
+                    final boolean bIsForward,
+                    @Nonnull final EXP2HorizontalDepth eHorizontalDepth,
+                    @Nonnull final EXP2VerticalDepth eVerticalDepth)
   {
     m_sID = sID;
     m_bIsForward = bIsForward;
+    m_eHorizontalDepth = eHorizontalDepth;
+    m_eVerticalDepth = eVerticalDepth;
   }
 
   @Nonnull
@@ -66,6 +76,24 @@ public enum EXP2Axis implements IHasID <String>, IXP2Object
   public boolean isReverseAxis ()
   {
     return !m_bIsForward;
+  }
+
+  @Nonnull
+  public EXP2HorizontalDepth getHorizontalDepth ()
+  {
+    return m_eHorizontalDepth;
+  }
+
+  @Nonnull
+  public EXP2VerticalDepth getVerticalDepth ()
+  {
+    return m_eVerticalDepth;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_sID);
+    aWriter.write ("::");
   }
 
   @Nonnull

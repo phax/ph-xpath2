@@ -16,6 +16,10 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.string.ToStringGenerator;
@@ -43,6 +47,21 @@ public class XP2AttributeTest extends AbstractXP2KindTest
   public ParserQName getTypeName ()
   {
     return m_aTypeName;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("attribute(");
+    if (m_aAttributeNameOrWildcard != null)
+    {
+      m_aAttributeNameOrWildcard.writeTo (aWriter);
+      if (m_aTypeName != null)
+      {
+        aWriter.write (", ");
+        aWriter.write (m_aTypeName.getAsString ());
+      }
+    }
+    aWriter.write (')');
   }
 
   @Override

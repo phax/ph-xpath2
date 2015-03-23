@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -42,6 +45,13 @@ public class XP2SingleType implements IXP2Object
   public boolean isEmptySequenceAllowed ()
   {
     return m_bEmptySequenceAllowed;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_aAtomicType.getAsString ());
+    if (m_bEmptySequenceAllowed)
+      aWriter.write ('?');
   }
 
   @Override

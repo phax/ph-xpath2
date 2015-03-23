@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -48,6 +51,14 @@ public class XP2VarNameAndExpression implements IXP2Object
   public IXP2Expression getExpression ()
   {
     return m_aExpression;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ('$');
+    aWriter.write (m_aVarName.getAsString ());
+    aWriter.write (" in ");
+    m_aExpression.writeTo (aWriter);
   }
 
   @Override

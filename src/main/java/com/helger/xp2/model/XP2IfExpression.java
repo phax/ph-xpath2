@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -58,6 +61,16 @@ public class XP2IfExpression extends AbstractXP2Expression
   public IXP2Expression getElseExpression ()
   {
     return m_aElseExpr;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("if (");
+    m_aTestExprs.writeTo (aWriter);
+    aWriter.write (") then ");
+    m_aThenExpr.writeTo (aWriter);
+    aWriter.write (" else ");
+    m_aElseExpr.writeTo (aWriter);
   }
 
   @Override

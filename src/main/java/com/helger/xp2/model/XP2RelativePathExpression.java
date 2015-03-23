@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -27,9 +29,9 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2RelativePathExpression extends AbstractXP2ValueExpression
 {
-  private final List <Object> m_aElements;
+  private final List <IXP2Object> m_aElements;
 
-  public XP2RelativePathExpression (@Nonnull final List <?> aElements)
+  public XP2RelativePathExpression (@Nonnull final List <? extends IXP2Object> aElements)
   {
     ValueEnforcer.notNull (aElements, "Elements");
     for (final Object o : aElements)
@@ -40,9 +42,15 @@ public class XP2RelativePathExpression extends AbstractXP2ValueExpression
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <Object> getAllElements ()
+  public List <IXP2Object> getAllElements ()
   {
     return CollectionHelper.newList (m_aElements);
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    for (final IXP2Object aElement : m_aElements)
+      aElement.writeTo (aWriter);
   }
 
   @Override

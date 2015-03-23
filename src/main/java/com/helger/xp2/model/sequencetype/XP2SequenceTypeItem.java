@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.sequencetype;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 public class XP2SequenceTypeItem extends AbstractXP2SequenceType
@@ -23,5 +26,11 @@ public class XP2SequenceTypeItem extends AbstractXP2SequenceType
   public XP2SequenceTypeItem (@Nonnull final EXP2OccurrenceIndicator eOccurrenceIndicator)
   {
     super (eOccurrenceIndicator);
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("item()");
+    m_eOccurrenceIndicator.writeTo (aWriter);
   }
 }

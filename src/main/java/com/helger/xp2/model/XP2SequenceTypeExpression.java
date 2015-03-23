@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -53,6 +56,15 @@ public class XP2SequenceTypeExpression extends AbstractXP2Expression
   public IXP2SequenceType getSequenceType ()
   {
     return m_aSequenceType;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    m_aLeft.writeTo (aWriter);
+    aWriter.write (' ');
+    m_eOperator.writeTo (aWriter);
+    aWriter.write (' ');
+    m_aSequenceType.writeTo (aWriter);
   }
 
   @Override

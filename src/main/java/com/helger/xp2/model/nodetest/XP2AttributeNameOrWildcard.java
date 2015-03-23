@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -40,7 +43,15 @@ public class XP2AttributeNameOrWildcard implements IXP2Object
 
   public boolean isWildcard ()
   {
-    return m_aAttributeName != null;
+    return m_aAttributeName == null;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    if (isWildcard ())
+      aWriter.write ('*');
+    else
+      aWriter.write (m_aAttributeName.getAsString ());
   }
 
   @Override

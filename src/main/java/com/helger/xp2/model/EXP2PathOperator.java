@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -40,6 +43,11 @@ public enum EXP2PathOperator implements IHasID <String>, IXP2Object
   public String getID ()
   {
     return m_sID;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_sID);
   }
 
   @Nonnull

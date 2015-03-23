@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -42,6 +44,22 @@ public class XP2ForExpression extends AbstractXP2Expression
     ValueEnforcer.notNull (aForClauses, "ForClauses");
     m_aForClauses = CollectionHelper.newList (aForClauses);
     m_aReturnExpression = ValueEnforcer.notNull (aReturnExpression, "ReturnExpression");
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("for ");
+    boolean bFirst = true;
+    for (final XP2VarNameAndExpression aForClause : m_aForClauses)
+    {
+      if (bFirst)
+        bFirst = false;
+      else
+        aWriter.write (", ");
+      aForClause.writeTo (aWriter);
+    }
+    aWriter.write (" return ");
+    m_aReturnExpression.writeTo (aWriter);
   }
 
   @Nonnull

@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -34,6 +37,12 @@ public class XP2StringLiteral extends AbstractXP2LiteralExpression
   public String getValue ()
   {
     return m_sValue;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    // TODO mask string
+    aWriter.write (m_sValue);
   }
 
   @Override

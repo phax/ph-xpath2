@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model.nodetest;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -42,6 +45,12 @@ public class XP2LocalNameIsWildcardTest extends AbstractXP2NameTest
   public String getNamespaceURL ()
   {
     return m_sNamespaceURL;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write (m_sNamespaceURL);
+    aWriter.write ('*');
   }
 
   @Override

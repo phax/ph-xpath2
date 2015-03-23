@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -35,6 +38,12 @@ public class XP2VariableReference extends AbstractXP2PrimaryExpression
   public ParserQName getVarName ()
   {
     return m_aVarName;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ('$');
+    aWriter.write (m_aVarName.getAsString ());
   }
 
   @Override

@@ -23,7 +23,7 @@ import com.helger.commons.string.ToStringGenerator;
 
 public abstract class AbstractXP2SequenceType implements IXP2SequenceType
 {
-  private final EXP2OccurrenceIndicator m_eOccurrenceIndicator;
+  protected final EXP2OccurrenceIndicator m_eOccurrenceIndicator;
 
   public AbstractXP2SequenceType (@Nonnull final EXP2OccurrenceIndicator eOccurrenceIndicator)
   {

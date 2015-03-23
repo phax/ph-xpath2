@@ -16,9 +16,18 @@
  */
 package com.helger.xp2.model.axisstep;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.annotation.Nonnull;
 
 public class XP2AbbreviatedReverseStep extends AbstractXP2SingleStep
 {
   public XP2AbbreviatedReverseStep ()
   {}
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ("..");
+  }
 }

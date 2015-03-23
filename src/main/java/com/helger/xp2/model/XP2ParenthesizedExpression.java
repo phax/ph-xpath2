@@ -16,6 +16,9 @@
  */
 package com.helger.xp2.model;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -34,6 +37,14 @@ public class XP2ParenthesizedExpression extends AbstractXP2PrimaryExpression
   public XP2ExpressionList getExpressionList ()
   {
     return m_aExpressionList;
+  }
+
+  public void writeTo (@Nonnull final Writer aWriter) throws IOException
+  {
+    aWriter.write ('(');
+    if (m_aExpressionList != null)
+      m_aExpressionList.writeTo (aWriter);
+    aWriter.write (')');
   }
 
   @Override
