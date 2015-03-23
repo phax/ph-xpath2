@@ -18,7 +18,9 @@ package com.helger.xp2.model.sequencetype;
 
 import javax.annotation.Nonnull;
 
-public interface IXP2SequenceType
+import com.helger.xp2.model.IXP2Object;
+
+public interface IXP2SequenceType extends IXP2Object
 {
   @Nonnull
   EXP2OccurrenceIndicator getOccurrenceIndicator ();

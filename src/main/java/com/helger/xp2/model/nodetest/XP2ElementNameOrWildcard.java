@@ -20,9 +20,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.string.ToStringGenerator;
+import com.helger.xp2.model.IXP2Object;
 import com.helger.xp2.parser.ParserQName;
 
-public class XP2ElementNameOrWildcard
+public class XP2ElementNameOrWildcard implements IXP2Object
 {
   private final ParserQName m_aElementName;
 

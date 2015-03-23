@@ -16,7 +16,9 @@
  */
 package com.helger.xp2.model.nodetest;
 
-public interface IXP2NodeTest
+import com.helger.xp2.model.IXP2Object;
+
+public interface IXP2NodeTest extends IXP2Object
 {
 
 }

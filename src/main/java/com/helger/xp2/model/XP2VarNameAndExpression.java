@@ -27,7 +27,7 @@ import com.helger.xp2.parser.ParserQName;
  *
  * @author Philip Helger
  */
-public class XP2VarNameAndExpression
+public class XP2VarNameAndExpression implements IXP2Object
 {
   private final ParserQName m_aVarName;
   private final IXP2Expression m_aExpression;

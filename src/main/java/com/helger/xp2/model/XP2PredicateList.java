@@ -31,7 +31,7 @@ import com.helger.commons.string.ToStringGenerator;
  *
  * @author Philip Helger
  */
-public class XP2PredicateList
+public class XP2PredicateList implements IXP2Object
 {
   private final List <XP2Predicate> m_aPredicates;
 

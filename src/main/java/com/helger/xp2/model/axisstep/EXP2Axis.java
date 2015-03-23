@@ -22,8 +22,9 @@ import javax.annotation.Nullable;
 import com.helger.commons.annotations.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
+import com.helger.xp2.model.IXP2Object;
 
-public enum EXP2Axis implements IHasID <String>
+public enum EXP2Axis implements IHasID <String>, IXP2Object
 {
   // Forward axis
   CHILD ("child", true),

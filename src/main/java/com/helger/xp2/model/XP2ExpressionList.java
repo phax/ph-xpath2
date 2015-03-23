@@ -25,7 +25,7 @@ import com.helger.commons.annotations.ReturnsMutableCopy;
 import com.helger.commons.collections.CollectionHelper;
 import com.helger.commons.string.ToStringGenerator;
 
-public class XP2ExpressionList
+public class XP2ExpressionList implements IXP2Object
 {
   private final List <IXP2Expression> m_aExpressions;
 

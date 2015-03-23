@@ -22,7 +22,7 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
-public class XP2SingleType
+public class XP2SingleType implements IXP2Object
 {
   private final ParserQName m_aAtomicType;
   private final boolean m_bEmptySequenceAllowed;

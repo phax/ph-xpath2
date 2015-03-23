@@ -16,7 +16,9 @@
  */
 package com.helger.xp2.model.axisstep;
 
-public interface IXP2SingleStep
+import com.helger.xp2.model.IXP2Object;
+
+public interface IXP2SingleStep extends IXP2Object
 {
 
 }
