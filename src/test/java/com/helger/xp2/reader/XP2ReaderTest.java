@@ -66,8 +66,8 @@ public final class XP2ReaderTest
   @Test
   public void testOKArbitrary () throws IOException
   {
-    _testOK ("$N[@x castable as xs:date][xs:date(@x) gt xs:date(\"2000-01-01\")]");
-    _testOK ("$N[if (@x castable as xs:date) then xs:date(@x) gt xs:date(\"2000-01-01\") else false()]");
+    _testOK ("$N[@x castable as xs:date][xs:date(@x) gt xs:date('2000-01-01')]");
+    _testOK ("$N[if (@x castable as xs:date) then xs:date(@x) gt xs:date('2000-01-01') else false()]");
     _testOK ("$book/(chapter | appendix)[fn:last()]");
     _testOK ("$emp/hiredate - $emp/birthdate");
     _testOK ("$orders[fn:position() = (5 to 9)]");
@@ -119,7 +119,7 @@ public final class XP2ReaderTest
     _testOK ("attribute::name");
     _testOK ("book/(chapter | appendix)/section");
     _testOK ("chapter//para");
-    _testOK ("chapter[title = \"Introduction\"]");
+    _testOK ("chapter[title = 'Introduction']");
     _testOK ("chapter[title]");
     _testOK ("child::*");
     _testOK ("child::*/child::para");
@@ -133,9 +133,9 @@ public final class XP2ReaderTest
     _testOK ("child::node()");
     _testOK ("child::para");
     _testOK ("child::para[attribute::type eq 'warning'][fn:position() = 5]");
-    _testOK ("child::para[attribute::type eq \"warning\"]");
+    _testOK ("child::para[attribute::type eq 'warning']");
     _testOK ("child::para[fn:position() = 1]");
-    _testOK ("child::para[fn:position() = 5][attribute::type eq \"warning\"]");
+    _testOK ("child::para[fn:position() = 5][attribute::type eq 'warning']");
     _testOK ("child::para[fn:position() = fn:last() - 1]");
     _testOK ("child::para[fn:position() = fn:last()]");
     _testOK ("child::para[fn:position() > 1]");
@@ -143,9 +143,9 @@ public final class XP2ReaderTest
     _testOK ("count(//foo:singer)");
     _testOK ("descendant-or-self::para");
     _testOK ("descendant::para");
-    _testOK ("descendant::toy[attribute::color = \"red\"]");
+    _testOK ("descendant::toy[attribute::color = 'red']");
     _testOK ("employee[@secretary and @assistant]");
-    _testOK ("fn:doc(\"zoo.xml\")/fn:id('tiger')");
+    _testOK ("fn:doc('zoo.xml')/fn:id('tiger')");
     _testOK ("following-sibling::chapter[fn:position() = 1]");
     _testOK ("if (doc-available('abc.xml')) then doc('abc.xml') else ()");
     _testOK ("local-name(//foo:singer[1])");
@@ -161,9 +161,9 @@ public final class XP2ReaderTest
     _testOK ("para[1 and 2 or 3 and 4]");
     _testOK ("para[1 and 2 and 3 or 4]");
     _testOK ("para[1 and 2 and 3 and 4]");
-    _testOK ("para[5][@type = \"warning\"]");
-    _testOK ("para[@type = \"warning\"]");
-    _testOK ("para[@type = \"warning\"][5]");
+    _testOK ("para[5][@type = 'warning']");
+    _testOK ("para[@type = 'warning']");
+    _testOK ("para[@type = 'warning'][5]");
     _testOK ("para[fn:last()]");
     _testOK ("parent::node()");
     _testOK ("preceding-sibling::chapter[fn:position() = 1]");
@@ -183,16 +183,17 @@ public final class XP2ReaderTest
   {
     // From the specs
     // 2.5.4.1
-    _testOK ("empty-sequence()");
+    _testOK ("$x treat as empty-sequence()");
     // 2.5.4.2
-    _testOK ("item()");
-    _testOK ("node()");
-    _testOK ("text()");
-    _testOK ("processing-instruction()");
-    _testOK ("processing-instruction(foo)");
-    _testOK ("comment()");
-    _testOK ("document-node()");
-    _testOK ("document-node(element(book))");
+    _testOK ("$x treat as item()");
+    _testOK ("$x treat as node()");
+    _testOK ("$x treat as text()");
+    _testOK ("$x treat as processing-instruction()");
+    _testOK ("$x treat as processing-instruction(foo)");
+    _testOK ("$x treat as processing-instruction('bar')");
+    _testOK ("$x treat as comment()");
+    _testOK ("$x treat as document-node()");
+    _testOK ("$x treat as document-node(element(book))");
     // 2.5.4.3
     _testOK ("element()");
     _testOK ("element(*)");
@@ -226,17 +227,17 @@ public final class XP2ReaderTest
     _testOK ("(: Houston, we have a problem :) schema-attribute(foo) (: Houston, we have a problem :)",
              "schema-attribute(foo)");
     // 3.1
-    _testOK ("\"12.5\"");
+    _testOK ("'12.5'");
     _testOK ("12");
     _testOK ("12.5");
     _testOK ("125E2", "1.25E+4");
-    _testOK ("\"He said, \"\"I don't like it.\"\"\"");
+    _testOK ("\"He said, \"\"I don't like it.\"\"\"", "'He said, \"I don''t like it.\"'");
     _testOK ("fn:true()");
-    _testOK ("xs:integer(\"12\")");
-    _testOK ("xs:date(\"2001-08-25\")");
-    _testOK ("xs:dayTimeDuration(\"PT5H\")");
-    _testOK ("xs:float(\"NaN\")");
-    _testOK ("xs:double(\"INF\")");
+    _testOK ("xs:integer('12')");
+    _testOK ("xs:date('2001-08-25')");
+    _testOK ("xs:dayTimeDuration('PT5H')");
+    _testOK ("xs:float('NaN')");
+    _testOK ("xs:double('INF')");
     _testOK ("9 cast as hatsize");
     // 3.1.3
     _testOK ("(2 + 4) * 5");
@@ -278,7 +279,7 @@ public final class XP2ReaderTest
     _testOK ("document-node(element(book))");
     // 3.2.2
     _testOK ("child::chapter[2]");
-    _testOK ("descendant::toy[attribute::color = \"red\"]");
+    _testOK ("descendant::toy[attribute::color = 'red']");
     _testOK ("child::employee[secretary][assistant]");
     _testOK ("preceding::foo[1]");
     _testOK ("(preceding::foo)[1]");
@@ -310,9 +311,9 @@ public final class XP2ReaderTest
     _testOK ("preceding-sibling::chapter[fn:position() = 1]");
     _testOK ("/descendant::figure[fn:position() = 42]");
     _testOK ("/child::book/child::chapter[fn:position() = 5]/child::section[fn:position() = 2]");
-    _testOK ("child::para[attribute::type eq \"warning\"]");
+    _testOK ("child::para[attribute::type eq 'warning']");
     _testOK ("child::para[attribute::type eq 'warning'][fn:position() = 5]");
-    _testOK ("child::para[fn:position() = 5][attribute::type eq \"warning\"]");
+    _testOK ("child::para[fn:position() = 5][attribute::type eq 'warning']");
     _testOK ("child::chapter[child::title = 'Introduction']");
     _testOK ("child::chapter[child::title]");
     _testOK ("child::*[self::chapter or self::appendix]");
@@ -334,10 +335,10 @@ public final class XP2ReaderTest
     _testOK (".//para");
     _testOK ("..");
     _testOK ("../@lang");
-    _testOK ("para[@type = \"warning\"]");
-    _testOK ("para[@type = \"warning\"][5]");
-    _testOK ("para[5][@type = \"warning\"]");
-    _testOK ("chapter[title = \"Introduction\"]");
+    _testOK ("para[@type = 'warning']");
+    _testOK ("para[@type = 'warning'][5]");
+    _testOK ("para[5][@type = 'warning']");
+    _testOK ("chapter[title = 'Introduction']");
     _testOK ("chapter[title]");
     _testOK ("employee[@secretary and @assistant]");
     _testOK ("book/(chapter | appendix)/section");
@@ -356,7 +357,7 @@ public final class XP2ReaderTest
     _testOK ("(21 to 29)[5]");
     _testOK ("$orders[fn:position() = (5 to 9)]");
     _testOK ("$book/(chapter | appendix)[fn:last()]");
-    _testOK ("fn:doc(\"zoo.xml\")/fn:id('tiger')");
+    _testOK ("fn:doc('zoo.xml')/fn:id('tiger')");
     // 3.3.3
     _testOK ("$seq1 union $seq2");
     _testOK ("$seq2 union $seq3");
@@ -372,20 +373,20 @@ public final class XP2ReaderTest
     _testOK ("-$bellcost + $whistlecost");
     _testOK ("-($bellcost + $whistlecost)");
     // 3.5.1
-    _testOK ("$book1/author eq \"Kennedy\"");
+    _testOK ("$book1/author eq 'Kennedy'");
     _testOK ("//product[weight gt 100]");
     _testOK ("my:hatsize(5) eq my:shoesize(5)");
-    _testOK ("fn:QName(\"http://example.com/ns1\", \"this:color\") eq fn:QName(\"http://example.com/ns1\", \"that:color\")");
+    _testOK ("fn:QName('http://example.com/ns1', 'this:color') eq fn:QName('http://example.com/ns1', 'that:color')");
     // 3.5.2
-    _testOK ("$book1/author = \"Kennedy\"");
+    _testOK ("$book1/author = 'Kennedy'");
     _testOK ("(1, 2) = (2, 3)");
     _testOK ("(2, 3) = (3, 4)");
     _testOK ("(1, 2) = (3, 4)");
     _testOK ("(1, 2) = (2, 3)");
     _testOK ("(1, 2) != (2, 3)");
     // 3.5.3
-    _testOK ("/books/book[isbn = \"1558604820\"] is /books/book[call = \"QA76.9 C3845\"]");
-    _testOK ("/transactions/purchase[parcel = \"28-451\"] << /transactions/sale[parcel = \"33-870\"]");
+    _testOK ("/books/book[isbn = '1558604820'] is /books/book[call = 'QA76.9 C3845']");
+    _testOK ("/transactions/purchase[parcel = '28-451'] << /transactions/sale[parcel = '33-870']");
     // 3.6
     _testOK ("1 eq 1 and 2 eq 2");
     _testOK ("1 eq 1 or 2 eq 3");
@@ -406,8 +407,8 @@ public final class XP2ReaderTest
     _testOK ("some $emp in /emps/employee satisfies ($emp/bonus > 0.25 * $emp/salary)");
     _testOK ("some $x in (1, 2, 3), $y in (2, 3, 4) satisfies $x + $y = 4");
     _testOK ("every $x in (1, 2, 3), $y in (2, 3, 4) satisfies $x + $y = 4");
-    _testOK ("some $x in (1, 2, \"cat\") satisfies $x * 2 = 4");
-    _testOK ("every $x in (1, 2, \"cat\") satisfies $x * 2 = 4");
+    _testOK ("some $x in (1, 2, 'cat') satisfies $x * 2 = 4");
+    _testOK ("every $x in (1, 2, 'cat') satisfies $x * 2 = 4");
     // 3.10.1
     _testOK ("5 instance of xs:integer");
     _testOK ("5 instance of xs:decimal");
@@ -416,10 +417,10 @@ public final class XP2ReaderTest
     // 3.10.3
     _testOK ("if ($x castable as hatsize) then $x cast as hatsize else if ($x castable as IQ) then $x cast as IQ else $x cast as xs:string");
     // 3.10.4
-    _testOK ("xs:date(\"2000-01-01\")");
+    _testOK ("xs:date('2000-01-01')");
     _testOK ("xs:decimal($floatvalue * 0.2E-5)", "xs:decimal($floatvalue * 0.000002)");
-    _testOK ("xs:dayTimeDuration(\"P21D\")");
-    _testOK ("usa:zipcode(\"12345\")");
+    _testOK ("xs:dayTimeDuration('P21D')");
+    _testOK ("usa:zipcode('12345')");
     _testOK ("17 cast as apple");
     _testOK ("apple(17)");
     // 3.10.5

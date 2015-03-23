@@ -22,10 +22,14 @@ import java.io.Writer;
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
 public class XP2StringLiteral extends AbstractXP2LiteralExpression
 {
+  private static char [] OLD_SQ = new char [] { '\'' };
+  private static char [][] NEW_SQ = new char [] [] { new char [] { '\'', '\'' } };
+
   private final String m_sValue;
 
   public XP2StringLiteral (@Nonnull final String sValue)
@@ -41,8 +45,13 @@ public class XP2StringLiteral extends AbstractXP2LiteralExpression
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException
   {
-    // TODO mask string
-    aWriter.write (m_sValue);
+    final boolean bNeedsEscaping = m_sValue.indexOf ('\'') >= 0;
+    aWriter.write ('\'');
+    if (bNeedsEscaping)
+      StringHelper.replaceMultipleTo (m_sValue, OLD_SQ, NEW_SQ, aWriter);
+    else
+      aWriter.write (m_sValue);
+    aWriter.write ('\'');
   }
 
   @Override

@@ -269,7 +269,7 @@ String NCName() #void : {}
 | <EQ>
 | <GE>
 | <GT>
-| <IF>
+//| <IF>
 | <IN>
 | <IS>
 | <LE>
@@ -285,11 +285,11 @@ String NCName() #void : {}
 | <CAST>
 | <ELSE>
 | <IDIV>
-| <ITEM>
-| <NODE>
+//| <ITEM>
+//| <NODE>
 | <SELF>
 | <SOME>
-| <TEXT>
+//| <TEXT>
 | <THEN>
 | <CHILD>
 | <EVERY>
@@ -298,29 +298,29 @@ String NCName() #void : {}
 | <EXCEPT>
 | <PARENT>
 | <RETURN>
-| <COMMENT>
+//| <COMMENT>
 // Leads to a grammar error when using: element(person, surgeon?)
 //| <ELEMENT>
 | <ANCESTOR>
 | <CASTABLE>
 | <EXTERNAL>
 | <INSTANCE>
-| <ATTRIBUTE>
+//| <ATTRIBUTE>
 | <FOLLOWING>
 | <INTERSECT>
 | <NAMESPACE>
 | <PRECEDING>
 | <SATISFIES>
 | <DESCENDANT>
-| <DOCUMENT_NODE>
-| <EMPTY_SEQUENCE>
-| <SCHEMA_ELEMENT>
+//| <DOCUMENT_NODE>
+//| <EMPTY_SEQUENCE>
+//| <SCHEMA_ELEMENT>
 | <ANCESTOR_OR_SELF>
-| <SCHEMA_ATTRIBUTE>
+//| <SCHEMA_ATTRIBUTE>
 | <FOLLOWING_SIBLING>
 | <PRECEDING_SIBLING>
 | <DESCENDANT_OR_SELF>
-| <PROCESSING_INSTRUCTION>
+//| <PROCESSING_INSTRUCTION>
 )
 { return token.image; }
 }
@@ -960,6 +960,15 @@ void CommentTest() : {}
   <PARANTHESIS_CLOSE>
 }
 
+// Hack to determine between NCName and String literal with quoting
+void PIStringLiteral() : {
+  String s;
+}
+{
+  s = StringLiteral()
+  { jjtThis.setText(s); }
+}
+
 // [59]    	PITest 	   ::=    	"processing-instruction" "(" (NCName | StringLiteral)? ")"
 void PITest() : {
   String s = null;
@@ -968,7 +977,7 @@ void PITest() : {
   <PROCESSING_INSTRUCTION>
   <PARANTHESIS_OPEN>
   ( s = NCName()
-  | s = StringLiteral()
+  | PIStringLiteral()
   )?
   <PARANTHESIS_CLOSE>
   { jjtThis.setText (s); }

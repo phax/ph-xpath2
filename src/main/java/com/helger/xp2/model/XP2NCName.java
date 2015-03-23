@@ -14,48 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.nodetest;
+package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.IXP2Object;
 
-public class XP2ProcessingInstructionTest extends AbstractXP2KindTest
+public class XP2NCName implements IXP2Object
 {
-  private final IXP2Object m_aPITarget;
+  private final String m_sValue;
 
-  public XP2ProcessingInstructionTest ()
+  public XP2NCName (@Nonnull final String sValue)
   {
-    this (null);
+    m_sValue = ValueEnforcer.notNull (sValue, "Value");
   }
 
-  public XP2ProcessingInstructionTest (@Nullable final IXP2Object aPITarget)
+  @Nonnull
+  public String getValue ()
   {
-    m_aPITarget = aPITarget;
-  }
-
-  @Nullable
-  public IXP2Object getPITarget ()
-  {
-    return m_aPITarget;
+    return m_sValue;
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException
   {
-    aWriter.write ("processing-instruction(");
-    if (m_aPITarget != null)
-      m_aPITarget.writeTo (aWriter);
-    aWriter.write (')');
+    aWriter.write (m_sValue);
   }
 
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("PITarget", m_aPITarget).toString ();
+    return new ToStringGenerator (this).append ("value", m_sValue).toString ();
   }
 }

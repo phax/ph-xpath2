@@ -44,6 +44,7 @@ import com.helger.xp2.model.XP2FilterExpression;
 import com.helger.xp2.model.XP2ForExpression;
 import com.helger.xp2.model.XP2FunctionCall;
 import com.helger.xp2.model.XP2IfExpression;
+import com.helger.xp2.model.XP2NCName;
 import com.helger.xp2.model.XP2NumericLiteral;
 import com.helger.xp2.model.XP2ParenthesizedExpression;
 import com.helger.xp2.model.XP2PathExpression;
@@ -298,11 +299,20 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTPITEST);
     final int nChildCount = aNode.jjtGetNumChildren ();
-    if (nChildCount != 0)
-      _throwUnexpectedChildrenCount (aNode, "Expected no child!");
+    if (nChildCount > 1)
+      _throwUnexpectedChildrenCount (aNode, "Expected at last 1 child!");
 
-    // The text is content :)
-    return new XP2ProcessingInstructionTest (aNode.getText ());
+    if (nChildCount == 1)
+    {
+      final XP2Node aChildNode = aNode.jjtGetChild (0);
+      _expectNodeType (aChildNode, ParserXP2TreeConstants.JJTPISTRINGLITERAL);
+      return new XP2ProcessingInstructionTest (new XP2StringLiteral (aChildNode.getText ()));
+    }
+
+    final String sText = aNode.getText ();
+    if (sText == null)
+      return new XP2ProcessingInstructionTest ();
+    return new XP2ProcessingInstructionTest (new XP2NCName (sText));
   }
 
   // [58] CommentTest ::= "comment" "(" ")"
@@ -385,6 +395,8 @@ public final class XP2NodeToDomainObject
         return _convertAttributeTest (aChildNode);
       case ParserXP2TreeConstants.JJTSCHEMAELEMENTTEST:
         return _convertSchemaElementTest (aChildNode);
+      case ParserXP2TreeConstants.JJTSCHEMAATTRIBUTETEST:
+        return _convertSchemaAttributeTest (aChildNode);
       case ParserXP2TreeConstants.JJTPITEST:
         return _convertProcessingInstructionTest (aChildNode);
       case ParserXP2TreeConstants.JJTCOMMENTTEST:
@@ -394,7 +406,8 @@ public final class XP2NodeToDomainObject
       case ParserXP2TreeConstants.JJTANYKINDTEST:
         return _convertAnyKindTest (aChildNode);
       default:
-        throw new XP2HandlingException (aChildNode, "Invalid node type for kind test!");
+        throw new XP2HandlingException (aChildNode, "Invalid node type for kind test: " +
+                                                    ParserXP2TreeConstants.jjtNodeName[aChildNode.getNodeType ()]);
     }
   }
 
@@ -556,7 +569,7 @@ public final class XP2NodeToDomainObject
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTLITERAL);
     final int nChildCount = aNode.jjtGetNumChildren ();
     if (nChildCount != 0)
-      _throwUnexpectedChildrenCount (aNode, "Expected exactly 0 children!");
+      _throwUnexpectedChildrenCount (aNode, "Expected no child!");
 
     final Object aValue = aNode.getValue ();
     if (aValue instanceof BigInteger)
@@ -565,7 +578,6 @@ public final class XP2NodeToDomainObject
       return new XP2NumericLiteral ((BigDecimal) aValue);
     if (aValue instanceof String)
       return new XP2StringLiteral ((String) aValue);
-
     throw new XP2HandlingException (aNode, "Invalid node value type: " + aValue.getClass ());
   }
 

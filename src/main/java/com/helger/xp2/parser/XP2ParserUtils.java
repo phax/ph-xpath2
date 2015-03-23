@@ -14,10 +14,7 @@ public final class XP2ParserUtils
   @Nonnull
   public static String getUnescapedStringDQ (@Nonnull final String s)
   {
-    if (true)
-      return s;
-
-    final String sText = s.substring (1, s.length () - 2);
+    final String sText = s.substring (1, s.length () - 1);
     final int i = sText.indexOf ("\"\"");
     if (i < 0)
       return sText;
@@ -28,10 +25,7 @@ public final class XP2ParserUtils
   @Nonnull
   public static String getUnescapedStringSQ (@Nonnull final String s)
   {
-    if (true)
-      return s;
-
-    final String sText = s.substring (1, s.length () - 2);
+    final String sText = s.substring (1, s.length () - 1);
     final int i = sText.indexOf ("''");
     if (i < 0)
       return sText;
