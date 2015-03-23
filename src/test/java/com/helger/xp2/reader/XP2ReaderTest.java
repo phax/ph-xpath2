@@ -43,9 +43,7 @@ public final class XP2ReaderTest
   @Test
   public void testSpecial ()
   {
-    if (false)
-      _testOK ("element(person, surgeon?)");
-    _testOK ("(fn:root(self::node()) treat as document-node())/");
+    _testOK ("element(person, surgeon?)");
   }
 
   @Test
@@ -235,10 +233,9 @@ public final class XP2ReaderTest
     _testOK ("my:zero-argument-function( )");
     // 3.2
     _testOK ("/");
-    _testOK ("(fn:root(self::node()) treat as document-node())/");
+    _testOK ("(fn:root(self::node()) treat as document-node())/foo");
     _testOK ("//x");
-    if (false)
-      _testOK ("(fn:root(self::node()) treat as document-node())/descendant-or-self::node()/");
+    _testOK ("(fn:root(self::node()) treat as document-node())/descendant-or-self::node()/foo");
     _testOK ("child::div1/child::para");
     _testOK ("/");
     _testOK ("/*");
@@ -268,15 +265,94 @@ public final class XP2ReaderTest
     _testOK ("(preceding::foo)[1]");
     _testOK ("ancestor::*[1]");
     _testOK ("(ancestor::*)[1]");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
-    _testOK ("");
+    // 3.2.3
+    _testOK ("child::para");
+    _testOK ("child::*");
+    _testOK ("child::text()");
+    _testOK ("child::node()");
+    _testOK ("attribute::name");
+    _testOK ("attribute::*");
+    _testOK ("parent::node()");
+    _testOK ("descendant::para");
+    _testOK ("ancestor::div");
+    _testOK ("ancestor-or-self::div");
+    _testOK ("descendant-or-self::para");
+    _testOK ("self::para");
+    _testOK ("child::chapter/descendant::para");
+    _testOK ("child::*/child::para");
+    _testOK ("/");
+    _testOK ("/descendant::para");
+    _testOK ("/descendant::list/child::member ");
+    _testOK ("child::para[fn:position() = 1]");
+    _testOK ("child::para[fn:position() = fn:last()]");
+    _testOK ("child::para[fn:position() = fn:last()-1]");
+    _testOK ("child::para[fn:position() > 1]");
+    _testOK ("following-sibling::chapter[fn:position() = 1]");
+    _testOK ("preceding-sibling::chapter[fn:position() = 1]");
+    _testOK ("/descendant::figure[fn:position() = 42]");
+    _testOK ("/child::book/child::chapter[fn:position() = 5]/child::section[fn:position() = 2]");
+    _testOK ("child::para[attribute::type eq \"warning\"]");
+    _testOK ("child::para[attribute::type eq 'warning'][fn:position() = 5]");
+    _testOK ("child::para[fn:position() = 5][attribute::type eq \"warning\"]");
+    _testOK ("child::chapter[child::title = 'Introduction']");
+    _testOK ("child::chapter[child::title]");
+    _testOK ("child::*[self::chapter or self::appendix]");
+    _testOK ("child::*[self::chapter or self::appendix][fn:position() = fn:last()]");
+    // 3.2.4
+    _testOK ("para");
+    _testOK ("*");
+    _testOK ("text()");
+    _testOK ("@name");
+    _testOK ("@*");
+    _testOK ("para[1]");
+    _testOK ("para[fn:last()]");
+    _testOK ("*/para");
+    _testOK ("/book/chapter[5]/section[2]");
+    _testOK ("chapter//para");
+    _testOK ("//para");
+    _testOK ("//@version");
+    _testOK ("//list/member");
+    _testOK (".//para");
+    _testOK ("..");
+    _testOK ("../@lang");
+    _testOK ("para[@type=\"warning\"]");
+    _testOK ("para[@type=\"warning\"][5]");
+    _testOK ("para[5][@type=\"warning\"]");
+    _testOK ("chapter[title=\"Introduction\"]");
+    _testOK ("chapter[title]");
+    _testOK ("employee[@secretary and @assistant]");
+    _testOK ("book/(chapter|appendix)/section");
+    // 3.3.1
+    _testOK ("(10, 1, 2, 3, 4)");
+    _testOK ("(10, (1, 2), (), (3, 4))");
+    _testOK ("(salary, bonus)");
+    _testOK ("($price, $price)");
+    _testOK ("(10, 1 to 4)");
+    _testOK ("10 to 10");
+    _testOK ("15 to 10");
+    _testOK ("fn:reverse(10 to 15)");
+    // 3.3.2
+    _testOK ("$products[price gt 100]");
+    _testOK ("(1 to 100)[. mod 5 eq 0]");
+    _testOK ("(21 to 29)[5]");
+    _testOK ("$orders[fn:position() = (5 to 9)]");
+    _testOK ("$book/(chapter | appendix)[fn:last()]");
+    _testOK ("fn:doc(\"zoo.xml\")/fn:id('tiger')");
+    // 3.3.3
+    _testOK ("$seq1 union $seq2");
+    _testOK ("$seq2 union $seq3");
+    _testOK ("$seq1 intersect $seq2");
+    _testOK ("$seq2 intersect $seq3");
+    _testOK ("$seq1 except $seq2");
+    _testOK ("$seq2 except $seq3");
+    // 3.4
+    _testOK ("-3 div 2");
+    _testOK ("-3 idiv 2");
+    _testOK ("$emp/hiredate - $emp/birthdate");
+    _testOK ("$unit-price - $unit-discount");
+    _testOK ("-$bellcost + $whistlecost");
+    _testOK ("-($bellcost + $whistlecost)");
+    // tbc
   }
 
   @Test
