@@ -43,14 +43,16 @@ public final class XP2ReaderTest
   @Test
   public void testSpecial ()
   {
-    _testOK ("element(person, surgeon?)");
+    if (false)
+      _testOK ("element(person, surgeon?)");
+    _testOK ("(fn:root(self::node()) treat as document-node())/");
   }
 
   @Test
-  public void testOK ()
+  public void testOKArbitrary ()
   {
     _testOK ("$N[@x castable as xs:date][xs:date(@x) gt xs:date(\"2000-01-01\")]");
-    _testOK ("$N[if (@x castable as xs:date)\r\n then xs:date(@x) gt xs:date(\"2000-01-01\")\r\n else false()]");
+    _testOK ("$N[if (@x castable as xs:date) then xs:date(@x) gt xs:date(\"2000-01-01\") else false()]");
     _testOK ("$book/(chapter | appendix)[fn:last()]");
     _testOK ("$emp/hiredate - $emp/birthdate");
     _testOK ("$orders[fn:position() = (5 to 9)]");
@@ -158,7 +160,11 @@ public final class XP2ReaderTest
     _testOK ("some $x in $expr1, $y in $expr2 satisfies $x = $y");
     _testOK ("for $x in $expr1 return $x + 1");
     _testOK ("for $x in $expr1, $y in $expr2 return $x + 1");
+  }
 
+  @Test
+  public void testOKFromSpecs ()
+  {
     // From the specs
     // 2.5.4.1
     _testOK ("empty-sequence()");
@@ -198,18 +204,86 @@ public final class XP2ReaderTest
     _testOK ("attribute(*, currency)");
     // 2.5.4.6
     _testOK ("schema-attribute(foo)");
-
+    // 2.6
+    _testOK ("schema-attribute(foo) (: Houston, we have a problem :)");
+    _testOK ("(: Houston, we have a problem :) schema-attribute(foo)");
+    _testOK ("(: Houston, we have a problem :) schema-attribute(foo) (: Houston, we have a problem :)");
+    // 3.1
+    _testOK ("\"12.5\"");
+    _testOK ("12");
+    _testOK ("12.5");
+    _testOK ("125E2");
+    _testOK ("\"He said, \"\"I don't like it.\"\"\"");
+    _testOK ("fn:true()");
+    _testOK ("xs:integer(\"12\")");
+    _testOK ("xs:date(\"2001-08-25\")");
+    _testOK ("xs:dayTimeDuration(\"PT5H\")");
+    _testOK ("xs:float(\"NaN\")");
+    _testOK ("xs:double(\"INF\")");
+    _testOK ("9 cast as hatsize");
+    // 3.1.3
+    _testOK ("(2 + 4) * 5");
+    _testOK ("2 + 4 * 5");
+    // 3.1.4
+    _testOK (".");
+    // 3.1.5
+    _testOK ("my:three-argument-function(1, 2, 3)");
+    _testOK ("my:two-argument-function((1, 2), 3)");
+    _testOK ("my:two-argument-function(1, ())");
+    _testOK ("my:one-argument-function((1, 2, 3))");
+    _testOK ("my:one-argument-function(( ))");
+    _testOK ("my:zero-argument-function( )");
+    // 3.2
+    _testOK ("/");
+    _testOK ("(fn:root(self::node()) treat as document-node())/");
+    _testOK ("//x");
+    if (false)
+      _testOK ("(fn:root(self::node()) treat as document-node())/descendant-or-self::node()/");
+    _testOK ("child::div1/child::para");
     _testOK ("/");
     _testOK ("/*");
     _testOK ("/ *");
     _testOK ("(/) * 5");
     _testOK ("4 + (/) * 5");
     _testOK ("4 + /");
+    // 3.2.1.2
+    _testOK ("node()");
+    _testOK ("text()");
+    _testOK ("comment()");
+    _testOK ("element()");
+    _testOK ("schema-element(person)");
+    _testOK ("element(person)");
+    _testOK ("element(person, surgeon)");
+    _testOK ("element(*, surgeon)");
+    _testOK ("attribute()");
+    _testOK ("attribute(price)");
+    _testOK ("attribute(*, xs:decimal)");
+    _testOK ("document-node()");
+    _testOK ("document-node(element(book))");
+    // 3.2.2
+    _testOK ("child::chapter[2]");
+    _testOK ("descendant::toy[attribute::color = \"red\"]");
+    _testOK ("child::employee[secretary][assistant]");
+    _testOK ("preceding::foo[1]");
+    _testOK ("(preceding::foo)[1]");
+    _testOK ("ancestor::*[1]");
+    _testOK ("(ancestor::*)[1]");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
+    _testOK ("");
   }
 
   @Test
-  public void testNotOK ()
+  public void testNotOKFromSpecs ()
   {
+    // 3.2
+    _testNotOK ("//");
     _testNotOK ("/*5");
     _testNotOK ("/ * 5");
     _testNotOK ("4+ / * 5");

@@ -20,9 +20,9 @@ options {
   CHOICE_AMBIGUITY_CHECK = 3;  // value >= 4 consumes too much memory!
   OTHER_AMBIGUITY_CHECK = 2;
   STATIC = false;  // to allow for multiple parser instances
-  DEBUG_PARSER = true;
+  // DEBUG_PARSER = true;
   // DEBUG_LOOKAHEAD = true;
-  DEBUG_TOKEN_MANAGER = true;
+  // DEBUG_TOKEN_MANAGER = true;
   // ERROR_REPORTING = false;
   JAVA_UNICODE_ESCAPE = true;
   UNICODE_INPUT = false;
@@ -264,61 +264,62 @@ String NCName() #void : {}
 ( <NC_NAME1>
 | <NC_NAME2>
 // add all valid tokens here as well  
-| < AS >
-| < EQ >
-| < GE >
-| < GT >
-| < IF >
-| < IN >
-| < IS >
-| < LE >
-| < LT >
-| < NE >
-| < OF >
-| < OR >
-| < TO >
-| < AND >
-| < DIV >
-| < FOR >
-| < MOD >
-| < CAST >
-| < ELSE >
-| < IDIV >
-| < ITEM >
-| < NODE >
-| < SELF >
-| < SOME >
-| < TEXT >
-| < THEN >
-| < CHILD >
-| < EVERY >
-| < TREAT >
-| < UNION >
-| < EXCEPT >
-| < PARENT >
-| < RETURN >
-| < COMMENT >
-| < ELEMENT >
-| < ANCESTOR >
-| < CASTABLE >
-| < EXTERNAL >
-| < INSTANCE >
-| < ATTRIBUTE >
-| < FOLLOWING >
-| < INTERSECT >
-| < NAMESPACE >
-| < PRECEDING >
-| < SATISFIES >
-| < DESCENDANT >
-| < DOCUMENT_NODE >
-| < EMPTY_SEQUENCE >
-| < SCHEMA_ELEMENT >
-| < ANCESTOR_OR_SELF >
-| < SCHEMA_ATTRIBUTE >
-| < FOLLOWING_SIBLING >
-| < PRECEDING_SIBLING >
-| < DESCENDANT_OR_SELF >
-| < PROCESSING_INSTRUCTION >
+| <AS>
+| <EQ>
+| <GE>
+| <GT>
+| <IF>
+| <IN>
+| <IS>
+| <LE>
+| <LT>
+| <NE>
+| <OF>
+| <OR>
+| <TO>
+| <AND>
+| <DIV>
+| <FOR>
+| <MOD>
+| <CAST>
+| <ELSE>
+| <IDIV>
+| <ITEM>
+| <NODE>
+| <SELF>
+| <SOME>
+| <TEXT>
+| <THEN>
+| <CHILD>
+| <EVERY>
+| <TREAT>
+| <UNION>
+| <EXCEPT>
+| <PARENT>
+| <RETURN>
+| <COMMENT>
+// Leads to a grammar error when using: element(person, surgeon?)
+//| <ELEMENT>
+| <ANCESTOR>
+| <CASTABLE>
+| <EXTERNAL>
+| <INSTANCE>
+| <ATTRIBUTE>
+| <FOLLOWING>
+| <INTERSECT>
+| <NAMESPACE>
+| <PRECEDING>
+| <SATISFIES>
+| <DESCENDANT>
+| <DOCUMENT_NODE>
+| <EMPTY_SEQUENCE>
+| <SCHEMA_ELEMENT>
+| <ANCESTOR_OR_SELF>
+| <SCHEMA_ATTRIBUTE>
+| <FOLLOWING_SIBLING>
+| <PRECEDING_SIBLING>
+| <DESCENDANT_OR_SELF>
+| <PROCESSING_INSTRUCTION>
 )
 { return token.image; }
 }
@@ -357,9 +358,12 @@ void Expr() : {}
 // [3]    	ExprSingle 	   ::=    	ForExpr | QuantifiedExpr | IfExpr | OrExpr
 void ExprSingle() #void : {}
 {
+  LOOKAHEAD(2)
   ForExpr()
-| QuantifiedExpr() 
-| IfExpr() 
+| LOOKAHEAD(2)
+  QuantifiedExpr() 
+| LOOKAHEAD(2)
+  IfExpr() 
 | OrExpr()
 }
 
@@ -640,7 +644,8 @@ void RelativePathExpr() : {}
 
 // [27]    	StepExpr 	   ::=    	FilterExpr | AxisStep
 void StepExpr() : {}
-{
+{ 
+// Order is important! AxisStep before FilterExpr
   LOOKAHEAD(4)
   FilterExpr()
 | AxisStep()
