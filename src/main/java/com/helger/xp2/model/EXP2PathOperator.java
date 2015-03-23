@@ -23,7 +23,7 @@ import com.helger.commons.annotations.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
-public enum EXP2PathOperator implements IHasID <String>
+public enum EXP2PathOperator implements IHasID <String>, IXP2Object
 {
   SLASH ("/"),
   SLASH_SLASH ("//");

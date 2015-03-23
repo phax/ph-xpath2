@@ -16,7 +16,8 @@
  */
 package com.helger.xp2.model;
 
-public interface IXP2Expression
+
+public interface IXP2Expression extends IXP2Object
 {
 
 }

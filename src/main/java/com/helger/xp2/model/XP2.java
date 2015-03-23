@@ -26,7 +26,7 @@ import com.helger.commons.string.ToStringGenerator;
  *
  * @author Philip Helger
  */
-public class XP2
+public class XP2 implements IXP2Object
 {
   private final XP2ExpressionList m_aExpressionList;
 

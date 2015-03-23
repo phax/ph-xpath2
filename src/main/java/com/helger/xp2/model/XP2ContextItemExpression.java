@@ -16,6 +16,7 @@
  */
 package com.helger.xp2.model;
 
+
 public class XP2ContextItemExpression extends AbstractXP2PrimaryExpression
 {
   public XP2ContextItemExpression ()

@@ -23,7 +23,7 @@ import com.helger.commons.annotations.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
-public enum EXP2QuantifiedExpressionType implements IHasID <String>
+public enum EXP2QuantifiedExpressionType implements IHasID <String>, IXP2Object
 {
   SOME ("some"),
   EVERY ("every");
