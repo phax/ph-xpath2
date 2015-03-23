@@ -85,7 +85,7 @@ public enum EXP2Operator implements IHasID <String>, IXP2Object
 
   public boolean needsBlanksAround ()
   {
-    return m_eType != EXP2OperatorType.GENERAL_COMP;
+    return true;
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException

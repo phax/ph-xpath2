@@ -60,10 +60,13 @@ public class XP2SequenceTypeExpression extends AbstractXP2Expression
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException
   {
+    final boolean bNeedsBlanksAround = m_eOperator.needsBlanksAround ();
     m_aLeft.writeTo (aWriter);
-    aWriter.write (' ');
+    if (bNeedsBlanksAround)
+      aWriter.write (' ');
     m_eOperator.writeTo (aWriter);
-    aWriter.write (' ');
+    if (bNeedsBlanksAround)
+      aWriter.write (' ');
     m_aSequenceType.writeTo (aWriter);
   }
 
