@@ -34,10 +34,10 @@ import com.helger.commons.string.ToStringGenerator;
 public class XP2ForExpression extends AbstractXP2Expression
 {
   private final List <XP2VarNameAndExpression> m_aForClauses;
-  private final AbstractXP2Expression m_aReturnExpression;
+  private final IXP2Expression m_aReturnExpression;
 
   public XP2ForExpression (@Nonnull final List <XP2VarNameAndExpression> aForClauses,
-                           @Nonnull final AbstractXP2Expression aReturnExpression)
+                           @Nonnull final IXP2Expression aReturnExpression)
   {
     ValueEnforcer.notNull (aForClauses, "ForClauses");
     m_aForClauses = CollectionHelper.newList (aForClauses);
@@ -52,7 +52,7 @@ public class XP2ForExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getReturnExpression ()
+  public IXP2Expression getReturnExpression ()
   {
     return m_aReturnExpression;
   }

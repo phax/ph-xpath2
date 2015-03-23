@@ -25,12 +25,12 @@ import com.helger.commons.string.ToStringGenerator;
 public class XP2PathExpression extends AbstractXP2ValueExpression
 {
   private final EXP2PathOperator m_eOperator;
-  private final AbstractXP2Expression m_aExpr;
+  private final IXP2Expression m_aExpression;
 
-  public XP2PathExpression (@Nonnull final EXP2PathOperator eOperator, @Nullable final AbstractXP2Expression aExpr)
+  public XP2PathExpression (@Nonnull final EXP2PathOperator eOperator, @Nullable final IXP2Expression aExpr)
   {
     m_eOperator = ValueEnforcer.notNull (eOperator, "Operator");
-    m_aExpr = aExpr;
+    m_aExpression = aExpr;
   }
 
   @Nonnull
@@ -40,16 +40,16 @@ public class XP2PathExpression extends AbstractXP2ValueExpression
   }
 
   @Nullable
-  public AbstractXP2Expression getExpression ()
+  public IXP2Expression getExpression ()
   {
-    return m_aExpr;
+    return m_aExpression;
   }
 
   @Override
   public String toString ()
   {
     return new ToStringGenerator (this).append ("operator", m_eOperator)
-                                       .appendIfNotNull ("expression", m_aExpr)
+                                       .appendIfNotNull ("expression", m_aExpression)
                                        .toString ();
   }
 }

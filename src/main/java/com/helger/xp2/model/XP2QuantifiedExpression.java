@@ -35,11 +35,11 @@ public class XP2QuantifiedExpression extends AbstractXP2Expression
 {
   private final EXP2QuantifiedExpressionType m_eType;
   private final List <XP2VarNameAndExpression> m_aClauses;
-  private final AbstractXP2Expression m_aSatisfyExpression;
+  private final IXP2Expression m_aSatisfyExpression;
 
   public XP2QuantifiedExpression (@Nonnull final EXP2QuantifiedExpressionType eType,
                                   @Nonnull final List <XP2VarNameAndExpression> aClauses,
-                                  @Nonnull final AbstractXP2Expression aSatisfyExpression)
+                                  @Nonnull final IXP2Expression aSatisfyExpression)
   {
     ValueEnforcer.notNull (aClauses, "Clauses");
     m_eType = ValueEnforcer.notNull (eType, "Type");
@@ -61,7 +61,7 @@ public class XP2QuantifiedExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getSatisfyExpression ()
+  public IXP2Expression getSatisfyExpression ()
   {
     return m_aSatisfyExpression;
   }

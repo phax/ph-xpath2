@@ -20,19 +20,19 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.nodetest.AbstractXP2NodeTest;
+import com.helger.xp2.model.nodetest.IXP2NodeTest;
 
 public class XP2AbbreviatedElementStep extends AbstractXP2SingleStep
 {
-  private final AbstractXP2NodeTest m_aNodeTest;
+  private final IXP2NodeTest m_aNodeTest;
 
-  public XP2AbbreviatedElementStep (@Nonnull final AbstractXP2NodeTest aNodeTest)
+  public XP2AbbreviatedElementStep (@Nonnull final IXP2NodeTest aNodeTest)
   {
     m_aNodeTest = ValueEnforcer.notNull (aNodeTest, "NodeTest");
   }
 
   @Nonnull
-  public AbstractXP2NodeTest getNodeTest ()
+  public IXP2NodeTest getNodeTest ()
   {
     return m_aNodeTest;
   }

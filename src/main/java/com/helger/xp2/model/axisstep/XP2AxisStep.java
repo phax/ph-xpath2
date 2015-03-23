@@ -25,17 +25,17 @@ import com.helger.xp2.model.XP2PredicateList;
 
 public class XP2AxisStep extends AbstractXP2StepExpression
 {
-  private final AbstractXP2SingleStep m_aSingleStep;
+  private final IXP2SingleStep m_aSingleStep;
   private final XP2PredicateList m_aPredicateList;
 
-  public XP2AxisStep (@Nonnull final AbstractXP2SingleStep aSingleStep, @Nonnull final XP2PredicateList aPredicateList)
+  public XP2AxisStep (@Nonnull final IXP2SingleStep aSingleStep, @Nonnull final XP2PredicateList aPredicateList)
   {
     m_aSingleStep = ValueEnforcer.notNull (aSingleStep, "SingleStep");
     m_aPredicateList = ValueEnforcer.notNull (aPredicateList, "PredicateList");
   }
 
   @Nonnull
-  public AbstractXP2SingleStep getSingleStep ()
+  public IXP2SingleStep getSingleStep ()
   {
     return m_aSingleStep;
   }

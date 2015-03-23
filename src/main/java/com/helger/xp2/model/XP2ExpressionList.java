@@ -27,9 +27,9 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2ExpressionList
 {
-  private final List <AbstractXP2Expression> m_aExpressions;
+  private final List <IXP2Expression> m_aExpressions;
 
-  public XP2ExpressionList (@Nonnull final List <AbstractXP2Expression> aExprs)
+  public XP2ExpressionList (@Nonnull final List <IXP2Expression> aExprs)
   {
     ValueEnforcer.notNull (aExprs, "Expressions");
     m_aExpressions = CollectionHelper.newList (aExprs);
@@ -37,7 +37,7 @@ public class XP2ExpressionList
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <AbstractXP2Expression> getAllExpressions ()
+  public List <IXP2Expression> getAllExpressions ()
   {
     return CollectionHelper.newList (m_aExpressions);
   }

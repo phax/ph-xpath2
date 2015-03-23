@@ -30,10 +30,10 @@ import com.helger.xp2.parser.ParserQName;
 public class XP2FunctionCall extends AbstractXP2PrimaryExpression
 {
   private final ParserQName m_aFunctionName;
-  private final List <AbstractXP2Expression> m_aExpressions;
+  private final List <IXP2Expression> m_aExpressions;
 
   public XP2FunctionCall (@Nonnull final ParserQName aFunctionName,
-                          @Nullable final List <AbstractXP2Expression> aExpressionList)
+                          @Nullable final List <IXP2Expression> aExpressionList)
   {
     m_aFunctionName = ValueEnforcer.notNull (aFunctionName, "FunctionName");
     m_aExpressions = CollectionHelper.newList (aExpressionList);
@@ -47,7 +47,7 @@ public class XP2FunctionCall extends AbstractXP2PrimaryExpression
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <AbstractXP2Expression> getAllExpressions ()
+  public List <IXP2Expression> getAllExpressions ()
   {
     return CollectionHelper.newList (m_aExpressions);
   }

@@ -23,20 +23,19 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2FilterExpression extends AbstractXP2StepExpression
 {
-  private final AbstractXP2PrimaryExpression m_aExpr;
+  private final IXP2PrimaryExpression m_aExpression;
   private final XP2PredicateList m_aPredicateList;
 
-  public XP2FilterExpression (@Nonnull final AbstractXP2PrimaryExpression aExpr,
-                              @Nonnull final XP2PredicateList aPredicateList)
+  public XP2FilterExpression (@Nonnull final IXP2PrimaryExpression aExpr, @Nonnull final XP2PredicateList aPredicateList)
   {
-    m_aExpr = ValueEnforcer.notNull (aExpr, "Expression");
+    m_aExpression = ValueEnforcer.notNull (aExpr, "Expression");
     m_aPredicateList = ValueEnforcer.notNull (aPredicateList, "PredicateList");
   }
 
   @Nonnull
-  public AbstractXP2Expression getExpression ()
+  public IXP2PrimaryExpression getExpression ()
   {
-    return m_aExpr;
+    return m_aExpression;
   }
 
   @Nonnull
@@ -48,7 +47,7 @@ public class XP2FilterExpression extends AbstractXP2StepExpression
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("expression", m_aExpr)
+    return new ToStringGenerator (this).append ("expression", m_aExpression)
                                        .append ("predicateList", m_aPredicateList)
                                        .toString ();
   }

@@ -24,15 +24,15 @@ import com.helger.xp2.parser.ParserQName;
 
 /**
  * A pair of variable name and expression.
- * 
+ *
  * @author Philip Helger
  */
 public class XP2VarNameAndExpression
 {
   private final ParserQName m_aVarName;
-  private final AbstractXP2Expression m_aExpression;
+  private final IXP2Expression m_aExpression;
 
-  public XP2VarNameAndExpression (@Nonnull final ParserQName aVarName, @Nonnull final AbstractXP2Expression aExpression)
+  public XP2VarNameAndExpression (@Nonnull final ParserQName aVarName, @Nonnull final IXP2Expression aExpression)
   {
     m_aVarName = ValueEnforcer.notNull (aVarName, "VarName");
     m_aExpression = ValueEnforcer.notNull (aExpression, "Expression");
@@ -45,7 +45,7 @@ public class XP2VarNameAndExpression
   }
 
   @Nonnull
-  public AbstractXP2Expression getExpression ()
+  public IXP2Expression getExpression ()
   {
     return m_aExpression;
   }

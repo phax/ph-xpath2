@@ -30,12 +30,12 @@ import com.helger.commons.string.ToStringGenerator;
 public class XP2IfExpression extends AbstractXP2Expression
 {
   private final XP2ExpressionList m_aTestExprs;
-  private final AbstractXP2Expression m_aThenExpr;
-  private final AbstractXP2Expression m_aElseExpr;
+  private final IXP2Expression m_aThenExpr;
+  private final IXP2Expression m_aElseExpr;
 
   public XP2IfExpression (@Nonnull final XP2ExpressionList aTestExprs,
-                          @Nonnull final AbstractXP2Expression aThenExpr,
-                          @Nonnull final AbstractXP2Expression aElseExpr)
+                          @Nonnull final IXP2Expression aThenExpr,
+                          @Nonnull final IXP2Expression aElseExpr)
   {
     m_aTestExprs = ValueEnforcer.notNull (aTestExprs, "TestExprs");
     m_aThenExpr = ValueEnforcer.notNull (aThenExpr, "ThenExpr");
@@ -49,13 +49,13 @@ public class XP2IfExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getThenExpression ()
+  public IXP2Expression getThenExpression ()
   {
     return m_aThenExpr;
   }
 
   @Nonnull
-  public AbstractXP2Expression getElseExpression ()
+  public IXP2Expression getElseExpression ()
   {
     return m_aElseExpr;
   }

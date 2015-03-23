@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
 
-public class AbstractXP2SequenceType
+public abstract class AbstractXP2SequenceType implements IXP2SequenceType
 {
   private final EXP2OccurrenceIndicator m_eOccurrenceIndicator;
 

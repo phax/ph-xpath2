@@ -20,17 +20,17 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.sequencetype.AbstractXP2SequenceType;
+import com.helger.xp2.model.sequencetype.IXP2SequenceType;
 
 public class XP2SequenceTypeExpression extends AbstractXP2Expression
 {
-  private final AbstractXP2Expression m_aLeft;
+  private final IXP2Expression m_aLeft;
   private final EXP2Operator m_eOperator;
-  private final AbstractXP2SequenceType m_aSequenceType;
+  private final IXP2SequenceType m_aSequenceType;
 
-  public XP2SequenceTypeExpression (@Nonnull final AbstractXP2Expression aLeft,
+  public XP2SequenceTypeExpression (@Nonnull final IXP2Expression aLeft,
                                     @Nonnull final EXP2Operator eOperator,
-                                    @Nonnull final AbstractXP2SequenceType aSequenceType)
+                                    @Nonnull final IXP2SequenceType aSequenceType)
   {
     m_aLeft = ValueEnforcer.notNull (aLeft, "Left");
     m_eOperator = ValueEnforcer.notNull (eOperator, "Operator");
@@ -38,7 +38,7 @@ public class XP2SequenceTypeExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getLeft ()
+  public IXP2Expression getLeft ()
   {
     return m_aLeft;
   }
@@ -50,7 +50,7 @@ public class XP2SequenceTypeExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2SequenceType getSequenceType ()
+  public IXP2SequenceType getSequenceType ()
   {
     return m_aSequenceType;
   }

@@ -24,10 +24,9 @@ import com.helger.commons.string.ToStringGenerator;
 public class XP2UnaryExpression extends AbstractXP2Expression
 {
   private final EXP2Operator m_eOperator;
-  private final AbstractXP2Expression m_aExpression;
+  private final IXP2Expression m_aExpression;
 
-  public XP2UnaryExpression (@Nonnull final EXP2Operator eOperator,
-                             @Nonnull final AbstractXP2Expression aExpression)
+  public XP2UnaryExpression (@Nonnull final EXP2Operator eOperator, @Nonnull final IXP2Expression aExpression)
   {
     m_eOperator = ValueEnforcer.notNull (eOperator, "Operator");
     m_aExpression = ValueEnforcer.notNull (aExpression, "Expression");
@@ -40,7 +39,7 @@ public class XP2UnaryExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getExpression ()
+  public IXP2Expression getExpression ()
   {
     return m_aExpression;
   }

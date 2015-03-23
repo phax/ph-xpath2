@@ -18,7 +18,7 @@ package com.helger.xp2.model.nodetest;
 
 import com.helger.commons.string.ToStringGenerator;
 
-public abstract class AbstractXP2NodeTest
+public abstract class AbstractXP2NodeTest implements IXP2NodeTest
 {
   @Override
   public String toString ()

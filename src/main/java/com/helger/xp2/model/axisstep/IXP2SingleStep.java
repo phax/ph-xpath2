@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.xp2.model.nodetest;
+package com.helger.xp2.model.axisstep;
 
-public abstract class AbstractXP2NameTest extends AbstractXP2NodeTest implements IXP2NameTest
+public interface IXP2SingleStep
 {
 
 }

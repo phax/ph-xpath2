@@ -18,7 +18,7 @@ package com.helger.xp2.model.axisstep;
 
 import com.helger.commons.string.ToStringGenerator;
 
-public abstract class AbstractXP2SingleStep
+public abstract class AbstractXP2SingleStep implements IXP2SingleStep
 {
   @Override
   public String toString ()

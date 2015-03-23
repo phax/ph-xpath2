@@ -22,15 +22,15 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2DocumentTest extends AbstractXP2KindTest
 {
-  private final AbstractXP2KindTest m_aKindTest;
+  private final IXP2KindTest m_aKindTest;
 
-  public XP2DocumentTest (@Nullable final AbstractXP2KindTest aKindTest)
+  public XP2DocumentTest (@Nullable final IXP2KindTest aKindTest)
   {
     m_aKindTest = aKindTest;
   }
 
   @Nullable
-  public AbstractXP2KindTest getKindTest ()
+  public IXP2KindTest getKindTest ()
   {
     return m_aKindTest;
   }

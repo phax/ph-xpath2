@@ -28,13 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.annotations.Nonempty;
-import com.helger.xp2.model.AbstractXP2Expression;
-import com.helger.xp2.model.AbstractXP2LiteralExpression;
-import com.helger.xp2.model.AbstractXP2PrimaryExpression;
-import com.helger.xp2.model.AbstractXP2StepExpression;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
 import com.helger.xp2.model.EXP2QuantifiedExpressionType;
+import com.helger.xp2.model.IXP2Expression;
+import com.helger.xp2.model.IXP2LiteralExpression;
+import com.helger.xp2.model.IXP2PrimaryExpression;
+import com.helger.xp2.model.IXP2StepExpression;
 import com.helger.xp2.model.XP2;
 import com.helger.xp2.model.XP2BinaryExpression;
 import com.helger.xp2.model.XP2ContextItemExpression;
@@ -57,16 +57,16 @@ import com.helger.xp2.model.XP2StringLiteral;
 import com.helger.xp2.model.XP2UnaryExpression;
 import com.helger.xp2.model.XP2VarNameAndExpression;
 import com.helger.xp2.model.XP2VariableReference;
-import com.helger.xp2.model.axisstep.AbstractXP2SingleStep;
 import com.helger.xp2.model.axisstep.EXP2Axis;
+import com.helger.xp2.model.axisstep.IXP2SingleStep;
 import com.helger.xp2.model.axisstep.XP2AbbreviatedAttributeStep;
 import com.helger.xp2.model.axisstep.XP2AbbreviatedElementStep;
 import com.helger.xp2.model.axisstep.XP2AbbreviatedReverseStep;
 import com.helger.xp2.model.axisstep.XP2AxisStep;
 import com.helger.xp2.model.axisstep.XP2SingleStep;
-import com.helger.xp2.model.nodetest.AbstractXP2KindTest;
-import com.helger.xp2.model.nodetest.AbstractXP2NameTest;
-import com.helger.xp2.model.nodetest.AbstractXP2NodeTest;
+import com.helger.xp2.model.nodetest.IXP2KindTest;
+import com.helger.xp2.model.nodetest.IXP2NameTest;
+import com.helger.xp2.model.nodetest.IXP2NodeTest;
 import com.helger.xp2.model.nodetest.XP2AttributeNameOrWildcard;
 import com.helger.xp2.model.nodetest.XP2AttributeTest;
 import com.helger.xp2.model.nodetest.XP2CommentTest;
@@ -82,8 +82,8 @@ import com.helger.xp2.model.nodetest.XP2SchemaAttributeTest;
 import com.helger.xp2.model.nodetest.XP2SchemaElementTest;
 import com.helger.xp2.model.nodetest.XP2TextTest;
 import com.helger.xp2.model.nodetest.XP2WildcardTest;
-import com.helger.xp2.model.sequencetype.AbstractXP2SequenceType;
 import com.helger.xp2.model.sequencetype.EXP2OccurrenceIndicator;
+import com.helger.xp2.model.sequencetype.IXP2SequenceType;
 import com.helger.xp2.model.sequencetype.XP2EmptySequence;
 import com.helger.xp2.model.sequencetype.XP2SequenceTypeAtomicType;
 import com.helger.xp2.model.sequencetype.XP2SequenceTypeItem;
@@ -336,7 +336,7 @@ public final class XP2NodeToDomainObject
     if (nChildCount > 1)
       _throwUnexpectedChildrenCount (aNode, "Expected 0 to 1 children!");
 
-    AbstractXP2KindTest aKindTest = null;
+    IXP2KindTest aKindTest = null;
     if (nChildCount == 1)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (0);
@@ -365,7 +365,7 @@ public final class XP2NodeToDomainObject
   // SchemaElementTest| SchemaAttributeTest| PITest| CommentTest| TextTest|
   // AnyKindTest
   @Nonnull
-  private static AbstractXP2KindTest _convertKindTest (@Nonnull final XP2Node aNode)
+  private static IXP2KindTest _convertKindTest (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTKINDTEST);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -413,7 +413,7 @@ public final class XP2NodeToDomainObject
   // [50] SequenceType ::= ("empty-sequence" "(" ")") | (ItemType
   // OccurrenceIndicator?)
   @Nonnull
-  private static AbstractXP2SequenceType _convertSequenceType (@Nonnull final XP2Node aNode)
+  private static IXP2SequenceType _convertSequenceType (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSEQUENCETYPE);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -450,7 +450,7 @@ public final class XP2NodeToDomainObject
     if (aItemTypeChildNode.getNodeType () == ParserXP2TreeConstants.JJTKINDTEST)
     {
       // any kind test
-      final AbstractXP2KindTest aKindTest = _convertKindTest (aItemTypeChildNode);
+      final IXP2KindTest aKindTest = _convertKindTest (aItemTypeChildNode);
       return new XP2SequenceTypeKindTest (aKindTest, eOccurrenceIndicator);
     }
 
@@ -483,7 +483,7 @@ public final class XP2NodeToDomainObject
 
     final ParserQName aFunctionName = (ParserQName) aNode.getValue ();
 
-    final List <AbstractXP2Expression> aExpressions = new ArrayList <AbstractXP2Expression> ();
+    final List <IXP2Expression> aExpressions = new ArrayList <IXP2Expression> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);
@@ -549,7 +549,7 @@ public final class XP2NodeToDomainObject
   // [43] NumericLiteral ::= IntegerLiteral | DecimalLiteral | DoubleLiteral
   // [42] Literal ::= NumericLiteral | StringLiteral
   @Nonnull
-  private static AbstractXP2LiteralExpression _convertLiteral (@Nonnull final XP2Node aNode)
+  private static IXP2LiteralExpression _convertLiteral (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTLITERAL);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -570,7 +570,7 @@ public final class XP2NodeToDomainObject
   // [41] PrimaryExpr ::= Literal | VarRef | ParenthesizedExpr | ContextItemExpr
   // | FunctionCall
   @Nonnull
-  private static AbstractXP2PrimaryExpression _convertPrimaryExpression (@Nonnull final XP2Node aNode)
+  private static IXP2PrimaryExpression _convertPrimaryExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTPRIMARYEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -634,14 +634,14 @@ public final class XP2NodeToDomainObject
     if (nChildCount != 2)
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
-    final AbstractXP2PrimaryExpression aExpr = _convertPrimaryExpression (aNode.jjtGetChild (0));
+    final IXP2PrimaryExpression aExpr = _convertPrimaryExpression (aNode.jjtGetChild (0));
     final XP2PredicateList aPredicateList = _convertPredicateList (aNode.jjtGetChild (1));
     return new XP2FilterExpression (aExpr, aPredicateList);
   }
 
   // [37] Wildcard ::= "*" | (NCName ":" "*") | ("*" ":" NCName)
   @Nonnull
-  private static AbstractXP2NameTest _convertWildcard (@Nonnull final XP2Node aNode)
+  private static IXP2NameTest _convertWildcard (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTWILDCARD);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -664,7 +664,7 @@ public final class XP2NodeToDomainObject
 
   // [36] NameTest ::= QName | Wildcard
   @Nonnull
-  private static AbstractXP2NameTest _convertNameTest (@Nonnull final XP2Node aNode)
+  private static IXP2NameTest _convertNameTest (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTNAMETEST);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -683,7 +683,7 @@ public final class XP2NodeToDomainObject
 
   // [35] NodeTest ::= KindTest | NameTest
   @Nonnull
-  private static AbstractXP2NodeTest _convertNodeTest (@Nonnull final XP2Node aNode)
+  private static IXP2NodeTest _convertNodeTest (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTNODETEST);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -732,7 +732,7 @@ public final class XP2NodeToDomainObject
 
   // [32] ReverseStep ::= (ReverseAxis NodeTest) | AbbrevReverseStep
   @Nonnull
-  private static AbstractXP2SingleStep _convertReverseStep (@Nonnull final XP2Node aNode)
+  private static IXP2SingleStep _convertReverseStep (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTREVERSESTEP);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -743,12 +743,12 @@ public final class XP2NodeToDomainObject
       return _convertAbbreviatedReverseStep (aNode.jjtGetChild (0));
 
     final EXP2Axis eAxis = _convertReverseAxis (aNode.jjtGetChild (0));
-    final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
+    final IXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
     return new XP2SingleStep (eAxis, aNodeTest);
   }
 
   // [31] AbbrevForwardStep ::= "@"? NodeTest
-  private static AbstractXP2SingleStep _convertAbbreviatedForwardStep (@Nonnull final XP2Node aNode)
+  private static IXP2SingleStep _convertAbbreviatedForwardStep (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTABBREVFORWARDSTEP);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -757,12 +757,12 @@ public final class XP2NodeToDomainObject
 
     if (nChildCount == 1)
     {
-      final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (0));
+      final IXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (0));
       return new XP2AbbreviatedElementStep (aNodeTest);
     }
 
     // child "0" is the "@" sign
-    final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
+    final IXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
     return new XP2AbbreviatedAttributeStep (aNodeTest);
   }
 
@@ -785,7 +785,7 @@ public final class XP2NodeToDomainObject
 
   // [29] ForwardStep ::= (ForwardAxis NodeTest) | AbbrevForwardStep
   @Nonnull
-  private static AbstractXP2SingleStep _convertForwardStep (@Nonnull final XP2Node aNode)
+  private static IXP2SingleStep _convertForwardStep (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTFORWARDSTEP);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -796,7 +796,7 @@ public final class XP2NodeToDomainObject
       return _convertAbbreviatedForwardStep (aNode.jjtGetChild (0));
 
     final EXP2Axis eAxis = _convertForwardAxis (aNode.jjtGetChild (0));
-    final AbstractXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
+    final IXP2NodeTest aNodeTest = _convertNodeTest (aNode.jjtGetChild (1));
     return new XP2SingleStep (eAxis, aNodeTest);
   }
 
@@ -810,7 +810,7 @@ public final class XP2NodeToDomainObject
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
     final XP2Node aChildNode = aNode.jjtGetChild (0);
-    AbstractXP2SingleStep aSingleStep;
+    IXP2SingleStep aSingleStep;
     if (aChildNode.getNodeType () == ParserXP2TreeConstants.JJTREVERSESTEP)
       aSingleStep = _convertReverseStep (aChildNode);
     else
@@ -822,7 +822,7 @@ public final class XP2NodeToDomainObject
 
   // [27] StepExpr ::= FilterExpr | AxisStep
   @Nonnull
-  private static AbstractXP2StepExpression _convertStepExpression (@Nonnull final XP2Node aNode)
+  private static IXP2StepExpression _convertStepExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSTEPEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -838,7 +838,7 @@ public final class XP2NodeToDomainObject
 
   // [26] RelativePathExpr ::= StepExpr (("/" | "//") StepExpr)*
   @Nonnull
-  private static AbstractXP2Expression _convertRelativePathExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertRelativePathExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTRELATIVEPATHEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -867,7 +867,7 @@ public final class XP2NodeToDomainObject
   // [25] PathExpr ::= ("/" RelativePathExpr?) | ("//" RelativePathExpr) |
   // RelativePathExpr
   @Nonnull
-  private static AbstractXP2Expression _convertPathExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertPathExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTPATHEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -880,14 +880,13 @@ public final class XP2NodeToDomainObject
     }
 
     final EXP2PathOperator eOperator = EXP2PathOperator.getFromIDOrThrow (sOperator);
-    final AbstractXP2Expression aExpr = nChildCount == 0 ? null
-                                                        : _convertRelativePathExpression (aNode.jjtGetChild (0));
+    final IXP2Expression aExpr = nChildCount == 0 ? null : _convertRelativePathExpression (aNode.jjtGetChild (0));
     return new XP2PathExpression (eOperator, aExpr);
   }
 
   // [21] ValueExpr ::= PathExpr
   @Nonnull
-  private static AbstractXP2Expression _convertValueExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertValueExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTVALUEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -899,7 +898,7 @@ public final class XP2NodeToDomainObject
 
   // [20] UnaryExpr ::= ("-" | "+")* ValueExpr
   @Nonnull
-  private static AbstractXP2Expression _convertUnaryExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertUnaryExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTUNARYEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -926,14 +925,14 @@ public final class XP2NodeToDomainObject
           eFinalOperator = EXP2Operator.MINUS;
         }
     }
-    final AbstractXP2Expression aExpr = _convertValueExpression (aNode.jjtGetChild (nChildCount - 1));
+    final IXP2Expression aExpr = _convertValueExpression (aNode.jjtGetChild (nChildCount - 1));
     final XP2UnaryExpression ret = new XP2UnaryExpression (eFinalOperator, aExpr);
     return ret;
   }
 
   // [19] CastExpr ::= UnaryExpr ( "cast" "as" SingleType )?
   @Nonnull
-  private static AbstractXP2Expression _convertCastExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertCastExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTCASTEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -946,7 +945,7 @@ public final class XP2NodeToDomainObject
       return _convertUnaryExpression (aNode.jjtGetChild (0));
     }
 
-    final AbstractXP2Expression aLeft = _convertUnaryExpression (aNode.jjtGetChild (0));
+    final IXP2Expression aLeft = _convertUnaryExpression (aNode.jjtGetChild (0));
     final XP2SingleType aSingleType = _convertSingleType (aNode.jjtGetChild (1));
     final XP2SingleTypeExpression ret = new XP2SingleTypeExpression (aLeft, EXP2Operator.CAST_AS, aSingleType);
     return ret;
@@ -954,7 +953,7 @@ public final class XP2NodeToDomainObject
 
   // [18] CastableExpr ::= CastExpr ( "castable" "as" SingleType )?
   @Nonnull
-  private static AbstractXP2Expression _convertCastableAsExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertCastableAsExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTCASTABLEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -967,7 +966,7 @@ public final class XP2NodeToDomainObject
       return _convertCastExpression (aNode.jjtGetChild (0));
     }
 
-    final AbstractXP2Expression aLeft = _convertCastExpression (aNode.jjtGetChild (0));
+    final IXP2Expression aLeft = _convertCastExpression (aNode.jjtGetChild (0));
     final XP2SingleType aSingleType = _convertSingleType (aNode.jjtGetChild (1));
     final XP2SingleTypeExpression ret = new XP2SingleTypeExpression (aLeft, EXP2Operator.CASTABLE_AS, aSingleType);
     return ret;
@@ -975,7 +974,7 @@ public final class XP2NodeToDomainObject
 
   // [17] TreatExpr ::= CastableExpr ( "treat" "as" SequenceType )?
   @Nonnull
-  private static AbstractXP2Expression _convertTreatAsExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertTreatAsExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTTREATEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -988,15 +987,15 @@ public final class XP2NodeToDomainObject
       return _convertCastableAsExpression (aNode.jjtGetChild (0));
     }
 
-    final AbstractXP2Expression aLeft = _convertCastableAsExpression (aNode.jjtGetChild (0));
-    final AbstractXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
+    final IXP2Expression aLeft = _convertCastableAsExpression (aNode.jjtGetChild (0));
+    final IXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
     final XP2SequenceTypeExpression ret = new XP2SequenceTypeExpression (aLeft, EXP2Operator.TREAT_AS, aSequenceType);
     return ret;
   }
 
   // [16] InstanceofExpr ::= TreatExpr ( "instance" "of" SequenceType )?
   @Nonnull
-  private static AbstractXP2Expression _convertInstanceofExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertInstanceofExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTINSTANCEOFEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1009,8 +1008,8 @@ public final class XP2NodeToDomainObject
       return _convertTreatAsExpression (aNode.jjtGetChild (0));
     }
 
-    final AbstractXP2Expression aExpr = _convertTreatAsExpression (aNode.jjtGetChild (0));
-    final AbstractXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
+    final IXP2Expression aExpr = _convertTreatAsExpression (aNode.jjtGetChild (0));
+    final IXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
     final XP2SequenceTypeExpression ret = new XP2SequenceTypeExpression (aExpr, EXP2Operator.INSTANCE_OF, aSequenceType);
     return ret;
   }
@@ -1018,7 +1017,7 @@ public final class XP2NodeToDomainObject
   // [15] IntersectExceptExpr ::= InstanceofExpr ( ("intersect" | "except")
   // InstanceofExpr )*
   @Nonnull
-  private static AbstractXP2Expression _convertIntersectExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertIntersectExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTINTERSECTEXCEPTEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1033,11 +1032,11 @@ public final class XP2NodeToDomainObject
     }
 
     int nCurIndex = nChildCount - 2;
-    AbstractXP2Expression aTemp = null;
+    IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
       final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final AbstractXP2Expression aExpr = _convertInstanceofExpression (aNode.jjtGetChild (nCurIndex + 1));
+      final IXP2Expression aExpr = _convertInstanceofExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
         aTemp = aExpr;
       else
@@ -1050,7 +1049,7 @@ public final class XP2NodeToDomainObject
   // [14] UnionExpr ::= IntersectExceptExpr ( ("union" | "|")
   // IntersectExceptExpr )*
   @Nonnull
-  private static AbstractXP2Expression _convertUnionExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertUnionExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTUNIONEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1065,11 +1064,11 @@ public final class XP2NodeToDomainObject
     }
 
     int nCurIndex = nChildCount - 2;
-    AbstractXP2Expression aTemp = null;
+    IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
       final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final AbstractXP2Expression aExpr = _convertIntersectExpression (aNode.jjtGetChild (nCurIndex + 1));
+      final IXP2Expression aExpr = _convertIntersectExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
         aTemp = aExpr;
       else
@@ -1082,7 +1081,7 @@ public final class XP2NodeToDomainObject
   // [13] MultiplicativeExpr ::= UnionExpr ( ("*" | "div" | "idiv" | "mod")
   // UnionExpr )*
   @Nonnull
-  private static AbstractXP2Expression _convertMultiplicativeExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertMultiplicativeExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTMULTIPLICATIVEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1096,11 +1095,11 @@ public final class XP2NodeToDomainObject
     }
 
     int nCurIndex = nChildCount - 2;
-    AbstractXP2Expression aTemp = null;
+    IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
       final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final AbstractXP2Expression aExpr = _convertUnionExpression (aNode.jjtGetChild (nCurIndex + 1));
+      final IXP2Expression aExpr = _convertUnionExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
         aTemp = aExpr;
       else
@@ -1113,7 +1112,7 @@ public final class XP2NodeToDomainObject
   // [12] AdditiveExpr ::= MultiplicativeExpr ( ("+" | "-") MultiplicativeExpr
   // )*
   @Nonnull
-  private static AbstractXP2Expression _convertAdditiveExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertAdditiveExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTADDITIVEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1128,11 +1127,11 @@ public final class XP2NodeToDomainObject
     }
 
     int nCurIndex = nChildCount - 2;
-    AbstractXP2Expression aTemp = null;
+    IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
       final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (nCurIndex).getText ());
-      final AbstractXP2Expression aExpr = _convertMultiplicativeExpression (aNode.jjtGetChild (nCurIndex + 1));
+      final IXP2Expression aExpr = _convertMultiplicativeExpression (aNode.jjtGetChild (nCurIndex + 1));
       if (aTemp == null)
         aTemp = aExpr;
       else
@@ -1144,7 +1143,7 @@ public final class XP2NodeToDomainObject
 
   // [11] RangeExpr ::= AdditiveExpr ( "to" AdditiveExpr )?
   @Nonnull
-  private static AbstractXP2Expression _convertRangeExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertRangeExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTRANGEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1157,8 +1156,8 @@ public final class XP2NodeToDomainObject
       return _convertAdditiveExpression (aNode.jjtGetChild (0));
     }
 
-    final AbstractXP2Expression aLeft = _convertAdditiveExpression (aNode.jjtGetChild (0));
-    final AbstractXP2Expression aRight = _convertAdditiveExpression (aNode.jjtGetChild (1));
+    final IXP2Expression aLeft = _convertAdditiveExpression (aNode.jjtGetChild (0));
+    final IXP2Expression aRight = _convertAdditiveExpression (aNode.jjtGetChild (1));
     final XP2BinaryExpression ret = new XP2BinaryExpression (aLeft, EXP2Operator.TO, aRight);
     return ret;
   }
@@ -1169,7 +1168,7 @@ public final class XP2NodeToDomainObject
   // [10] ComparisonExpr ::= RangeExpr ( (ValueComp | GeneralComp | NodeComp)
   // RangeExpr )?
   @Nonnull
-  private static AbstractXP2Expression _convertComparisonExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertComparisonExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTCOMPARISONEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1182,16 +1181,16 @@ public final class XP2NodeToDomainObject
       return _convertRangeExpression (aNode.jjtGetChild (0));
     }
 
-    final AbstractXP2Expression aLeft = _convertRangeExpression (aNode.jjtGetChild (0));
+    final IXP2Expression aLeft = _convertRangeExpression (aNode.jjtGetChild (0));
     final EXP2Operator eOperator = EXP2Operator.getFromIDOrThrow (aNode.jjtGetChild (1).getText ());
-    final AbstractXP2Expression aRight = _convertRangeExpression (aNode.jjtGetChild (2));
+    final IXP2Expression aRight = _convertRangeExpression (aNode.jjtGetChild (2));
     final XP2BinaryExpression ret = new XP2BinaryExpression (aLeft, eOperator, aRight);
     return ret;
   }
 
   // [9] AndExpr ::= ComparisonExpr ( "and" ComparisonExpr )*
   @Nonnull
-  private static AbstractXP2Expression _convertAndExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertAndExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTANDEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1205,10 +1204,10 @@ public final class XP2NodeToDomainObject
     }
 
     int nCurIndex = nChildCount - 1;
-    AbstractXP2Expression aTemp = null;
+    IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
-      final AbstractXP2Expression aExpr = _convertComparisonExpression (aNode.jjtGetChild (nCurIndex));
+      final IXP2Expression aExpr = _convertComparisonExpression (aNode.jjtGetChild (nCurIndex));
       if (aTemp == null)
         aTemp = aExpr;
       else
@@ -1220,7 +1219,7 @@ public final class XP2NodeToDomainObject
 
   // [8] OrExpr ::= AndExpr ( "or" AndExpr )*
   @Nonnull
-  private static AbstractXP2Expression _convertOrExpression (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertOrExpression (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTOREXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1234,10 +1233,10 @@ public final class XP2NodeToDomainObject
     }
 
     int nCurIndex = nChildCount - 1;
-    AbstractXP2Expression aTemp = null;
+    IXP2Expression aTemp = null;
     while (nCurIndex >= 0)
     {
-      final AbstractXP2Expression aExpr = _convertAndExpression (aNode.jjtGetChild (nCurIndex));
+      final IXP2Expression aExpr = _convertAndExpression (aNode.jjtGetChild (nCurIndex));
       if (aTemp == null)
         aTemp = aExpr;
       else
@@ -1257,8 +1256,8 @@ public final class XP2NodeToDomainObject
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 3 children!");
 
     final XP2ExpressionList aTestExprs = _convertExpressionList (aNode.jjtGetChild (0));
-    final AbstractXP2Expression aThenExpr = _convertExpressionSingle (aNode.jjtGetChild (1));
-    final AbstractXP2Expression aElseExpr = _convertExpressionSingle (aNode.jjtGetChild (2));
+    final IXP2Expression aThenExpr = _convertExpressionSingle (aNode.jjtGetChild (1));
+    final IXP2Expression aElseExpr = _convertExpressionSingle (aNode.jjtGetChild (2));
 
     final XP2IfExpression ret = new XP2IfExpression (aTestExprs, aThenExpr, aElseExpr);
     return ret;
@@ -1283,11 +1282,11 @@ public final class XP2NodeToDomainObject
     for (int i = 0; i < nPairs; ++i)
     {
       final ParserQName aVarName = _convertVarName (aNode.jjtGetChild (1 + i * 2));
-      final AbstractXP2Expression aExpression = _convertExpressionSingle (aNode.jjtGetChild (2 + i * 2));
+      final IXP2Expression aExpression = _convertExpressionSingle (aNode.jjtGetChild (2 + i * 2));
       aClauses.add (new XP2VarNameAndExpression (aVarName, aExpression));
     }
 
-    final AbstractXP2Expression aSatisfyExpr = _convertExpressionSingle (aNode.jjtGetChild (nChildCount - 1));
+    final IXP2Expression aSatisfyExpr = _convertExpressionSingle (aNode.jjtGetChild (nChildCount - 1));
 
     final XP2QuantifiedExpression ret = new XP2QuantifiedExpression (eType, aClauses, aSatisfyExpr);
     return ret;
@@ -1309,7 +1308,7 @@ public final class XP2NodeToDomainObject
     for (int i = 0; i < nChildCount; i += 2)
     {
       final ParserQName aVarName = _convertVarName (aNode.jjtGetChild (i));
-      final AbstractXP2Expression aExpression = _convertExpressionSingle (aNode.jjtGetChild (i + 1));
+      final IXP2Expression aExpression = _convertExpressionSingle (aNode.jjtGetChild (i + 1));
       ret.add (new XP2VarNameAndExpression (aVarName, aExpression));
     }
     return ret;
@@ -1325,7 +1324,7 @@ public final class XP2NodeToDomainObject
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
     final List <XP2VarNameAndExpression> aForClause = _convertSimpleForClause (aNode.jjtGetChild (0));
-    final AbstractXP2Expression aReturnExpression = _convertExpressionSingle (aNode.jjtGetChild (1));
+    final IXP2Expression aReturnExpression = _convertExpressionSingle (aNode.jjtGetChild (1));
 
     final XP2ForExpression ret = new XP2ForExpression (aForClause, aReturnExpression);
     return ret;
@@ -1333,7 +1332,7 @@ public final class XP2NodeToDomainObject
 
   // [3] ExprSingle ::= ForExpr | QuantifiedExpr | IfExpr | OrExpr
   @Nonnull
-  private static AbstractXP2Expression _convertExpressionSingle (@Nonnull final XP2Node aNode)
+  private static IXP2Expression _convertExpressionSingle (@Nonnull final XP2Node aNode)
   {
     switch (aNode.getNodeType ())
     {
@@ -1359,7 +1358,7 @@ public final class XP2NodeToDomainObject
     if (nChildCount == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected at least 1 child!");
 
-    final List <AbstractXP2Expression> aExpressions = new ArrayList <AbstractXP2Expression> ();
+    final List <IXP2Expression> aExpressions = new ArrayList <IXP2Expression> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);

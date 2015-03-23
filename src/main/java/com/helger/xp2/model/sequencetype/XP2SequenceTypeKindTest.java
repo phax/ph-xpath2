@@ -20,13 +20,13 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.nodetest.AbstractXP2KindTest;
+import com.helger.xp2.model.nodetest.IXP2KindTest;
 
 public class XP2SequenceTypeKindTest extends AbstractXP2SequenceType
 {
-  private final AbstractXP2KindTest m_aKindTest;
+  private final IXP2KindTest m_aKindTest;
 
-  public XP2SequenceTypeKindTest (@Nonnull final AbstractXP2KindTest aKindTest,
+  public XP2SequenceTypeKindTest (@Nonnull final IXP2KindTest aKindTest,
                                   @Nonnull final EXP2OccurrenceIndicator eOccurrenceIndicator)
   {
     super (eOccurrenceIndicator);
@@ -34,7 +34,7 @@ public class XP2SequenceTypeKindTest extends AbstractXP2SequenceType
   }
 
   @Nonnull
-  public AbstractXP2KindTest getKindTest ()
+  public IXP2KindTest getKindTest ()
   {
     return m_aKindTest;
   }

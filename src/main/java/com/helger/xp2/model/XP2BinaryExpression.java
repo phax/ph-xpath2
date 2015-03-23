@@ -23,13 +23,13 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2BinaryExpression extends AbstractXP2Expression
 {
-  private final AbstractXP2Expression m_aLeft;
+  private final IXP2Expression m_aLeft;
   private final EXP2Operator m_eOperator;
-  private final AbstractXP2Expression m_aRight;
+  private final IXP2Expression m_aRight;
 
-  public XP2BinaryExpression (@Nonnull final AbstractXP2Expression aLeft,
+  public XP2BinaryExpression (@Nonnull final IXP2Expression aLeft,
                               @Nonnull final EXP2Operator eOperator,
-                              @Nonnull final AbstractXP2Expression aRight)
+                              @Nonnull final IXP2Expression aRight)
   {
     m_aLeft = ValueEnforcer.notNull (aLeft, "Left");
     m_eOperator = ValueEnforcer.notNull (eOperator, "Operator");
@@ -37,7 +37,7 @@ public class XP2BinaryExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getLeft ()
+  public IXP2Expression getLeft ()
   {
     return m_aLeft;
   }
@@ -49,7 +49,7 @@ public class XP2BinaryExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getRight ()
+  public IXP2Expression getRight ()
   {
     return m_aRight;
   }

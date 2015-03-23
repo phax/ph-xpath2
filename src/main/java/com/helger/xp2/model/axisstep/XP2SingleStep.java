@@ -20,14 +20,14 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xp2.model.nodetest.AbstractXP2NodeTest;
+import com.helger.xp2.model.nodetest.IXP2NodeTest;
 
 public class XP2SingleStep extends AbstractXP2SingleStep
 {
   private final EXP2Axis m_eAxis;
-  private final AbstractXP2NodeTest m_aNodeTest;
+  private final IXP2NodeTest m_aNodeTest;
 
-  public XP2SingleStep (@Nonnull final EXP2Axis eAxis, @Nonnull final AbstractXP2NodeTest aNodeTest)
+  public XP2SingleStep (@Nonnull final EXP2Axis eAxis, @Nonnull final IXP2NodeTest aNodeTest)
   {
     m_eAxis = ValueEnforcer.notNull (eAxis, "Axis");
     m_aNodeTest = ValueEnforcer.notNull (aNodeTest, "NodeTest");
@@ -40,7 +40,7 @@ public class XP2SingleStep extends AbstractXP2SingleStep
   }
 
   @Nonnull
-  public AbstractXP2NodeTest getNodeTest ()
+  public IXP2NodeTest getNodeTest ()
   {
     return m_aNodeTest;
   }

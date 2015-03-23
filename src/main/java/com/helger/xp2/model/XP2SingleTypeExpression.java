@@ -23,11 +23,11 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2SingleTypeExpression extends AbstractXP2Expression
 {
-  private final AbstractXP2Expression m_aLeft;
+  private final IXP2Expression m_aLeft;
   private final EXP2Operator m_eOperator;
   private final XP2SingleType m_aSingleType;
 
-  public XP2SingleTypeExpression (@Nonnull final AbstractXP2Expression aLeft,
+  public XP2SingleTypeExpression (@Nonnull final IXP2Expression aLeft,
                                   @Nonnull final EXP2Operator eOperator,
                                   @Nonnull final XP2SingleType aSingleType)
   {
@@ -37,7 +37,7 @@ public class XP2SingleTypeExpression extends AbstractXP2Expression
   }
 
   @Nonnull
-  public AbstractXP2Expression getLeft ()
+  public IXP2Expression getLeft ()
   {
     return m_aLeft;
   }
