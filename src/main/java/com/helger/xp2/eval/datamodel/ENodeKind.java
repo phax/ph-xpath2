@@ -39,7 +39,7 @@ public enum ENodeKind
 
   @Nonnull
   @Nonempty
-  public final String getText ()
+  public String getText ()
   {
     return m_sText;
   }

@@ -27,8 +27,8 @@ import com.helger.commons.string.ToStringGenerator;
 
 public class XP2StringLiteral extends AbstractXP2LiteralExpression
 {
-  private static char [] OLD_SQ = new char [] { '\'' };
-  private static char [][] NEW_SQ = new char [] [] { new char [] { '\'', '\'' } };
+  private static final char [] OLD_SQ = new char [] { '\'' };
+  private static final char [][] NEW_SQ = new char [] [] { new char [] { '\'', '\'' } };
 
   private final String m_sValue;
 
