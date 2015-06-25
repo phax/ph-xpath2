@@ -18,7 +18,7 @@ package com.helger.xp2;
 
 import javax.annotation.concurrent.Immutable;
 
-import com.helger.commons.annotations.PresentForCodeCoverage;
+import com.helger.commons.annotation.PresentForCodeCoverage;
 
 /**
  * Specific XPath constants. Based on:

@@ -24,9 +24,9 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.CGlobal;
-import com.helger.commons.annotations.Nonempty;
-import com.helger.commons.equals.EqualsUtils;
-import com.helger.commons.hash.HashCodeGenerator;
+import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.equals.EqualsHelper;
+import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -216,8 +216,8 @@ public class XP2SourceLocation implements Serializable
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
     final XP2SourceLocation rhs = (XP2SourceLocation) o;
-    return EqualsUtils.equals (m_aFirstTokenArea, rhs.m_aFirstTokenArea) &&
-           EqualsUtils.equals (m_aLastTokenArea, rhs.m_aLastTokenArea);
+    return EqualsHelper.equals (m_aFirstTokenArea, rhs.m_aFirstTokenArea) &&
+           EqualsHelper.equals (m_aLastTokenArea, rhs.m_aLastTokenArea);
   }
 
   @Override

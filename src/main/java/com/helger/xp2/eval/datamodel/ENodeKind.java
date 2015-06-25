@@ -18,7 +18,7 @@ package com.helger.xp2.eval.datamodel;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.annotations.Nonempty;
+import com.helger.commons.annotation.Nonempty;
 
 public enum ENodeKind
 {

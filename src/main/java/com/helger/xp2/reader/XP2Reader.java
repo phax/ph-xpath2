@@ -30,12 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotations.Nonempty;
-import com.helger.commons.annotations.PresentForCodeCoverage;
+import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.annotation.PresentForCodeCoverage;
 import com.helger.commons.charset.CCharset;
-import com.helger.commons.io.IInputStreamProvider;
+import com.helger.commons.io.IHasInputStream;
+import com.helger.commons.io.stream.StreamHelper;
 import com.helger.commons.io.streamprovider.StringInputStreamProvider;
-import com.helger.commons.io.streams.StreamUtils;
 import com.helger.xp2.model.XP2;
 import com.helger.xp2.parser.CharStream;
 import com.helger.xp2.parser.ParseException;
@@ -183,13 +183,13 @@ public final class XP2Reader
   }
 
   @Nullable
-  public static XP2 readFromStream (@Nonnull final IInputStreamProvider aISP, @Nonnull final Charset aCharset)
+  public static XP2 readFromStream (@Nonnull final IHasInputStream aISP, @Nonnull final Charset aCharset)
   {
     ValueEnforcer.notNull (aISP, "InputStreamProvider");
     ValueEnforcer.notNull (aCharset, "Charset");
 
     final InputStream aIS = aISP.getInputStream ();
-    final Reader aReader = StreamUtils.createReader (aIS, aCharset);
+    final Reader aReader = StreamHelper.createReader (aIS, aCharset);
     try
     {
       final XP2CharStream aCharStream = new XP2CharStream (aReader);
@@ -206,7 +206,7 @@ public final class XP2Reader
     }
     finally
     {
-      StreamUtils.close (aReader);
+      StreamHelper.close (aReader);
     }
   }
 }

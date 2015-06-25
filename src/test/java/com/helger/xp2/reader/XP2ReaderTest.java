@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 
 import org.junit.Test;
 
-import com.helger.commons.io.streams.NonBlockingStringWriter;
+import com.helger.commons.io.stream.NonBlockingStringWriter;
 import com.helger.xp2.model.XP2;
 
 /**

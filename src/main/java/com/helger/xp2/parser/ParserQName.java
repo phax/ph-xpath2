@@ -19,11 +19,11 @@ package com.helger.xp2.parser;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.helger.commons.IHasStringRepresentation;
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotations.Nonempty;
-import com.helger.commons.equals.EqualsUtils;
-import com.helger.commons.hash.HashCodeGenerator;
+import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.equals.EqualsHelper;
+import com.helger.commons.hashcode.HashCodeGenerator;
+import com.helger.commons.lang.IHasStringRepresentation;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -74,7 +74,7 @@ public class ParserQName implements IHasStringRepresentation
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
     final ParserQName rhs = (ParserQName) o;
-    return EqualsUtils.equals (m_sPrefix, rhs.m_sPrefix) && m_sLocalName.equals (rhs.m_sLocalName);
+    return EqualsHelper.equals (m_sPrefix, rhs.m_sPrefix) && m_sLocalName.equals (rhs.m_sLocalName);
   }
 
   @Override

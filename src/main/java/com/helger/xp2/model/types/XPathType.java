@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.hash.HashCodeGenerator;
+import com.helger.commons.hashcode.HashCodeGenerator;
 
 public class XPathType
 {

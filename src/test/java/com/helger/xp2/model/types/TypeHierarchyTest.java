@@ -24,9 +24,6 @@ import javax.xml.namespace.QName;
 
 import org.junit.Test;
 
-import com.helger.xp2.model.types.TypeHierarchy;
-import com.helger.xp2.model.types.XSType;
-
 /**
  * Test class for class {@link TypeHierarchy}.
  *
