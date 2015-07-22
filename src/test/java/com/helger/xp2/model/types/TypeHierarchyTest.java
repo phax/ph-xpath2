@@ -29,7 +29,7 @@ import org.junit.Test;
  *
  * @author Philip Helger
  */
-public class TypeHierarchyTest
+public final class TypeHierarchyTest
 {
   @Test
   public void testDefault ()
