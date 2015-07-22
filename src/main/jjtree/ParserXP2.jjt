@@ -52,7 +52,7 @@ import java.math.BigInteger;
 
 import com.helger.commons.string.StringParser;
 import com.helger.xp2.parser.ParserQName;
-import com.helger.xp2.parser.XP2ParserUtils;
+import com.helger.xp2.parser.XP2ParserHelper;
 
 public class ParserXP2
 {
@@ -256,8 +256,8 @@ BigDecimal DecimalLiteral() #void : {}
 
 String StringLiteral() #void : {}
 {
-  <STRING1> { return XP2ParserUtils.getUnescapedStringDQ (token.image); }
-| <STRING2> { return XP2ParserUtils.getUnescapedStringSQ (token.image); }
+  <STRING1> { return XP2ParserHelper.getUnescapedStringDQ (token.image); }
+| <STRING2> { return XP2ParserHelper.getUnescapedStringSQ (token.image); }
 }
 
 String NCName() #void : {}
