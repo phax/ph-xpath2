@@ -22,9 +22,9 @@ import javax.annotation.concurrent.Immutable;
 import com.helger.commons.string.StringHelper;
 
 @Immutable
-public final class XP2ParserUtils
+public final class XP2ParserHelper
 {
-  private XP2ParserUtils ()
+  private XP2ParserHelper ()
   {}
 
   @Nonnull
