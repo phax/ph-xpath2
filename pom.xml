@@ -22,7 +22,7 @@
   <parent>
     <groupId>com.helger</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
   </parent>
   <artifactId>ph-xpath2</artifactId>
   <version>1.0.0-SNAPSHOT</version>
@@ -30,7 +30,7 @@
   <name>ph-xpath2</name>
   <description>Java XPath 2.0 parser</description>
   <url>https://github.com/phax/ph-xpath2</url>
-  <inceptionYear>2014</inceptionYear>
+  <inceptionYear>2015</inceptionYear>
   
   <licenses>
     <license>
