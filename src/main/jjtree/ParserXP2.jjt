@@ -365,9 +365,7 @@ void ExprSingle() #void : {}
   QuantifiedExpr() 
 | LOOKAHEAD(2)
   IfExpr() 
-| /* required for single string */
-  LOOKAHEAD(2)
-  OrExpr()
+| OrExpr()
 }
 
 // [4]    	ForExpr 	   ::=    	SimpleForClause "return" ExprSingle
