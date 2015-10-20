@@ -146,8 +146,8 @@ TOKEN :
 | < EXPR_LE: "<=" >
 | < EXPR_GE: ">=" >
 | < EXPR_SHR: ">>" >
-| < ESCAPE_QUOT: "\"\"" >                    
-| < ESCAPE_APOS: "''" >
+| < #ESCAPE_QUOT: "\"\"" >                    
+| < #ESCAPE_APOS: "''" >
 | < AS: "as" >
 | < EQ: "eq" >
 | < GE: "ge" >
@@ -365,7 +365,9 @@ void ExprSingle() #void : {}
   QuantifiedExpr() 
 | LOOKAHEAD(2)
   IfExpr() 
-| OrExpr()
+| /* required for single string */
+  LOOKAHEAD(2)
+  OrExpr()
 }
 
 // [4]    	ForExpr 	   ::=    	SimpleForClause "return" ExprSingle
