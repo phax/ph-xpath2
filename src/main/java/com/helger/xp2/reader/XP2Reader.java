@@ -19,8 +19,6 @@ package com.helger.xp2.reader;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,6 +31,7 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.PresentForCodeCoverage;
 import com.helger.commons.charset.CCharset;
+import com.helger.commons.concurrent.SimpleReadWriteLock;
 import com.helger.commons.io.IHasInputStream;
 import com.helger.commons.io.stream.StreamHelper;
 import com.helger.commons.io.streamprovider.StringInputStreamProvider;
@@ -56,7 +55,7 @@ import com.helger.xp2.parser.XP2Node;
 public final class XP2Reader
 {
   private static final Logger s_aLogger = LoggerFactory.getLogger (XP2Reader.class);
-  private static final ReadWriteLock s_aRWLock = new ReentrantReadWriteLock ();
+  private static final SimpleReadWriteLock s_aRWLock = new SimpleReadWriteLock ();
 
   @PresentForCodeCoverage
   @SuppressWarnings ("unused")
@@ -80,7 +79,7 @@ public final class XP2Reader
   @Nonnull
   @Nonempty
   public static String createLoggingStringParseError (@Nonnull final Token aLastValidToken,
-                                                      @Nonnull final int [][] aExpectedTokenSequencesVal,
+                                                      @Nonnull final int [] [] aExpectedTokenSequencesVal,
                                                       @Nonnull final String [] aTokenImageVal,
                                                       @Nullable final Token aLastSkippedToken)
   {
