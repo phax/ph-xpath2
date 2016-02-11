@@ -16,6 +16,8 @@
  */
 package com.helger.xp2.parser;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -23,11 +25,10 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
-import com.helger.commons.lang.IHasStringRepresentation;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
-public class ParserQName implements IHasStringRepresentation
+public class ParserQName implements Serializable
 {
   private final String m_sPrefix;
   private final String m_sLocalName;
