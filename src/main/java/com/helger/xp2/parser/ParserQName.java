@@ -25,6 +25,7 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
+import com.helger.commons.hashcode.IHashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -32,8 +33,8 @@ public class ParserQName implements Serializable
 {
   private final String m_sPrefix;
   private final String m_sLocalName;
-  // status var
-  private Integer m_aHashCode;
+  // Status vars
+  private transient int m_nHashCode = IHashCodeGenerator.ILLEGAL_HASHCODE;
 
   public ParserQName (@Nullable final String sPrefix, @Nonnull @Nonempty final String sLocalName)
   {
@@ -81,9 +82,10 @@ public class ParserQName implements Serializable
   @Override
   public int hashCode ()
   {
-    if (m_aHashCode == null)
-      m_aHashCode = new HashCodeGenerator (this).append (m_sPrefix).append (m_sLocalName).getHashCodeObj ();
-    return m_aHashCode.intValue ();
+    int ret = m_nHashCode;
+    if (ret == IHashCodeGenerator.ILLEGAL_HASHCODE)
+      ret = m_nHashCode = new HashCodeGenerator (this).append (m_sPrefix).append (m_sLocalName).getHashCode ();
+    return ret;
   }
 
   @Override
