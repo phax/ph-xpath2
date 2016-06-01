@@ -18,8 +18,6 @@ package com.helger.xp2.reader;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.xp2.model.EXP2Operator;
 import com.helger.xp2.model.EXP2PathOperator;
 import com.helger.xp2.model.EXP2QuantifiedExpressionType;
@@ -110,7 +110,8 @@ public final class XP2NodeToDomainObject
   private static void _expectNodeType (@Nonnull final XP2Node aNode, final int nExpected)
   {
     if (aNode.getNodeType () != nExpected)
-      throw new XP2HandlingException (aNode, "Expected a '" +
+      throw new XP2HandlingException (aNode,
+                                      "Expected a '" +
                                              ParserXP2TreeConstants.jjtNodeName[nExpected] +
                                              "' node but received a '" +
                                              ParserXP2TreeConstants.jjtNodeName[aNode.getNodeType ()] +
@@ -406,7 +407,8 @@ public final class XP2NodeToDomainObject
       case ParserXP2TreeConstants.JJTANYKINDTEST:
         return _convertAnyKindTest (aChildNode);
       default:
-        throw new XP2HandlingException (aChildNode, "Invalid node type for kind test: " +
+        throw new XP2HandlingException (aChildNode,
+                                        "Invalid node type for kind test: " +
                                                     ParserXP2TreeConstants.jjtNodeName[aChildNode.getNodeType ()]);
     }
   }
@@ -498,7 +500,7 @@ public final class XP2NodeToDomainObject
 
     final ParserQName aFunctionName = (ParserQName) aNode.getValue ();
 
-    final List <IXP2Expression> aExpressions = new ArrayList <IXP2Expression> ();
+    final ICommonsList <IXP2Expression> aExpressions = new CommonsArrayList<> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);
@@ -629,7 +631,7 @@ public final class XP2NodeToDomainObject
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTPREDICATELIST);
     final int nChildCount = aNode.jjtGetNumChildren ();
 
-    final List <XP2Predicate> aPredicates = new ArrayList <XP2Predicate> ();
+    final ICommonsList <XP2Predicate> aPredicates = new CommonsArrayList<> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Predicate aPredicate = _convertPredicate (aNode.jjtGetChild (i));
@@ -866,7 +868,7 @@ public final class XP2NodeToDomainObject
     }
 
     // Maintain the order and make no prefix/postfix differentiation
-    final List <IXP2Object> aElements = new ArrayList <IXP2Object> ();
+    final ICommonsList <IXP2Object> aElements = new CommonsArrayList<> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);
@@ -1024,7 +1026,9 @@ public final class XP2NodeToDomainObject
 
     final IXP2Expression aExpr = _convertTreatAsExpression (aNode.jjtGetChild (0));
     final IXP2SequenceType aSequenceType = _convertSequenceType (aNode.jjtGetChild (1));
-    final XP2SequenceTypeExpression ret = new XP2SequenceTypeExpression (aExpr, EXP2Operator.INSTANCE_OF, aSequenceType);
+    final XP2SequenceTypeExpression ret = new XP2SequenceTypeExpression (aExpr,
+                                                                         EXP2Operator.INSTANCE_OF,
+                                                                         aSequenceType);
     return ret;
   }
 
@@ -1288,7 +1292,7 @@ public final class XP2NodeToDomainObject
     final EXP2QuantifiedExpressionType eType = EXP2QuantifiedExpressionType.getFromIDOrThrow (aNode.jjtGetChild (0)
                                                                                                    .getText ());
     final int nPairs = (nChildCount / 2) - 1;
-    final List <XP2VarNameAndExpression> aClauses = new ArrayList <XP2VarNameAndExpression> ();
+    final ICommonsList <XP2VarNameAndExpression> aClauses = new CommonsArrayList<> ();
     for (int i = 0; i < nPairs; ++i)
     {
       final ParserQName aVarName = _convertVarName (aNode.jjtGetChild (1 + i * 2));
@@ -1305,7 +1309,7 @@ public final class XP2NodeToDomainObject
   // [5] SimpleForClause ::= "for" "$" VarName "in" ExprSingle ("," "$" VarName
   // "in" ExprSingle)*
   @Nonnull
-  private static List <XP2VarNameAndExpression> _convertSimpleForClause (@Nonnull final XP2Node aNode)
+  private static ICommonsList <XP2VarNameAndExpression> _convertSimpleForClause (@Nonnull final XP2Node aNode)
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTSIMPLEFORCLAUSE);
     final int nChildCount = aNode.jjtGetNumChildren ();
@@ -1314,7 +1318,7 @@ public final class XP2NodeToDomainObject
     if ((nChildCount % 2) != 0)
       _throwUnexpectedChildrenCount (aNode, "Expected an even number of children!");
 
-    final List <XP2VarNameAndExpression> ret = new ArrayList <XP2VarNameAndExpression> ();
+    final ICommonsList <XP2VarNameAndExpression> ret = new CommonsArrayList<> ();
     for (int i = 0; i < nChildCount; i += 2)
     {
       final ParserQName aVarName = _convertVarName (aNode.jjtGetChild (i));
@@ -1333,7 +1337,7 @@ public final class XP2NodeToDomainObject
     if (nChildCount != 2)
       _throwUnexpectedChildrenCount (aNode, "Expected exactly 2 children!");
 
-    final List <XP2VarNameAndExpression> aForClause = _convertSimpleForClause (aNode.jjtGetChild (0));
+    final ICommonsList <XP2VarNameAndExpression> aForClause = _convertSimpleForClause (aNode.jjtGetChild (0));
     final IXP2Expression aReturnExpression = _convertExpressionSingle (aNode.jjtGetChild (1));
 
     final XP2ForExpression ret = new XP2ForExpression (aForClause, aReturnExpression);
@@ -1368,7 +1372,7 @@ public final class XP2NodeToDomainObject
     if (nChildCount == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected at least 1 child!");
 
-    final List <IXP2Expression> aExpressions = new ArrayList <IXP2Expression> ();
+    final ICommonsList <IXP2Expression> aExpressions = new CommonsArrayList<> ();
     for (int i = 0; i < nChildCount; ++i)
     {
       final XP2Node aChildNode = aNode.jjtGetChild (i);

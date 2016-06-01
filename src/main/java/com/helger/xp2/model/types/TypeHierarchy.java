@@ -16,9 +16,6 @@
  */
 package com.helger.xp2.model.types;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
@@ -27,12 +24,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.collection.ext.CommonsHashMap;
+import com.helger.commons.collection.ext.ICommonsMap;
 
 public class TypeHierarchy
 {
   private static final Logger s_aLogger = LoggerFactory.getLogger (TypeHierarchy.class);
 
-  private final Map <QName, XPathType> m_aMap = new HashMap <QName, XPathType> ();
+  private final ICommonsMap <QName, XPathType> m_aMap = new CommonsHashMap<> ();
 
   public TypeHierarchy ()
   {}
@@ -93,7 +92,7 @@ public class TypeHierarchy
 
   /**
    * Source: http://www.w3.org/TR/xquery-operators/#datatypes
-   * 
+   *
    * @return The built-in XML Schema type hierarchy.
    */
   @Nonnull

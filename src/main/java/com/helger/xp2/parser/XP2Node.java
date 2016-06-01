@@ -17,14 +17,14 @@
 package com.helger.xp2.parser;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.XP2SourceArea;
 import com.helger.xp2.XP2SourceLocation;
@@ -168,7 +168,7 @@ public class XP2Node implements Node, Iterable <XP2Node>, Serializable
   @Nonnull
   public Iterator <XP2Node> iterator ()
   {
-    final List <XP2Node> aChildren = new ArrayList <XP2Node> (jjtGetNumChildren ());
+    final ICommonsList <XP2Node> aChildren = new CommonsArrayList<> (jjtGetNumChildren ());
     if (m_aChildren != null)
       for (final XP2Node aChildNode : m_aChildren)
         if (aChildNode != null)
@@ -183,14 +183,16 @@ public class XP2Node implements Node, Iterable <XP2Node>, Serializable
   @Nullable
   public XP2SourceLocation getSourceLocation ()
   {
-    final XP2SourceArea aFirstTokenArea = m_aFirstToken == null ? null : new XP2SourceArea (m_aFirstToken.beginLine,
-                                                                                            m_aFirstToken.beginColumn,
-                                                                                            m_aFirstToken.endLine,
-                                                                                            m_aFirstToken.endColumn);
-    final XP2SourceArea aLastTokenArea = m_aLastToken == null ? null : new XP2SourceArea (m_aLastToken.beginLine,
-                                                                                          m_aLastToken.beginColumn,
-                                                                                          m_aLastToken.endLine,
-                                                                                          m_aLastToken.endColumn);
+    final XP2SourceArea aFirstTokenArea = m_aFirstToken == null ? null
+                                                                : new XP2SourceArea (m_aFirstToken.beginLine,
+                                                                                     m_aFirstToken.beginColumn,
+                                                                                     m_aFirstToken.endLine,
+                                                                                     m_aFirstToken.endColumn);
+    final XP2SourceArea aLastTokenArea = m_aLastToken == null ? null
+                                                              : new XP2SourceArea (m_aLastToken.beginLine,
+                                                                                   m_aLastToken.beginColumn,
+                                                                                   m_aLastToken.endLine,
+                                                                                   m_aLastToken.endColumn);
     if (aFirstTokenArea == null && aLastTokenArea == null)
       return null;
     return new XP2SourceLocation (aFirstTokenArea, aLastTokenArea);
@@ -211,7 +213,7 @@ public class XP2Node implements Node, Iterable <XP2Node>, Serializable
     return new ToStringGenerator (this).append ("type", ParserXP2TreeConstants.jjtNodeName[m_nType])
                                        .appendIfNotNull ("parentType",
                                                          m_aParent == null ? null
-                                                                          : ParserXP2TreeConstants.jjtNodeName[m_aParent.m_nType])
+                                                                           : ParserXP2TreeConstants.jjtNodeName[m_aParent.m_nType])
                                        .appendIfNotNull ("value", m_aValue)
                                        .appendIfNotNull ("text", m_sText)
                                        .append ("childCound", m_aChildren == null ? 0 : m_aChildren.length)
