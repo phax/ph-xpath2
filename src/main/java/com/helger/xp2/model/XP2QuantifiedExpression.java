@@ -18,13 +18,13 @@ package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
@@ -36,16 +36,16 @@ import com.helger.commons.string.ToStringGenerator;
 public class XP2QuantifiedExpression extends AbstractXP2Expression
 {
   private final EXP2QuantifiedExpressionType m_eType;
-  private final List <XP2VarNameAndExpression> m_aClauses;
+  private final ICommonsList <XP2VarNameAndExpression> m_aClauses;
   private final IXP2Expression m_aSatisfyExpression;
 
   public XP2QuantifiedExpression (@Nonnull final EXP2QuantifiedExpressionType eType,
-                                  @Nonnull final List <XP2VarNameAndExpression> aClauses,
+                                  @Nonnull final Iterable <? extends XP2VarNameAndExpression> aClauses,
                                   @Nonnull final IXP2Expression aSatisfyExpression)
   {
     ValueEnforcer.notNull (aClauses, "Clauses");
     m_eType = ValueEnforcer.notNull (eType, "Type");
-    m_aClauses = CollectionHelper.newList (aClauses);
+    m_aClauses = new CommonsArrayList <> (aClauses);
     m_aSatisfyExpression = ValueEnforcer.notNull (aSatisfyExpression, "SatisfyExpression");
   }
 
@@ -57,9 +57,9 @@ public class XP2QuantifiedExpression extends AbstractXP2Expression
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <XP2VarNameAndExpression> getAllClauses ()
+  public ICommonsList <XP2VarNameAndExpression> getAllClauses ()
   {
-    return CollectionHelper.newList (m_aClauses);
+    return m_aClauses.getClone ();
   }
 
   @Nonnull

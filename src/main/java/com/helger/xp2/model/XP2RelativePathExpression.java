@@ -18,33 +18,34 @@ package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 
 public class XP2RelativePathExpression extends AbstractXP2ValueExpression
 {
-  private final List <IXP2Object> m_aElements;
+  private final ICommonsList <IXP2Object> m_aElements;
 
-  public XP2RelativePathExpression (@Nonnull final List <? extends IXP2Object> aElements)
+  public XP2RelativePathExpression (@Nonnull final Iterable <? extends IXP2Object> aElements)
   {
     ValueEnforcer.notNull (aElements, "Elements");
     for (final Object o : aElements)
-      ValueEnforcer.isTrue (o instanceof EXP2PathOperator || o instanceof AbstractXP2StepExpression,
+      ValueEnforcer.isTrue (o instanceof EXP2PathOperator ||
+                            o instanceof AbstractXP2StepExpression,
                             "Only operators or expressions may be contained. This is a " + o.getClass ().getName ());
-    m_aElements = CollectionHelper.newList (aElements);
+    m_aElements = new CommonsArrayList <> (aElements);
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <IXP2Object> getAllElements ()
+  public ICommonsList <IXP2Object> getAllElements ()
   {
-    return CollectionHelper.newList (m_aElements);
+    return m_aElements.getClone ();
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException

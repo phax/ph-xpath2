@@ -16,11 +16,11 @@
  */
 package com.helger.xp2.eval.datamodel;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
+
+import com.helger.commons.collection.ext.ICommonsList;
 
 public interface IDataModelAccessor <NODETYPE>
 {
@@ -38,7 +38,7 @@ public interface IDataModelAccessor <NODETYPE>
    * @return All attributes
    */
   @Nonnull
-  List <NODETYPE> getAllAttributes (@Nonnull NODETYPE aNode);
+  ICommonsList <NODETYPE> getAllAttributes (@Nonnull NODETYPE aNode);
 
   /**
    * 5.2 base-uri Accessor<br>
@@ -69,7 +69,7 @@ public interface IDataModelAccessor <NODETYPE>
    * @return All attributes
    */
   @Nonnull
-  List <NODETYPE> getAllChildren (@Nonnull NODETYPE aNode);
+  ICommonsList <NODETYPE> getAllChildren (@Nonnull NODETYPE aNode);
 
   /**
    * 5.4 document-uri Accessor<br />
@@ -121,12 +121,13 @@ public interface IDataModelAccessor <NODETYPE>
    * <br />
    * The prefix for the default namespace is the zero length string.<br />
    * <br />
-   * The dm:namespace-bindings accessor is defined on all seven node kinds.<br />
+   * The dm:namespace-bindings accessor is defined on all seven node kinds.
+   * <br />
    * <br />
    * Note: this accessor and the namespace-nodes accessor provide two views of
    * the same information.<br />
    */
-  List <String> getAllNamespaceBindings (@Nonnull NODETYPE aNode);
+  ICommonsList <String> getAllNamespaceBindings (@Nonnull NODETYPE aNode);
 
   /**
    * 5.8 namespace-nodes Accessor<br />
@@ -134,7 +135,8 @@ public interface IDataModelAccessor <NODETYPE>
    * <br />
    * The dm:namespace-nodes accessor returns the dynamic, in-scope namespaces
    * associated with a node as a sequence containing zero or more Namespace
-   * Nodes. The order of Namespace Nodes is stable but implementation dependent.<br />
+   * Nodes. The order of Namespace Nodes is stable but implementation dependent.
+   * <br />
    * <br />
    * It is defined on all seven node kinds.<br />
    * <br />
@@ -142,7 +144,7 @@ public interface IDataModelAccessor <NODETYPE>
    * of the same information. Implementations that do not need to expose
    * Namespace Nodes might choose not to implement this accessor.<br />
    */
-  List <NODETYPE> getAllNamespaceNodes (@Nonnull NODETYPE aNode);
+  ICommonsList <NODETYPE> getAllNamespaceNodes (@Nonnull NODETYPE aNode);
 
   /**
    * 5.9 nilled Accessor<br />
@@ -231,7 +233,7 @@ public interface IDataModelAccessor <NODETYPE>
    * It is defined on all seven node kinds.<br />
    */
   @Nullable
-  List <?> getTypedValue (@Nonnull NODETYPE aNode);
+  ICommonsList <?> getTypedValue (@Nonnull NODETYPE aNode);
 
   /**
    * 5.16 unparsed-entity-public-id Accessor<br />

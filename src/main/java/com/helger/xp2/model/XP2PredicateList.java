@@ -18,13 +18,13 @@ package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
@@ -35,24 +35,24 @@ import com.helger.commons.string.ToStringGenerator;
  */
 public class XP2PredicateList implements IXP2Object
 {
-  private final List <XP2Predicate> m_aPredicates;
+  private final ICommonsList <XP2Predicate> m_aPredicates;
 
-  public XP2PredicateList (@Nonnull final List <XP2Predicate> aPredicates)
+  public XP2PredicateList (@Nonnull final Iterable <? extends XP2Predicate> aPredicates)
   {
     ValueEnforcer.notNull (aPredicates, "Predicates");
-    m_aPredicates = CollectionHelper.newList (aPredicates);
+    m_aPredicates = new CommonsArrayList <> (aPredicates);
   }
 
   public boolean hasAnyPredicate ()
   {
-    return !m_aPredicates.isEmpty ();
+    return m_aPredicates.isNotEmpty ();
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <XP2Predicate> getAllPredicates ()
+  public ICommonsList <XP2Predicate> getAllPredicates ()
   {
-    return CollectionHelper.newList (m_aPredicates);
+    return m_aPredicates.getClone ();
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException

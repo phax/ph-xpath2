@@ -18,13 +18,13 @@ package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
@@ -35,15 +35,16 @@ import com.helger.commons.string.ToStringGenerator;
  */
 public class XP2ForExpression extends AbstractXP2Expression
 {
-  private final List <XP2VarNameAndExpression> m_aForClauses;
+  private final ICommonsList <XP2VarNameAndExpression> m_aForClauses;
   private final IXP2Expression m_aReturnExpression;
 
-  public XP2ForExpression (@Nonnull final List <XP2VarNameAndExpression> aForClauses,
+  public XP2ForExpression (@Nonnull final Iterable <? extends XP2VarNameAndExpression> aForClauses,
                            @Nonnull final IXP2Expression aReturnExpression)
   {
     ValueEnforcer.notNull (aForClauses, "ForClauses");
-    m_aForClauses = CollectionHelper.newList (aForClauses);
-    m_aReturnExpression = ValueEnforcer.notNull (aReturnExpression, "ReturnExpression");
+    ValueEnforcer.notNull (aReturnExpression, "ReturnExpression");
+    m_aForClauses = new CommonsArrayList <> (aForClauses);
+    m_aReturnExpression = aReturnExpression;
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException
@@ -64,9 +65,9 @@ public class XP2ForExpression extends AbstractXP2Expression
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <XP2VarNameAndExpression> getAllForClauses ()
+  public ICommonsList <XP2VarNameAndExpression> getAllForClauses ()
   {
-    return CollectionHelper.newList (m_aForClauses);
+    return m_aForClauses.getClone ();
   }
 
   @Nonnull

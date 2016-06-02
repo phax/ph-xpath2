@@ -18,30 +18,30 @@ package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 
 public class XP2ExpressionList implements IXP2Object
 {
-  private final List <IXP2Expression> m_aExpressions;
+  private final ICommonsList <IXP2Expression> m_aExpressions;
 
-  public XP2ExpressionList (@Nonnull final List <IXP2Expression> aExprs)
+  public XP2ExpressionList (@Nonnull final Iterable <? extends IXP2Expression> aExprs)
   {
     ValueEnforcer.notNull (aExprs, "Expressions");
-    m_aExpressions = CollectionHelper.newList (aExprs);
+    m_aExpressions = new CommonsArrayList <> (aExprs);
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <IXP2Expression> getAllExpressions ()
+  public ICommonsList <IXP2Expression> getAllExpressions ()
   {
-    return CollectionHelper.newList (m_aExpressions);
+    return m_aExpressions.getClone ();
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException

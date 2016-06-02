@@ -18,27 +18,27 @@ package com.helger.xp2.model;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.parser.ParserQName;
 
 public class XP2FunctionCall extends AbstractXP2PrimaryExpression
 {
   private final ParserQName m_aFunctionName;
-  private final List <IXP2Expression> m_aExpressions;
+  private final ICommonsList <IXP2Expression> m_aExpressions;
 
   public XP2FunctionCall (@Nonnull final ParserQName aFunctionName,
-                          @Nullable final List <IXP2Expression> aExpressionList)
+                          @Nullable final Iterable <? extends IXP2Expression> aExpressionList)
   {
     m_aFunctionName = ValueEnforcer.notNull (aFunctionName, "FunctionName");
-    m_aExpressions = CollectionHelper.newList (aExpressionList);
+    m_aExpressions = new CommonsArrayList <> (aExpressionList);
   }
 
   @Nonnull
@@ -49,9 +49,9 @@ public class XP2FunctionCall extends AbstractXP2PrimaryExpression
 
   @Nonnull
   @ReturnsMutableCopy
-  public List <IXP2Expression> getAllExpressions ()
+  public ICommonsList <IXP2Expression> getAllExpressions ()
   {
-    return CollectionHelper.newList (m_aExpressions);
+    return m_aExpressions.getClone ();
   }
 
   public void writeTo (@Nonnull final Writer aWriter) throws IOException
