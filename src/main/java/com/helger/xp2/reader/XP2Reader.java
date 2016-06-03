@@ -58,7 +58,6 @@ public final class XP2Reader
   private static final SimpleReadWriteLock s_aRWLock = new SimpleReadWriteLock ();
 
   @PresentForCodeCoverage
-  @SuppressWarnings ("unused")
   private static final XP2Reader s_aInstance = new XP2Reader ();
 
   private XP2Reader ()

@@ -38,7 +38,6 @@ public final class CXP2
   public static final String XML_NS_ERR = "http://www.w3.org/2005/xqt-errors";
 
   @PresentForCodeCoverage
-  @SuppressWarnings ("unused")
   private static final CXP2 s_aInstance = new CXP2 ();
 
   private CXP2 ()
