@@ -24,14 +24,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.PresentForCodeCoverage;
 import com.helger.commons.charset.CCharset;
-import com.helger.commons.concurrent.SimpleReadWriteLock;
 import com.helger.commons.io.IHasInputStream;
 import com.helger.commons.io.stream.StreamHelper;
 import com.helger.commons.io.streamprovider.StringInputStreamProvider;
@@ -54,9 +50,6 @@ import com.helger.xp2.parser.XP2Node;
 @ThreadSafe
 public final class XP2Reader
 {
-  private static final Logger s_aLogger = LoggerFactory.getLogger (XP2Reader.class);
-  private static final SimpleReadWriteLock s_aRWLock = new SimpleReadWriteLock ();
-
   @PresentForCodeCoverage
   private static final XP2Reader s_aInstance = new XP2Reader ();
 
