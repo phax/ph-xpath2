@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
 import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.xml.CXML;
+import com.helger.xml.CXML;
 
 public class XSType extends XPathType
 {

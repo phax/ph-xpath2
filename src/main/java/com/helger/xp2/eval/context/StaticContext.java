@@ -16,7 +16,7 @@
  */
 package com.helger.xp2.eval.context;
 
-import com.helger.commons.xml.namespace.MapBasedNamespaceContext;
+import com.helger.xml.namespace.MapBasedNamespaceContext;
 import com.helger.xp2.CXP2;
 
 /**
