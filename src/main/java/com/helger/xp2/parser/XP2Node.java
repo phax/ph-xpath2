@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.collection.ext.CommonsArrayList;
+import com.helger.commons.collection.ext.ICommonsIterable;
 import com.helger.commons.collection.ext.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.XP2SourceArea;
@@ -35,7 +36,7 @@ import com.helger.xp2.XP2SourceLocation;
  *
  * @author Philip Helger
  */
-public class XP2Node implements Node, Iterable <XP2Node>, Serializable
+public class XP2Node implements Node, ICommonsIterable <XP2Node>, Serializable
 {
   private final int m_nType;
   private XP2Node m_aParent;
