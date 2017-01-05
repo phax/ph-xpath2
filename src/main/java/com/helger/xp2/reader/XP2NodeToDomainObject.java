@@ -858,7 +858,7 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTRELATIVEPATHEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
-    if (nChildCount < 1 || (nChildCount % 2) != 1)
+    if (nChildCount < 1 || (nChildCount % 2) == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected 1 or an odd number of children!");
 
     if (nChildCount == 1)
@@ -1039,7 +1039,7 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTINTERSECTEXCEPTEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
-    if (nChildCount < 1 || (nChildCount % 2) != 1)
+    if (nChildCount < 1 || (nChildCount % 2) == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected 1 or an odd number of children!");
 
     if (nChildCount == 1)
@@ -1070,7 +1070,7 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTUNIONEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
-    if (nChildCount < 1 || (nChildCount % 2) != 1)
+    if (nChildCount < 1 || (nChildCount % 2) == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected 1 or an odd number of children!");
 
     if (nChildCount == 1)
@@ -1101,7 +1101,7 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTMULTIPLICATIVEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
-    if (nChildCount < 1 || (nChildCount % 2) != 1)
+    if (nChildCount < 1 || (nChildCount % 2) == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected 1 or an odd number of children!");
 
     if (nChildCount == 1)
@@ -1131,7 +1131,7 @@ public final class XP2NodeToDomainObject
   {
     _expectNodeType (aNode, ParserXP2TreeConstants.JJTADDITIVEEXPR);
     final int nChildCount = aNode.jjtGetNumChildren ();
-    if (nChildCount < 1 || (nChildCount % 2) != 1)
+    if (nChildCount < 1 || (nChildCount % 2) == 0)
       _throwUnexpectedChildrenCount (aNode, "Expected 1 or an odd number of children!");
 
     if (nChildCount == 1)
