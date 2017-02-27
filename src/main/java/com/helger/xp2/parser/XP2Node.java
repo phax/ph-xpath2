@@ -220,6 +220,6 @@ public class XP2Node implements Node, ICommonsIterable <XP2Node>, Serializable
                                        .append ("childCound", m_aChildren == null ? 0 : m_aChildren.length)
                                        .appendIfNotNull ("firstToken", m_aFirstToken)
                                        .appendIfNotNull ("lastToken", m_aLastToken)
-                                       .toString ();
+                                       .getToString ();
   }
 }

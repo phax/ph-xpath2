@@ -49,6 +49,6 @@ public class XP2VariableReference extends AbstractXP2PrimaryExpression
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("varName", m_aVarName).toString ();
+    return new ToStringGenerator (this).append ("varName", m_aVarName).getToString ();
   }
 }

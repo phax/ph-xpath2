@@ -56,6 +56,6 @@ public class XP2ProcessingInstructionTest extends AbstractXP2KindTest
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("PITarget", m_aPITarget).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("PITarget", m_aPITarget).getToString ();
   }
 }

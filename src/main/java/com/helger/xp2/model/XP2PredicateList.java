@@ -40,7 +40,7 @@ public class XP2PredicateList implements IXP2Object
   public XP2PredicateList (@Nonnull final Iterable <? extends XP2Predicate> aPredicates)
   {
     ValueEnforcer.notNull (aPredicates, "Predicates");
-    m_aPredicates = new CommonsArrayList <> (aPredicates);
+    m_aPredicates = new CommonsArrayList<> (aPredicates);
   }
 
   public boolean hasAnyPredicate ()
@@ -64,6 +64,6 @@ public class XP2PredicateList implements IXP2Object
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("predicates", m_aPredicates).toString ();
+    return new ToStringGenerator (this).append ("predicates", m_aPredicates).getToString ();
   }
 }

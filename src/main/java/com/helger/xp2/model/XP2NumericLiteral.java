@@ -54,6 +54,6 @@ public class XP2NumericLiteral extends AbstractXP2LiteralExpression
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("value", m_aValue).toString ();
+    return new ToStringGenerator (this).append ("value", m_aValue).getToString ();
   }
 }

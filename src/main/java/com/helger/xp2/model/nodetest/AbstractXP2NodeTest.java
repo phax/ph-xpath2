@@ -23,6 +23,6 @@ public abstract class AbstractXP2NodeTest implements IXP2NodeTest
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).toString ();
+    return new ToStringGenerator (this).getToString ();
   }
 }

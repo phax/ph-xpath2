@@ -38,7 +38,7 @@ public class XP2FunctionCall extends AbstractXP2PrimaryExpression
                           @Nullable final Iterable <? extends IXP2Expression> aExpressionList)
   {
     m_aFunctionName = ValueEnforcer.notNull (aFunctionName, "FunctionName");
-    m_aExpressions = new CommonsArrayList <> (aExpressionList);
+    m_aExpressions = new CommonsArrayList<> (aExpressionList);
   }
 
   @Nonnull
@@ -76,6 +76,6 @@ public class XP2FunctionCall extends AbstractXP2PrimaryExpression
   {
     return new ToStringGenerator (this).append ("functionName", m_aFunctionName)
                                        .append ("expressions", m_aExpressions)
-                                       .toString ();
+                                       .getToString ();
   }
 }

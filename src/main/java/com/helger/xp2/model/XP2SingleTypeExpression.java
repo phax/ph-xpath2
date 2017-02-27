@@ -76,6 +76,6 @@ public class XP2SingleTypeExpression extends AbstractXP2Expression
     return new ToStringGenerator (this).append ("left", m_aLeft)
                                        .append ("operator", m_eOperator)
                                        .append ("singleType", m_aSingleType)
-                                       .toString ();
+                                       .getToString ();
   }
 }

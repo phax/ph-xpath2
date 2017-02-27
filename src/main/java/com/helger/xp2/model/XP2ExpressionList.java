@@ -34,7 +34,7 @@ public class XP2ExpressionList implements IXP2Object
   public XP2ExpressionList (@Nonnull final Iterable <? extends IXP2Expression> aExprs)
   {
     ValueEnforcer.notNull (aExprs, "Expressions");
-    m_aExpressions = new CommonsArrayList <> (aExprs);
+    m_aExpressions = new CommonsArrayList<> (aExprs);
   }
 
   @Nonnull
@@ -60,6 +60,6 @@ public class XP2ExpressionList implements IXP2Object
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("expressions", m_aExpressions).toString ();
+    return new ToStringGenerator (this).append ("expressions", m_aExpressions).getToString ();
   }
 }

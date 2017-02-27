@@ -51,6 +51,6 @@ public class XP2ParenthesizedExpression extends AbstractXP2PrimaryExpression
   @Nonnull
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("expressionList", m_aExpressionList).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("expressionList", m_aExpressionList).getToString ();
   }
 }

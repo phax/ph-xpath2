@@ -29,7 +29,8 @@ public class XP2FilterExpression extends AbstractXP2StepExpression
   private final IXP2PrimaryExpression m_aExpression;
   private final XP2PredicateList m_aPredicateList;
 
-  public XP2FilterExpression (@Nonnull final IXP2PrimaryExpression aExpr, @Nonnull final XP2PredicateList aPredicateList)
+  public XP2FilterExpression (@Nonnull final IXP2PrimaryExpression aExpr,
+                              @Nonnull final XP2PredicateList aPredicateList)
   {
     m_aExpression = ValueEnforcer.notNull (aExpr, "Expression");
     m_aPredicateList = ValueEnforcer.notNull (aPredicateList, "PredicateList");
@@ -58,6 +59,6 @@ public class XP2FilterExpression extends AbstractXP2StepExpression
   {
     return new ToStringGenerator (this).append ("expression", m_aExpression)
                                        .append ("predicateList", m_aPredicateList)
-                                       .toString ();
+                                       .getToString ();
   }
 }

@@ -57,6 +57,6 @@ public class XP2SingleStep extends AbstractXP2SingleStep
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("axis", m_eAxis).append ("nodeTest", m_aNodeTest).toString ();
+    return new ToStringGenerator (this).append ("axis", m_eAxis).append ("nodeTest", m_aNodeTest).getToString ();
   }
 }

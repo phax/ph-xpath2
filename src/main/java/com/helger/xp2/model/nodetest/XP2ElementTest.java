@@ -80,6 +80,6 @@ public class XP2ElementTest extends AbstractXP2KindTest
     return new ToStringGenerator (this).appendIfNotNull ("elementNameOrWildcard", m_aElementNameOrWildcard)
                                        .appendIfNotNull ("typeName", m_aTypeName)
                                        .appendIfNotNull ("nodeMayBeNilled", m_bNodeMayBeNilled)
-                                       .toString ();
+                                       .getToString ();
   }
 }

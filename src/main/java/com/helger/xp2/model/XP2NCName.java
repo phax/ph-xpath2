@@ -47,6 +47,6 @@ public class XP2NCName implements IXP2Object
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("value", m_sValue).toString ();
+    return new ToStringGenerator (this).append ("value", m_sValue).getToString ();
   }
 }

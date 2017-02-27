@@ -59,6 +59,6 @@ public class XP2UnaryExpression extends AbstractXP2Expression
   {
     return new ToStringGenerator (this).append ("operator", m_eOperator)
                                        .append ("expression", m_aExpression)
-                                       .toString ();
+                                       .getToString ();
   }
 }

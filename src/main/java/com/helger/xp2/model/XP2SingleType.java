@@ -60,6 +60,6 @@ public class XP2SingleType implements IXP2Object
   {
     return new ToStringGenerator (this).append ("atomicType", m_aAtomicType)
                                        .append ("emptySequenceAllowed", m_bEmptySequenceAllowed)
-                                       .toString ();
+                                       .getToString ();
   }
 }

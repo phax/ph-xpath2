@@ -55,6 +55,6 @@ public class XP2Predicate implements IXP2Object
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("expressionList", m_aExpressionList).toString ();
+    return new ToStringGenerator (this).append ("expressionList", m_aExpressionList).getToString ();
   }
 }

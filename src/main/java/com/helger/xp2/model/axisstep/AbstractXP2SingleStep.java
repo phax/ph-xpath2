@@ -23,6 +23,6 @@ public abstract class AbstractXP2SingleStep implements IXP2SingleStep
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).toString ();
+    return new ToStringGenerator (this).getToString ();
   }
 }

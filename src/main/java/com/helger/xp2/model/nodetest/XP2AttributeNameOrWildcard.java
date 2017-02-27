@@ -57,7 +57,7 @@ public class XP2AttributeNameOrWildcard implements IXP2Object
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("attributeName", m_aAttributeName).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("attributeName", m_aAttributeName).getToString ();
   }
 
   @Nonnull

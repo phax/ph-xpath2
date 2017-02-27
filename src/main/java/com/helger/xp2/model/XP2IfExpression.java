@@ -79,6 +79,6 @@ public class XP2IfExpression extends AbstractXP2Expression
     return new ToStringGenerator (this).append ("testExprs", m_aTestExprs)
                                        .append ("thenExpr", m_aThenExpr)
                                        .append ("elseExpr", m_aElseExpr)
-                                       .toString ();
+                                       .getToString ();
   }
 }

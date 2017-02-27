@@ -51,6 +51,6 @@ public class XP2SequenceTypeAtomicType extends AbstractXP2SequenceType
   @Override
   public String toString ()
   {
-    return ToStringGenerator.getDerived (super.toString ()).append ("typeName", m_aTypeName).toString ();
+    return ToStringGenerator.getDerived (super.toString ()).append ("typeName", m_aTypeName).getToString ();
   }
 }

@@ -50,6 +50,6 @@ public class XP2DocumentTest extends AbstractXP2KindTest
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("kindTest", m_aKindTest).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("kindTest", m_aKindTest).getToString ();
   }
 }

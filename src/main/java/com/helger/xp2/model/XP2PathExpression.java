@@ -60,6 +60,6 @@ public class XP2PathExpression extends AbstractXP2ValueExpression
   {
     return new ToStringGenerator (this).append ("operator", m_eOperator)
                                        .appendIfNotNull ("expression", m_aExpression)
-                                       .toString ();
+                                       .getToString ();
   }
 }

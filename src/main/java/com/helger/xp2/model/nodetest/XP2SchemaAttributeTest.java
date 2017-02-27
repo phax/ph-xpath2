@@ -50,6 +50,6 @@ public class XP2SchemaAttributeTest extends AbstractXP2KindTest
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("attributeDeclaration", m_aAttributeDeclaration).toString ();
+    return new ToStringGenerator (this).append ("attributeDeclaration", m_aAttributeDeclaration).getToString ();
   }
 }

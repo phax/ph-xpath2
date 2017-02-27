@@ -48,6 +48,6 @@ public class XP2AbbreviatedElementStep extends AbstractXP2SingleStep
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("nodeTest", m_aNodeTest).toString ();
+    return new ToStringGenerator (this).append ("nodeTest", m_aNodeTest).getToString ();
   }
 }

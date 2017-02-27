@@ -51,6 +51,6 @@ public class XP2SequenceTypeKindTest extends AbstractXP2SequenceType
   @Override
   public String toString ()
   {
-    return ToStringGenerator.getDerived (super.toString ()).append ("kindTest", m_aKindTest).toString ();
+    return ToStringGenerator.getDerived (super.toString ()).append ("kindTest", m_aKindTest).getToString ();
   }
 }

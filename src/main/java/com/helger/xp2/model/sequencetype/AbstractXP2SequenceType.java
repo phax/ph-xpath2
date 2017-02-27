@@ -39,6 +39,6 @@ public abstract class AbstractXP2SequenceType implements IXP2SequenceType
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("occurrenceIndicator", m_eOccurrenceIndicator).toString ();
+    return new ToStringGenerator (this).append ("occurrenceIndicator", m_eOccurrenceIndicator).getToString ();
   }
 }

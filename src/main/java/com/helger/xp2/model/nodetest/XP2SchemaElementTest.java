@@ -50,6 +50,6 @@ public class XP2SchemaElementTest extends AbstractXP2KindTest
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("elementDeclaration", m_aElementDeclaration).toString ();
+    return new ToStringGenerator (this).append ("elementDeclaration", m_aElementDeclaration).getToString ();
   }
 }

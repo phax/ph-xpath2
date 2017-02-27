@@ -55,6 +55,6 @@ public class XP2NamespaceIsWildcardTest extends AbstractXP2NameTest
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).appendIfNotNull ("localName", m_sLocalName).toString ();
+    return new ToStringGenerator (this).appendIfNotNull ("localName", m_sLocalName).getToString ();
   }
 }

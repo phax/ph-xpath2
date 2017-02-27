@@ -38,7 +38,7 @@ public class XP2RelativePathExpression extends AbstractXP2ValueExpression
       ValueEnforcer.isTrue (o instanceof EXP2PathOperator ||
                             o instanceof AbstractXP2StepExpression,
                             "Only operators or expressions may be contained. This is a " + o.getClass ().getName ());
-    m_aElements = new CommonsArrayList <> (aElements);
+    m_aElements = new CommonsArrayList<> (aElements);
   }
 
   @Nonnull
@@ -58,6 +58,6 @@ public class XP2RelativePathExpression extends AbstractXP2ValueExpression
   @Nonnull
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("elements", m_aElements).toString ();
+    return new ToStringGenerator (this).append ("elements", m_aElements).getToString ();
   }
 }

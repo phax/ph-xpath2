@@ -69,6 +69,6 @@ public class XP2AttributeTest extends AbstractXP2KindTest
   {
     return new ToStringGenerator (this).appendIfNotNull ("attributeNameOrWildcard", m_aAttributeNameOrWildcard)
                                        .appendIfNotNull ("typeName", m_aTypeName)
-                                       .toString ();
+                                       .getToString ();
   }
 }

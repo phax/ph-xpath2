@@ -77,6 +77,6 @@ public class XP2SequenceTypeExpression extends AbstractXP2Expression
     return new ToStringGenerator (this).append ("left", m_aLeft)
                                        .append ("operator", m_eOperator)
                                        .append ("sequenceType", m_aSequenceType)
-                                       .toString ();
+                                       .getToString ();
   }
 }

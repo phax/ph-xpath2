@@ -76,6 +76,6 @@ public class XP2BinaryExpression extends AbstractXP2Expression
     return new ToStringGenerator (this).append ("left", m_aLeft)
                                        .append ("operator", m_eOperator)
                                        .append ("right", m_aRight)
-                                       .toString ();
+                                       .getToString ();
   }
 }
