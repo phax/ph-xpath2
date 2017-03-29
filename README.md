@@ -3,7 +3,7 @@ The attempt to create a pure Java XPath2 parser and interpreter.
 
 Current status: grammar looks good. Currently working on the transition from syntax nodes to a domain model.
 
-#Maven usage
+# Maven usage
 No Maven release of this artifact was published so far, so you need to use the source version. 
 
 # Grammar
