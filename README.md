@@ -14,6 +14,13 @@ The Java code generation of the grammar happens with the [ph-javacc-maven-plugin
 Just run `mvn clean install` to get the current version build.
 No external Maven repositories are needed.
 
+# Relevant links
+
+* https://www.w3.org/TR/xpath20/ XML Path Language (XPath) 2.0 (Second Edition)
+* https://www.w3.org/TR/xmlschema-2/ XML Schema Part 2: Datatypes Second Edition
+* https://www.w3.org/TR/xpath-functions/ XQuery 1.0 and XPath 2.0 Functions and Operators (Second Edition)
+
+
 ---
 
 My personal [Coding Styleguide](https://github.com/phax/meta/blob/master/CodeingStyleguide.md) |
