@@ -16,16 +16,15 @@
  */
 package com.helger.xp2.parser;
 
-import java.io.Serializable;
 import java.util.Iterator;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.helger.commons.collection.ext.CommonsArrayList;
-import com.helger.commons.collection.ext.ICommonsIterable;
-import com.helger.commons.collection.ext.ICommonsList;
+import com.helger.commons.collection.impl.CommonsArrayList;
+import com.helger.commons.collection.impl.ICommonsIterable;
+import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xp2.XP2SourceArea;
 import com.helger.xp2.XP2SourceLocation;
@@ -36,7 +35,7 @@ import com.helger.xp2.XP2SourceLocation;
  *
  * @author Philip Helger
  */
-public class XP2Node implements Node, ICommonsIterable <XP2Node>, Serializable
+public class XP2Node implements Node, ICommonsIterable <XP2Node>
 {
   private final int m_nType;
   private XP2Node m_aParent;
@@ -169,7 +168,7 @@ public class XP2Node implements Node, ICommonsIterable <XP2Node>, Serializable
   @Nonnull
   public Iterator <XP2Node> iterator ()
   {
-    final ICommonsList <XP2Node> aChildren = new CommonsArrayList<> (jjtGetNumChildren ());
+    final ICommonsList <XP2Node> aChildren = new CommonsArrayList <> (jjtGetNumChildren ());
     if (m_aChildren != null)
       for (final XP2Node aChildNode : m_aChildren)
         if (aChildNode != null)

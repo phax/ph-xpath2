@@ -18,10 +18,10 @@ package com.helger.xp2.model.types;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import com.helger.commons.annotation.Nonempty;
-import com.helger.xml.CXML;
 
 public class XSType extends XPathType
 {
@@ -39,6 +39,6 @@ public class XSType extends XPathType
   @Nonnull
   public static QName createName (@Nonnull @Nonempty final String sLocalName)
   {
-    return new QName (CXML.XML_NS_XSD, sLocalName, "xs");
+    return new QName (XMLConstants.W3C_XML_SCHEMA_NS_URI, sLocalName, "xs");
   }
 }
