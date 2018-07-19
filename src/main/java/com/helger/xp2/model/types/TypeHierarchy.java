@@ -29,7 +29,7 @@ import com.helger.commons.collection.impl.ICommonsMap;
 
 public class TypeHierarchy
 {
-  private static final Logger s_aLogger = LoggerFactory.getLogger (TypeHierarchy.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger (TypeHierarchy.class);
 
   private final ICommonsMap <QName, XPathType> m_aMap = new CommonsHashMap<> ();
 
@@ -49,8 +49,8 @@ public class TypeHierarchy
                                           " is unknown!");
     m_aMap.put (aName, aType);
 
-    if (s_aLogger.isDebugEnabled ())
-      s_aLogger.debug ("Registered type " + aName.toString ());
+    if (LOGGER.isDebugEnabled ())
+      LOGGER.debug ("Registered type " + aName.toString ());
     return aType;
   }
 

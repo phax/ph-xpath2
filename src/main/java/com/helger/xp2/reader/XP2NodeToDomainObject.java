@@ -102,7 +102,7 @@ import com.helger.xp2.parser.XP2Node;
  */
 public final class XP2NodeToDomainObject
 {
-  private static final Logger s_aLogger = LoggerFactory.getLogger (XP2NodeToDomainObject.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger (XP2NodeToDomainObject.class);
 
   private XP2NodeToDomainObject ()
   {}
@@ -120,9 +120,9 @@ public final class XP2NodeToDomainObject
 
   private static void _throwUnexpectedChildrenCount (@Nonnull final XP2Node aNode, @Nonnull @Nonempty final String sMsg)
   {
-    s_aLogger.error (sMsg + " (having " + aNode.jjtGetNumChildren () + " children)");
+    LOGGER.error (sMsg + " (having " + aNode.jjtGetNumChildren () + " children)");
     for (int i = 0; i < aNode.jjtGetNumChildren (); ++i)
-      s_aLogger.error ("  " + aNode.jjtGetChild (i));
+      LOGGER.error ("  " + aNode.jjtGetChild (i));
     throw new XP2HandlingException (aNode, sMsg);
   }
 
