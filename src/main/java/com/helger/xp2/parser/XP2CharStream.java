@@ -29,7 +29,8 @@ import com.helger.commons.string.StringHelper;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * This class is only used internally as the source for the generated parsers.<br>
+ * This class is only used internally as the source for the generated
+ * parsers.<br>
  * An implementation of interface {@link CharStream}, where the stream is
  * assumed to contain only ASCII characters (with java-like unicode escape
  * processing).
@@ -194,7 +195,7 @@ public final class XP2CharStream implements CharStream
    * @throws IOException
    *         from readChar
    */
-  public char BeginToken () throws IOException
+  public char beginToken () throws IOException
   {
     if (m_nInBuf > 0)
     {
@@ -320,18 +321,6 @@ public final class XP2CharStream implements CharStream
     return c;
   }
 
-  @Deprecated
-  public int getColumn ()
-  {
-    return getEndColumn ();
-  }
-
-  @Deprecated
-  public int getLine ()
-  {
-    return getEndLine ();
-  }
-
   /** @return end column. */
   public int getEndColumn ()
   {
@@ -366,7 +355,7 @@ public final class XP2CharStream implements CharStream
   }
 
   /** @return token image as String */
-  public String GetImage ()
+  public String getImage ()
   {
     if (m_nBufpos >= m_nTokenBegin)
       return new String (m_aBuffer, m_nTokenBegin, m_nBufpos - m_nTokenBegin + 1);
@@ -375,7 +364,7 @@ public final class XP2CharStream implements CharStream
   }
 
   /** @return suffix */
-  public char [] GetSuffix (final int len)
+  public char [] getSuffix (final int len)
   {
     final char [] ret = new char [len];
 
@@ -391,7 +380,7 @@ public final class XP2CharStream implements CharStream
   }
 
   /** Set buffers back to null when finished. */
-  public void Done ()
+  public void done ()
   {
     m_aNextCharBuf = null;
     m_aBuffer = null;
@@ -451,7 +440,7 @@ public final class XP2CharStream implements CharStream
     m_nColumn = m_aBufColumn[j];
   }
 
-  public boolean getTrackLineColumn ()
+  public boolean isTrackLineColumn ()
   {
     return m_bTrackLineColumn;
   }
