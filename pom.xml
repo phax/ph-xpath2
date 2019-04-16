@@ -25,7 +25,7 @@
     <version>1.10.8</version>
   </parent>
   <artifactId>ph-xpath2</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>bundle</packaging>
   <name>ph-xpath2</name>
   <description>Java XPath 2.0 parser</description>
@@ -42,7 +42,7 @@
     <connection>scm:git:git@github.com:phax/ph-xpath2.git</connection>
     <developerConnection>scm:git:git@github.com:phax/ph-xpath2.git</developerConnection>
     <url>http://github.com/phax/ph-xpath2</url>
-    <tag>HEAD</tag>
+    <tag>ph-xpath2-0.1.0</tag>
   </scm>
   <organization>
     <name>Philip Helger</name>
