@@ -22,6 +22,13 @@ import javax.xml.namespace.QName;
 
 import com.helger.commons.collection.impl.ICommonsList;
 
+/**
+ * Data model accessor
+ * 
+ * @author Philip Helger
+ * @param <NODETYPE>
+ *        Node type
+ */
 public interface IDataModelAccessor <NODETYPE>
 {
   /**
@@ -102,7 +109,7 @@ public interface IDataModelAccessor <NODETYPE>
    * see 6.2 Element Nodes and 6.3 Attribute Nodes.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
-   * 
+   *
    * @param aNode
    *        Source node
    * @return <code>true</code> if it is an XML ID.
@@ -136,6 +143,9 @@ public interface IDataModelAccessor <NODETYPE>
    * <br>
    * Note: this accessor and the namespace-nodes accessor provide two views of
    * the same information.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   ICommonsList <String> getAllNamespaceBindings (@Nonnull NODETYPE aNode);
 
@@ -153,6 +163,9 @@ public interface IDataModelAccessor <NODETYPE>
    * Note: this accessor and the namespace-bindings accessor provide two views
    * of the same information. Implementations that do not need to expose
    * Namespace Nodes might choose not to implement this accessor.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   ICommonsList <NODETYPE> getAllNamespaceNodes (@Nonnull NODETYPE aNode);
 
@@ -166,6 +179,9 @@ public interface IDataModelAccessor <NODETYPE>
    * which does not require or even necessarily allow empty content.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   boolean isNilled (@Nonnull NODETYPE aNode);
 
@@ -180,6 +196,8 @@ public interface IDataModelAccessor <NODETYPE>
    * <br>
    * It is defined on all seven node kinds.<br>
    *
+   * @param aNode
+   *        Source node
    * @see ENodeKind
    */
   @Nullable
@@ -194,6 +212,9 @@ public interface IDataModelAccessor <NODETYPE>
    * prefix as described in 3.3.3 QNames and NOTATIONS.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   @Nullable
   QName getNodeName (@Nonnull NODETYPE aNode);
@@ -206,6 +227,9 @@ public interface IDataModelAccessor <NODETYPE>
    * containing zero or one nodes.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   @Nullable
   NODETYPE getParent (@Nonnull NODETYPE aNode);
@@ -217,6 +241,9 @@ public interface IDataModelAccessor <NODETYPE>
    * The dm:string-value accessor returns the string value of a node.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   @Nullable
   String getStringValue (@Nonnull NODETYPE aNode);
@@ -229,6 +256,9 @@ public interface IDataModelAccessor <NODETYPE>
    * a sequence of zero or one xs:QNames.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   @Nullable
   QName getTypeName (@Nonnull NODETYPE aNode);
@@ -241,6 +271,9 @@ public interface IDataModelAccessor <NODETYPE>
    * sequence of zero or more atomic values.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
    */
   @Nullable
   ICommonsList <?> getTypedValue (@Nonnull NODETYPE aNode);
@@ -257,6 +290,11 @@ public interface IDataModelAccessor <NODETYPE>
    * the empty sequence is returned.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
+   * @param sEntityName
+   *        Entity name
    */
   @Nullable
   String getUnparsedEntityPublicID (@Nonnull NODETYPE aNode, @Nonnull String sEntityName);
@@ -275,6 +313,11 @@ public interface IDataModelAccessor <NODETYPE>
    * returned.<br>
    * <br>
    * It is defined on all seven node kinds.<br>
+   *
+   * @param aNode
+   *        Source node
+   * @param sEntityName
+   *        Entity name
    */
   @Nullable
   String getUnparsedEntitySystemID (@Nonnull NODETYPE aNode, @Nonnull String sEntityName);
